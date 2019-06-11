@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using IdentityServer4.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -6,11 +7,34 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using XSchool.UCenter.Extensions;
 using XSchool.UCenter.Model;
 
 namespace XSchool.UCenter
 {
+    public class Config
+    {
+        public static IEnumerable<ApiResource> GetApiResources()
+        {
+            return new List<ApiResource>
+            {
+                new ApiResource("ResourceAPI", "资源管理接口"),
+                new ApiResource("DataAPI", "数据接口"),
+            };
+        }
+
+        public static IEnumerable<IdentityResource> GetIdentityResources()
+        {
+            return new IdentityResource[]
+            {
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile()
+            };
+        }
+
+    }
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -31,9 +55,9 @@ namespace XSchool.UCenter
 
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
-            //.AddClientStore<ClientStore>()
-            //.AddInMemoryIdentityResources(Config.GetIdentityResources())
-            //.AddInMemoryApiResources(Config.GetApiResources())
+            .AddClientStore<ClientStore>()
+            .AddInMemoryIdentityResources(Config.GetIdentityResources())
+            .AddInMemoryApiResources(Config.GetApiResources())
             .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
             .AddProfileService<ProfileService>();
 
@@ -55,14 +79,14 @@ namespace XSchool.UCenter
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env,UCenterDbContext db)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            db.Database.EnsureCreated();
+            app.UseIdentityServer();
             app.UseMvc();
         }
     }

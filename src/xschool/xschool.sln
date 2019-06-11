@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29001.49
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSchool.UCenter", "XSchool.UCenter\XSchool.UCenter.csproj", "{C0877640-8CDF-456C-BF45-8FE6084983B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSchool.Repositories", "XSchool.Repositories\XSchool.Repositories.csproj", "{4EB76E7D-A23A-4043-95D1-850B85F0B009}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSchool.Businesses", "XSchool.Businesses\XSchool.Businesses.csproj", "{40317833-2FD4-4A12-9133-CD72959A1C31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSchool.Helpers", "XSchool.Helpers\XSchool.Helpers.csproj", "{295A4A00-82F9-400B-BC20-CD9BC5EA497B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSchool.Query.Paging", "XSchool.Query.Paging\XSchool.Query.Paging.csproj", "{01E03361-4CAB-4053-A156-0BAD3DBE130C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSchool.Core", "XSchool.Core\XSchool.Core.csproj", "{B499A0AB-F479-4183-BA1B-9F639BC6B4F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C0877640-8CDF-456C-BF45-8FE6084983B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0877640-8CDF-456C-BF45-8FE6084983B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0877640-8CDF-456C-BF45-8FE6084983B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0877640-8CDF-456C-BF45-8FE6084983B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EB76E7D-A23A-4043-95D1-850B85F0B009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EB76E7D-A23A-4043-95D1-850B85F0B009}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EB76E7D-A23A-4043-95D1-850B85F0B009}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EB76E7D-A23A-4043-95D1-850B85F0B009}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40317833-2FD4-4A12-9133-CD72959A1C31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40317833-2FD4-4A12-9133-CD72959A1C31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40317833-2FD4-4A12-9133-CD72959A1C31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40317833-2FD4-4A12-9133-CD72959A1C31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{295A4A00-82F9-400B-BC20-CD9BC5EA497B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{295A4A00-82F9-400B-BC20-CD9BC5EA497B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{295A4A00-82F9-400B-BC20-CD9BC5EA497B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{295A4A00-82F9-400B-BC20-CD9BC5EA497B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01E03361-4CAB-4053-A156-0BAD3DBE130C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01E03361-4CAB-4053-A156-0BAD3DBE130C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01E03361-4CAB-4053-A156-0BAD3DBE130C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01E03361-4CAB-4053-A156-0BAD3DBE130C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B499A0AB-F479-4183-BA1B-9F639BC6B4F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B499A0AB-F479-4183-BA1B-9F639BC6B4F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B499A0AB-F479-4183-BA1B-9F639BC6B4F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B499A0AB-F479-4183-BA1B-9F639BC6B4F0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C1FFD981-279D-479F-B5ED-BC3243A1BA68}
+	EndGlobalSection
+EndGlobal

@@ -3,17 +3,29 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSchool.UCenter", "XSchool.UCenter\XSchool.UCenter.csproj", "{C0877640-8CDF-456C-BF45-8FE6084983B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XSchool.UCenter", "XSchool.UCenter\XSchool.UCenter.csproj", "{C0877640-8CDF-456C-BF45-8FE6084983B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSchool.Repositories", "XSchool.Repositories\XSchool.Repositories.csproj", "{4EB76E7D-A23A-4043-95D1-850B85F0B009}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XSchool.Businesses", "XSchool.Businesses\XSchool.Businesses.csproj", "{40317833-2FD4-4A12-9133-CD72959A1C31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSchool.Businesses", "XSchool.Businesses\XSchool.Businesses.csproj", "{40317833-2FD4-4A12-9133-CD72959A1C31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XSchool.Helpers", "XSchool.Helpers\XSchool.Helpers.csproj", "{295A4A00-82F9-400B-BC20-CD9BC5EA497B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSchool.Helpers", "XSchool.Helpers\XSchool.Helpers.csproj", "{295A4A00-82F9-400B-BC20-CD9BC5EA497B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XSchool.Query.Paging", "XSchool.Query.Paging\XSchool.Query.Paging.csproj", "{01E03361-4CAB-4053-A156-0BAD3DBE130C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSchool.Query.Paging", "XSchool.Query.Paging\XSchool.Query.Paging.csproj", "{01E03361-4CAB-4053-A156-0BAD3DBE130C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XSchool.Core", "XSchool.Core\XSchool.Core.csproj", "{B499A0AB-F479-4183-BA1B-9F639BC6B4F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSchool.Core", "XSchool.Core\XSchool.Core.csproj", "{B499A0AB-F479-4183-BA1B-9F639BC6B4F0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GCenter", "GCenter", "{F2794CEE-1AE1-42CB-8665-C507A3336FAB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XShop.GCenter.Repositories", "GCenter\XShop.GCenter.Repositories\XShop.GCenter.Repositories.csproj", "{254535CE-47BA-42BD-95A9-A68EB458F904}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XShop.GCenter.Model", "GCenter\XShop.GCenter.Model\XShop.GCenter.Model.csproj", "{E337D61B-DF36-49CE-B679-E6B0EFD22D4E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XShop.GCenter.Businesses", "GCenter\XShop.GCenter.Businesses\XShop.GCenter.Businesses.csproj", "{1A364A54-5712-4D93-9845-195EC88A4554}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UCenter", "UCenter", "{D0A17C1F-00CE-4B32-BB3A-42D84E6BB14B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XSchool.Repositories", "XSchool.Repositories\XSchool.Repositories.csproj", "{B01D2518-E166-4361-859F-8246A6E9C443}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XShop.GCenter.WebApi", "GCenter\XShop.GCenter.WebApi\XShop.GCenter.WebApi.csproj", "{20EEDD6E-6DB4-4259-ACBF-D89F55276B8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +37,6 @@ Global
 		{C0877640-8CDF-456C-BF45-8FE6084983B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0877640-8CDF-456C-BF45-8FE6084983B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0877640-8CDF-456C-BF45-8FE6084983B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4EB76E7D-A23A-4043-95D1-850B85F0B009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4EB76E7D-A23A-4043-95D1-850B85F0B009}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4EB76E7D-A23A-4043-95D1-850B85F0B009}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4EB76E7D-A23A-4043-95D1-850B85F0B009}.Release|Any CPU.Build.0 = Release|Any CPU
 		{40317833-2FD4-4A12-9133-CD72959A1C31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{40317833-2FD4-4A12-9133-CD72959A1C31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40317833-2FD4-4A12-9133-CD72959A1C31}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,9 +53,36 @@ Global
 		{B499A0AB-F479-4183-BA1B-9F639BC6B4F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B499A0AB-F479-4183-BA1B-9F639BC6B4F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B499A0AB-F479-4183-BA1B-9F639BC6B4F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{254535CE-47BA-42BD-95A9-A68EB458F904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{254535CE-47BA-42BD-95A9-A68EB458F904}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{254535CE-47BA-42BD-95A9-A68EB458F904}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{254535CE-47BA-42BD-95A9-A68EB458F904}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E337D61B-DF36-49CE-B679-E6B0EFD22D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E337D61B-DF36-49CE-B679-E6B0EFD22D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E337D61B-DF36-49CE-B679-E6B0EFD22D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E337D61B-DF36-49CE-B679-E6B0EFD22D4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A364A54-5712-4D93-9845-195EC88A4554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A364A54-5712-4D93-9845-195EC88A4554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A364A54-5712-4D93-9845-195EC88A4554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A364A54-5712-4D93-9845-195EC88A4554}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B01D2518-E166-4361-859F-8246A6E9C443}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B01D2518-E166-4361-859F-8246A6E9C443}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B01D2518-E166-4361-859F-8246A6E9C443}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B01D2518-E166-4361-859F-8246A6E9C443}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20EEDD6E-6DB4-4259-ACBF-D89F55276B8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20EEDD6E-6DB4-4259-ACBF-D89F55276B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20EEDD6E-6DB4-4259-ACBF-D89F55276B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20EEDD6E-6DB4-4259-ACBF-D89F55276B8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C0877640-8CDF-456C-BF45-8FE6084983B0} = {D0A17C1F-00CE-4B32-BB3A-42D84E6BB14B}
+		{254535CE-47BA-42BD-95A9-A68EB458F904} = {F2794CEE-1AE1-42CB-8665-C507A3336FAB}
+		{E337D61B-DF36-49CE-B679-E6B0EFD22D4E} = {F2794CEE-1AE1-42CB-8665-C507A3336FAB}
+		{1A364A54-5712-4D93-9845-195EC88A4554} = {F2794CEE-1AE1-42CB-8665-C507A3336FAB}
+		{20EEDD6E-6DB4-4259-ACBF-D89F55276B8A} = {F2794CEE-1AE1-42CB-8665-C507A3336FAB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C1FFD981-279D-479F-B5ED-BC3243A1BA68}

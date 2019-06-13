@@ -14,5 +14,6 @@ namespace XShop.GCenter.Repositories.Extensions
         }
 
         public DbSet<Company> Company { get; set; }
+        public DbSet<Department> Department { get; set; }
     }
 }

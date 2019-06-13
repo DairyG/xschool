@@ -13,28 +13,30 @@ namespace XSchool.UCenter.Extensions
     public class ResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
         private readonly SignInManager<User> _signManager;
-        public ResourceOwnerPasswordValidator(SignInManager<User> signInManager)
+        private readonly UserManager<User> _userManager;
+        public ResourceOwnerPasswordValidator(SignInManager<User> signInManager,UserManager<User> userManager)
         {
             this._signManager = signInManager;
+            this._userManager = userManager;
         }
 
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
             //_signManager.ExternalLoginSignInAsync()
-            var result = await _signManager.PasswordSignInAsync(context.UserName, context.Password, false, lockoutOnFailure: true);
+            var result = await _signManager.PasswordSignInAsync(context.UserName, context.Password, false, lockoutOnFailure: false);
             if (result.Succeeded)
             {
+                var user = await _userManager.FindByNameAsync(context.UserName);
                 var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.NameIdentifier,string.Empty),
-                        new Claim(ClaimTypes.Name, context.UserName),
-                        //new Claim(nameof(user.DisplayName), user.DisplayName),
+                        new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+                        new Claim(ClaimTypes.Name, context.UserName)
                     };
                 context.Result = new GrantValidationResult(context.UserName, OidcConstants.AuthenticationMethods.Password, claims);
             }
             else
             {
-                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "用户登上失败");
+                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "用户登录失败");
             }
         }
     }

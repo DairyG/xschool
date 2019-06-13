@@ -11,6 +11,15 @@ namespace XSchool.UCenter.Model
 
     public class User: IdentityUser<int>
     {
+        /// <summary>
+        /// 用户状态
+        /// </summary>
         public virtual State State { get; set; }
+
+        /// <summary>
+        /// 用户身份证
+        /// </summary>
+        public string IdCard { get; set; }
+
     }
 }

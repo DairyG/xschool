@@ -8,7 +8,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace XShop.GCenter.WebApi.Controllers
 {
-
     public class CompanySearch
     {
         public string CompanyName { get; set; }
@@ -17,25 +16,40 @@ namespace XShop.GCenter.WebApi.Controllers
 
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
-    public class CompanyController:ApiBaseController
+    public class CompanyController : ApiBaseController
     {
-        private readonly CompanyBusiness _business;
-        public CompanyController(CompanyBusiness business)
+        private readonly CompanyBusiness _company;
+        private readonly BankInfoBusiness _bankInfo;
+        public CompanyController(CompanyBusiness company, BankInfoBusiness bankInfo)
         {
-            this._business = business;
+            _company = company;
+            _bankInfo = bankInfo;
         }
 
+        /// <summary>
+        /// 添加/编辑 公司
+        /// </summary>
+        /// <param name="model">传入的参数</param>
+        /// <returns></returns>
         [HttpPost]
-        [Description("添加公司")]
-        public Result Edit([FromForm]Company company)
+        public Result Edit([FromForm]Company model)
         {
-            return _business.Add(company);
+            return _company.AddOrEdit(model);
         }
 
+        /// <summary>
+        /// 添加/编辑 开户信息
+        /// </summary>
+        /// <param name="model">传入的参数</param>
+        /// <returns></returns>
+        public Result EditBank([FromForm]BankInfo model)
+        {
+            return _bankInfo.AddOrEdit(model);
+        }
 
         [HttpPost]
         [Description("查询")]
-        public IPageCollection<Company> Get([FromForm]int page,[Range(1,50)][FromForm]int limit,[FromForm]CompanySearch search)
+        public IPageCollection<Company> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]CompanySearch search)
         {
             var condition = new Condition<Company>();
             if (!string.IsNullOrWhiteSpace(search.CompanyName))
@@ -46,7 +60,7 @@ namespace XShop.GCenter.WebApi.Controllers
             {
                 condition.And(p => p.LegalPerson.Contains(search.LegalPersoon));
             }
-            return _business.Page(page, limit, condition.Combine());
+            return _company.Page(page, limit, condition.Combine());
         }
 
     }

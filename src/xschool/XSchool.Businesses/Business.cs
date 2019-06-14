@@ -75,7 +75,7 @@ namespace XSchool.Businesses
         public virtual Result Update(TModel model)
         {
             this.Repository.Update(model);
-            return Result.Success();
+            return Result.Success(model.Id);
         }
 
 

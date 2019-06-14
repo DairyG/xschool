@@ -27,7 +27,7 @@ namespace XShop.GCenter.WebApi.Controllers
 
         [HttpPost]
         [Description("添加公司")]
-        public Result Add([FromForm]Company company)
+        public Result Edit([FromForm]Company company)
         {
             return _business.Add(company);
         }

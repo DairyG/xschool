@@ -38,6 +38,16 @@ namespace XShop.GCenter.Model
         public string RegisteredCapital { get; set; }
 
         /// <summary>
+        /// 公司负责人
+        /// </summary>
+        public string Responsible { get; set; }
+
+        /// <summary>
+        /// 负责人电话 
+        /// </summary>
+        public string ResponsiblePhone { get; set; }
+
+        /// <summary>
         /// 注册日期
         /// </summary>
         public DateTime RegisteredTime { get; set; }

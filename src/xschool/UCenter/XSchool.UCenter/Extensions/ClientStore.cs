@@ -9,33 +9,38 @@ namespace XSchool.UCenter.Extensions
 {
     public class ClientStore : IClientStore
     {
-        public async Task<Client> FindClientByIdAsync(string clientId)
+        public Client GetClient(string clientId)
         {
             var client = new Client
             {
-                ClientName = string.Empty,
+                ClientName = "第三方登录客户端",
                 IdentityTokenLifetime = (int)TimeSpan.FromDays(30).TotalSeconds,
                 ClientId = clientId,
                 IncludeJwtId = true,
-                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
                 AccessTokenLifetime = (int)TimeSpan.FromDays(30).TotalSeconds,
                 RefreshTokenUsage = TokenUsage.ReUse,
                 AlwaysIncludeUserClaimsInIdToken = true,
                 AllowOfflineAccess = true,
                 ClientSecrets = new List<Secret>
                 {
-                        new Secret("123456")
+                        new Secret("367CA1C1E7F64A2883B978DD7CEC043B".Sha256())
                 },
 
                 AllowedScopes = new List<string>
-                    {
-                        "ResourceAPI",
-                        "DataAPI",
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
-                    }
+                 {
+                    "UCenter",
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile
+                }
             };
             return client;
+        }
+
+        public Task<Client> FindClientByIdAsync(string clientId)
+        {
+            var client = this.GetClient(clientId);
+            return Task.FromResult(client);
         }
     }
 }

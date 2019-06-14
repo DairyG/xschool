@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XSchool.UCenter", "XSchool.UCenter\XSchool.UCenter.csproj", "{C0877640-8CDF-456C-BF45-8FE6084983B0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XSchool.Businesses", "XSchool.Businesses\XSchool.Businesses.csproj", "{40317833-2FD4-4A12-9133-CD72959A1C31}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XSchool.Helpers", "XSchool.Helpers\XSchool.Helpers.csproj", "{295A4A00-82F9-400B-BC20-CD9BC5EA497B}"
@@ -25,7 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UCenter", "UCenter", "{D0A1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XSchool.Repositories", "XSchool.Repositories\XSchool.Repositories.csproj", "{B01D2518-E166-4361-859F-8246A6E9C443}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XShop.GCenter.WebApi", "GCenter\XShop.GCenter.WebApi\XShop.GCenter.WebApi.csproj", "{20EEDD6E-6DB4-4259-ACBF-D89F55276B8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XShop.GCenter.WebApi", "GCenter\XShop.GCenter.WebApi\XShop.GCenter.WebApi.csproj", "{20EEDD6E-6DB4-4259-ACBF-D89F55276B8A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XSchool.UCenter", "UCenter\XSchool.UCenter\XSchool.UCenter.csproj", "{B32BFC4E-A084-4852-B630-CD81407DE569}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +33,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C0877640-8CDF-456C-BF45-8FE6084983B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C0877640-8CDF-456C-BF45-8FE6084983B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C0877640-8CDF-456C-BF45-8FE6084983B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C0877640-8CDF-456C-BF45-8FE6084983B0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{40317833-2FD4-4A12-9133-CD72959A1C31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{40317833-2FD4-4A12-9133-CD72959A1C31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40317833-2FD4-4A12-9133-CD72959A1C31}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -73,16 +69,20 @@ Global
 		{20EEDD6E-6DB4-4259-ACBF-D89F55276B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20EEDD6E-6DB4-4259-ACBF-D89F55276B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20EEDD6E-6DB4-4259-ACBF-D89F55276B8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B32BFC4E-A084-4852-B630-CD81407DE569}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B32BFC4E-A084-4852-B630-CD81407DE569}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B32BFC4E-A084-4852-B630-CD81407DE569}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B32BFC4E-A084-4852-B630-CD81407DE569}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C0877640-8CDF-456C-BF45-8FE6084983B0} = {D0A17C1F-00CE-4B32-BB3A-42D84E6BB14B}
 		{254535CE-47BA-42BD-95A9-A68EB458F904} = {F2794CEE-1AE1-42CB-8665-C507A3336FAB}
 		{E337D61B-DF36-49CE-B679-E6B0EFD22D4E} = {F2794CEE-1AE1-42CB-8665-C507A3336FAB}
 		{1A364A54-5712-4D93-9845-195EC88A4554} = {F2794CEE-1AE1-42CB-8665-C507A3336FAB}
 		{20EEDD6E-6DB4-4259-ACBF-D89F55276B8A} = {F2794CEE-1AE1-42CB-8665-C507A3336FAB}
+		{B32BFC4E-A084-4852-B630-CD81407DE569} = {D0A17C1F-00CE-4B32-BB3A-42D84E6BB14B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C1FFD981-279D-479F-B5ED-BC3243A1BA68}

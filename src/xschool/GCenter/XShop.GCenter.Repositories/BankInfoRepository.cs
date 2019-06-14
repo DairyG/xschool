@@ -4,8 +4,8 @@ using XShop.GCenter.Repositories.Extensions;
 
 namespace XShop.GCenter.Repositories
 {
-    public class CompanyRepository : Repository<Company>
+    public class BankInfoRepository : Repository<BankInfo>
     {
-        public CompanyRepository(GCenterDbContext dbContext) : base(dbContext) { }
+        public BankInfoRepository(GCenterDbContext dbContext) : base(dbContext) { }
     }
 }

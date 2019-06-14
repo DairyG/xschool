@@ -8,10 +8,7 @@ namespace XShop.GCenter.Businesses
 {
     public class CompanyBusiness : Business<Company>
     {
-        public CompanyBusiness(IServiceProvider provider, CompanyRepository repository) : base(provider, repository)
-        {
-
-        }
+        public CompanyBusiness(IServiceProvider provider, CompanyRepository repository) : base(provider, repository) { }
 
         private static Result Check(Company model)
         {
@@ -27,6 +24,10 @@ namespace XShop.GCenter.Businesses
             {
                 return Result.Fail("法人代表不能为空");
             }
+            if (string.IsNullOrWhiteSpace(model.))
+            {
+                return Result.Fail("法人代表不能为空");
+            }
             if (string.IsNullOrWhiteSpace(model.BusinessDate))
             {
                 return Result.Fail("营业期限不能为空");
@@ -35,13 +36,29 @@ namespace XShop.GCenter.Businesses
             {
                 return Result.Fail("营业范围不能为空");
             }
+            if (string.IsNullOrWhiteSpace(model.CompanyPhone))
+            {
+                return Result.Fail("公司电话不能为空");
+            }
+            if (string.IsNullOrWhiteSpace(model.OfficeAddress))
+            {
+                return Result.Fail("办公地址不能为空");
+            }
             return Result.Success();
         }
 
-        public override Result Add(Company model)
+        public Result AddOrEdit(Company model)
         {
             var result = Check(model);
-            return result.Succeed ? base.Add(model) : result;
+            //新增
+            if (model.Id == 0)
+            {
+                return result.Succeed ? base.Add(model) : result;
+            }
+            else
+            {
+                return result.Succeed ? base.Update(model) : result;
+            }
         }
     }
 }

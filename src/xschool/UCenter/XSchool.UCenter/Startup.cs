@@ -85,7 +85,7 @@ namespace XSchool.UCenter
             .AddClaimsPrincipalFactory<ClaimsIdentityFactory>()
             .AddSignInManager<SignInManager>()
             .AddUserManager<UserManager<User>>()
-            .AddPasswordValidator<PasswordValidator>()
+            //.AddPasswordValidator<PasswordValidator>()
             .AddDefaultTokenProviders();
 
             services.AddSingleton<IPasswordHasher<User>, Md5PasswordHasher>();

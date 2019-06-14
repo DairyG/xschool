@@ -10,6 +10,7 @@ namespace XSchool.UCenter.Extensions
     {
         public ClaimsIdentityFactory(UserManager<User> userManager, IOptions<IdentityOptions> optionsAccessor) : base(userManager, optionsAccessor)
         {
+
         }
 
         protected async override Task<ClaimsIdentity> GenerateClaimsAsync(User user)

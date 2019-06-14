@@ -1,6 +1,5 @@
 ﻿using IdentityServer4.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +8,6 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using XSchool.UCenter.Extensions;
@@ -57,6 +55,21 @@ namespace XSchool.UCenter
                 throw new Exception("找不到ConnectionStrings:Default节点,未能正确配置数据库连接字符串");
             }
 
+            services.AddStackExchangeRedisCache(options => {
+                options.Configuration = this.Configuration["RedisConnectionStrings:Default"];
+                options.InstanceName = "xschool";
+            });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+                options.Authority = "http://localhost:80";
+            });
+            services.AddAuthorization(options=> {
+                options.AddPolicy("upolicy", policy => {
+                    policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+                    policy.RequireAuthenticatedUser();
+                });
+            });
+
             services.AddApiVersioning(options =>
             {
                 options.ReportApiVersions = true;
@@ -92,6 +105,7 @@ namespace XSchool.UCenter
 
             services.AddDbContextPool<UCenterDbContext>(options => options.UseSqlServer(connectonString), poolSize: 64);
             var builder = services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
             //builder.AddCors();
             //builder.AddJsonFormatters(settings =>
             //{

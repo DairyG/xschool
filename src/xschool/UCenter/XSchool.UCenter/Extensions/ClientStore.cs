@@ -17,10 +17,11 @@ namespace XSchool.UCenter.Extensions
                 IdentityTokenLifetime = (int)TimeSpan.FromDays(30).TotalSeconds,
                 ClientId = clientId,
                 IncludeJwtId = true,
-                AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
-                AccessTokenLifetime = (int)TimeSpan.FromDays(30).TotalSeconds,
-                RefreshTokenUsage = TokenUsage.ReUse,
                 AlwaysIncludeUserClaimsInIdToken = true,
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
+                AccessTokenLifetime = (int)TimeSpan.FromDays(7).TotalSeconds,
+                RefreshTokenUsage = TokenUsage.ReUse,
+                RefreshTokenExpiration = TokenExpiration.Sliding,
                 AllowOfflineAccess = true,
                 ClientSecrets = new List<Secret>
                 {
@@ -28,7 +29,7 @@ namespace XSchool.UCenter.Extensions
                 },
 
                 AllowedScopes = new List<string>
-                 {
+                {
                     "UCenter",
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile

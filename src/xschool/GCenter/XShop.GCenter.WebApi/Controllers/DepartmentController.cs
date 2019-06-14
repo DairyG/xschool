@@ -23,5 +23,17 @@ namespace XShop.GCenter.WebApi.Controllers
         {
             return _business.Add(department);
         }
+        [HttpPost]
+        [Description("修改部门")]
+        public Result Update([FromForm]Department department)
+        {
+            return _business.Update(department);
+        }
+        [HttpGet]
+        [Description("删除部门")]
+        public Result Delete([FromForm]int Id)
+        {
+            return _business.Delete(Id);
+        }
     }
 }

@@ -7,6 +7,10 @@ namespace XShop.GCenter.Model
     {
         public int Id { get; set; }
         /// <summary>
+        /// 所属公司ID
+        /// </summary>
+        public int BelongCompany { get; set; }
+        /// <summary>
         /// 上级部门ID
         /// </summary>
         public int HigherLevel { get; set; }
@@ -46,5 +50,9 @@ namespace XShop.GCenter.Model
         /// 职责描述
         /// </summary>
         public string DutiesDescription { get; set; }
+        /// <summary>
+        /// 激活状态（0-不启用，1-启用）
+        /// </summary>
+        public int DptStatus { get; set; }
     }
 }

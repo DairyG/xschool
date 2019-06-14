@@ -33,5 +33,14 @@ namespace XShop.GCenter.Businesses
             var result = Check(model);
             return result.Succeed ? base.Add(model) : result;
         }
+        public override Result Update(Department model)
+        {
+            var result = Check(model);
+            return result.Succeed ? base.Update(model) : result;
+        }
+        public override Result Delete(int Id)
+        {
+            return base.Delete(Id);
+        }
     }
 }

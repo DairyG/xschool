@@ -24,9 +24,13 @@ namespace XShop.GCenter.Businesses
             {
                 return Result.Fail("法人代表不能为空");
             }
-            if (string.IsNullOrWhiteSpace(model.))
+            if (string.IsNullOrWhiteSpace(model.Responsible))
             {
-                return Result.Fail("法人代表不能为空");
+                return Result.Fail("公司负责人不能为空");
+            }
+            if (string.IsNullOrWhiteSpace(model.ResponsiblePhone))
+            {
+                return Result.Fail("负责人电话不能为空");
             }
             if (string.IsNullOrWhiteSpace(model.BusinessDate))
             {

@@ -42,5 +42,9 @@ namespace XShop.GCenter.Businesses
         {
             return base.Delete(Id);
         }
+        public override Department GetSingle(int Id)
+        {
+            return base.GetSingle(Id);
+        }
     }
 }

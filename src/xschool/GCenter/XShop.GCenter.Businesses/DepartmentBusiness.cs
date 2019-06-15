@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using XSchool.Businesses;
 using XSchool.Core;
 using XShop.GCenter.Model;
@@ -6,11 +7,11 @@ using XShop.GCenter.Repositories;
 
 namespace XShop.GCenter.Businesses
 {
-    public class DepartmentBusiness: Business<Department>
+    public class DepartmentBusiness : Business<Department>
     {
         public DepartmentBusiness(IServiceProvider provider, DepartmentRepository repository) : base(provider, repository)
         {
-            
+
         }
         private static Result Check(Department model)
         {
@@ -45,6 +46,11 @@ namespace XShop.GCenter.Businesses
         public override Department GetSingle(int Id)
         {
             return base.GetSingle(Id);
+        }
+
+        public override Result<IList<Department>> Query()
+        {
+            return base.Query(p => p.DptStatus == 1);
         }
     }
 }

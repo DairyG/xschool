@@ -31,7 +31,7 @@ namespace XShop.GCenter.Model
         public string CompanyType { get; set; }
 
         /// <summary>
-        /// 企业法人
+        /// 企业法人(法人代表)
         /// </summary>
         public string LegalPerson { get; set; }
 
@@ -51,7 +51,7 @@ namespace XShop.GCenter.Model
         public string ResponsiblePhone { get; set; }
 
         /// <summary>
-        /// 注册日期
+        /// 注册日期(成立日期)
         /// </summary>
         public DateTime RegisteredTime { get; set; }
 

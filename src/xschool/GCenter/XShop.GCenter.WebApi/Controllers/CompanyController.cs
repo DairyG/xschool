@@ -54,14 +54,6 @@ namespace XShop.GCenter.WebApi.Controllers
         {
             var condition = new Condition<Company>();
             condition.And(p => p.IsDelete == 1);
-            //if (!string.IsNullOrWhiteSpace(search.CompanyName))
-            //{
-            //    condition.And(p => p.CompanyName.Contains(search.CompanyName));
-            //}
-            //if (!string.IsNullOrWhiteSpace(search.LegalPersoon))
-            //{
-            //    condition.And(p => p.LegalPerson.Contains(search.LegalPersoon));
-            //}
             return _company.Page(page, limit, condition.Combine());
         }
 

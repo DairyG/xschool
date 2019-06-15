@@ -39,6 +39,7 @@ namespace XShop.GCenter.WebApi
                 options.ApiVersionReader = ApiVersionReader.Combine(new QueryStringApiVersionReader("version"), new HeaderApiVersionReader("api-version", "version"));
             });
 
+            //services.AddDoMain();
             services.AddBusinesses();
             services.AddDbContextPool<GCenterDbContext>(options => options.UseSqlServer(connectonString), poolSize: 64);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

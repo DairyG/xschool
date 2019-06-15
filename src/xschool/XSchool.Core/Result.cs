@@ -24,6 +24,10 @@ namespace XSchool.Core
             return new Result { Succeed = true, Code = "00", Message = "成功" };
         }
 
+        public static Result SuccForMsg(string message) {
+            return new Result { Succeed = true, Code = "00", Message = message };
+        }
+
         public static Result Fail(string message, string code)
         {
             return new Result { Succeed = false, Code = code, Message = message };

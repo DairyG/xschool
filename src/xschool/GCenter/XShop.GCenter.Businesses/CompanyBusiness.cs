@@ -8,7 +8,7 @@ namespace XShop.GCenter.Businesses
 {
     public class CompanyBusiness : Business<Company>
     {
-        public CompanyBusiness(IServiceProvider provider, CompanyRepository repository) : base(provider, repository) { }
+        public CompanyBusiness(IServiceProvider provider, CompanyRepository repository, BankInfoRepository bankInfo) : base(provider, repository) { }
 
         private static Result Check(Company model)
         {
@@ -64,5 +64,35 @@ namespace XShop.GCenter.Businesses
                 return result.Succeed ? base.Update(model) : result;
             }
         }
+
+        public Result Del(int id)
+        {
+            var model = base.GetSingle(id);
+            if (model == null)
+            {
+                return Result.Fail("请勿操作无效数据");
+            }
+            model.IsDelete = 0;
+            return base.Update(model);
+        }
+
+
+
+        //public Result GetInfo(int id)
+        //{
+        //    var modelCompany = base.GetSingle(id);
+        //    if (modelCompany == null)
+        //    {
+        //        return Result.Fail("请勿操作无效数据");
+        //    }
+
+        //    var modelDto = modelCompany.MapTo<CompanyDto>();
+        //    modelDto.Bank = _bankInfo.GetSingle(id);
+        //    return new Result<CompanyDto>()
+        //    {
+        //        Data = modelDto
+        //    };
+
+        //}
     }
 }

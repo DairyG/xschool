@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using XSchool.Core;
 
 namespace XShop.GCenter.Model.ViewModel
@@ -39,6 +40,16 @@ namespace XShop.GCenter.Model.ViewModel
         /// 注册资本
         /// </summary>
         public string RegisteredCapital { get; set; }
+
+        /// <summary>
+        /// 公司负责人
+        /// </summary>
+        public string Responsible { get; set; }
+
+        /// <summary>
+        /// 负责人电话
+        /// </summary>
+        public string ResponsiblePhone { get; set; }
 
         /// <summary>
         /// 注册日期
@@ -104,6 +115,36 @@ namespace XShop.GCenter.Model.ViewModel
         /// 1-有效，0-无效
         /// </summary>
         public int IsDelete { get; set; } = 1;
+
+        /// <summary>
+        /// 开户行信息
+        /// </summary>
+        public BankInfo Bank { get; set; }
+
+        ///// <summary>
+        ///// 开户行Id
+        ///// </summary>
+        //public string OpenBankId { get; set; }
+
+        ///// <summary>
+        ///// 开户银行
+        ///// </summary>
+        //public string OpenBank { get; set; }
+
+        ///// <summary>
+        ///// 开户名称
+        ///// </summary>
+        //public string OpenBankName { get; set; }
+
+        ///// <summary>
+        ///// 开户账号
+        ///// </summary>
+        //public string BankAccount { get; set; }
+
+        ///// <summary>
+        ///// 联系电话
+        ///// </summary>
+        //public string LinkPhone { get; set; }
 
     }
 }

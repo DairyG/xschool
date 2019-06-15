@@ -38,7 +38,7 @@ namespace XShop.GCenter.WebApi.Controllers
         {
             return _business.Delete(Id);
         }
-        [HttpGet]
+        [HttpPost]
         [Description("根据Id获取部门信息")]
         public Department GetSingle([FromForm]int Id)
         {

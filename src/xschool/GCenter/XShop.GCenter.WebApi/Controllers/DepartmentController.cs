@@ -50,6 +50,11 @@ namespace XShop.GCenter.WebApi.Controllers
         {
             return _business.Query();
         }
-
+        [HttpPost]
+        [Description("根据上级部门查询总数")]
+        public int Count([FromForm]int Id)
+        {
+            return _business.Count(p=>p.LevelMap.Contains(Id + ","));
+        }
     }
 }

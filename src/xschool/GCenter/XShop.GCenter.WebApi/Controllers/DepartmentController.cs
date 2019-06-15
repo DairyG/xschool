@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
+using System.Linq;
 using XSchool.Core;
 using XShop.GCenter.Businesses;
 using XShop.GCenter.Model;
 using XSchool.Query.Pageing;
 using System.ComponentModel.DataAnnotations;
+using XSchool.Helpers;
+using System.Collections.Generic;
 
 namespace XShop.GCenter.WebApi.Controllers
 {
@@ -41,5 +44,12 @@ namespace XShop.GCenter.WebApi.Controllers
         {
             return _business.GetSingle(Id);
         }
+
+        [HttpGet]
+        public Result GetTree()
+        {
+            return _business.Query();
+        }
+
     }
 }

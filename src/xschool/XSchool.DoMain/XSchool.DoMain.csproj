@@ -5,11 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="BankInfo.cs~RFe8010f0.TMP" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\XSchool.Core\XSchool.Core.csproj" />
+    <ProjectReference Include="..\XSchool.Businesses\XSchool.Businesses.csproj" />
+    <ProjectReference Include="..\XSchool.Core\XSchool.Core.csproj" />
   </ItemGroup>
 
 </Project>

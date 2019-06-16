@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GCenter\XShop.GCenter.Businesses\XShop.GCenter.Businesses.csproj" />
     <ProjectReference Include="..\XSchool.Core\XSchool.Core.csproj" />
+    <ProjectReference Include="..\XSchool.DoMain\XSchool.DoMain.csproj" />
     <ProjectReference Include="..\XSchool.Helpers\XSchool.Helpers.csproj" />
   </ItemGroup>
 

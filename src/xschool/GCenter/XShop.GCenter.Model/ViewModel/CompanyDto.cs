@@ -119,7 +119,7 @@ namespace XShop.GCenter.Model.ViewModel
         /// <summary>
         /// 开户行信息
         /// </summary>
-        public BankInfo Bank { get; set; }
+        public IList<BankInfo> Bank { get; set; }
 
         ///// <summary>
         ///// 开户行Id

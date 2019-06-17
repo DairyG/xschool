@@ -84,34 +84,34 @@ namespace XSchool.Businesses
             return this.Repository.GetSingle(p => p.Id.Equals(key));
         }
 
-        public virtual Result<TModel> GetSingle(Expression<Func<TModel, bool>> where)
+        public virtual TModel GetSingle(Expression<Func<TModel, bool>> where)
         {
             return this.GetSingle(where, p => p);
         }
 
-        public virtual Result<TResult> GetSingle<TResult>(TKey key, Expression<Func<TModel, TResult>> select)
+        public virtual TResult GetSingle<TResult>(TKey key, Expression<Func<TModel, TResult>> select)
         {
             return this.GetSingle(p => p.Id.Equals(key), select);
         }
 
-        public virtual Result<TResult> GetSingle<TResult>(Expression<Func<TModel, bool>> where, Expression<Func<TModel, TResult>> select)
+        public virtual TResult GetSingle<TResult>(Expression<Func<TModel, bool>> where, Expression<Func<TModel, TResult>> select)
         {
             var obj = this.Repository.GetSingle(where, select);
-            return Result.Success(obj);
+            return obj;
         }
 
-        public virtual Result<IList<TModel>> Query(Expression<Func<TModel, bool>> where)
+        public virtual IList<TModel> Query(Expression<Func<TModel, bool>> where)
         {
-            return Result.Success(this.Repository.Query(where));
+            return this.Repository.Query(where);
         }
 
 
 
 
-        public virtual Result<IList<TSelect>> Query<TSelect>(Expression<Func<TModel, bool>> where, Expression<Func<TModel, TSelect>> select)
+        public virtual IList<TSelect> Query<TSelect>(Expression<Func<TModel, bool>> where, Expression<Func<TModel, TSelect>> select)
         {
             var list = this.Repository.Query(where, select);
-            return Result.Success(list);
+            return list;
         }
 
         public virtual Result<IList<TModel>> Query()

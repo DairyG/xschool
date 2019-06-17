@@ -54,5 +54,9 @@ namespace XShop.GCenter.Model
         /// 激活状态（0-不启用，1-启用）
         /// </summary>
         public int DptStatus { get; set; }
+        /// <summary>
+        /// 级联
+        /// </summary>
+        public string LevelMap { get; set; }
     }
 }

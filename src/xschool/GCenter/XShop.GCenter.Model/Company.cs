@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using XSchool.Core;
 
 namespace XShop.GCenter.Model
@@ -113,7 +114,12 @@ namespace XShop.GCenter.Model
         /// <summary>
         /// 1-有效，0-无效
         /// </summary>
-        public int IsDelete { get; set; } = 1;
+        public int Status { get; set; } = 1;
+
+        /// <summary>
+        /// 开户行信息
+        /// </summary>
+        public IList<BankInfo> Bank { get; set; }
 
     }
 }

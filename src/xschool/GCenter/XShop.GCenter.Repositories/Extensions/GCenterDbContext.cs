@@ -10,5 +10,7 @@ namespace XShop.GCenter.Repositories.Extensions
         public DbSet<Company> Company { get; set; }
         public DbSet<BankInfo> bankInfo { get; set; }
         public DbSet<Department> Department { get; set; }
+
+        public DbSet<WorkerInFieldSetting> WorkerInFieldSetting { get; set; }
     }
 }

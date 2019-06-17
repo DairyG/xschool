@@ -5,6 +5,7 @@ using XShop.GCenter.Model;
 using XSchool.Query.Pageing;
 using System.ComponentModel.DataAnnotations;
 using XShop.GCenter.DoMain;
+using System.Collections.Generic;
 
 namespace XShop.GCenter.WebApi.Controllers
 {
@@ -32,7 +33,7 @@ namespace XShop.GCenter.WebApi.Controllers
         public IPageCollection<Company> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit)
         {
             var condition = new Condition<Company>();
-            condition.And(p => p.IsDelete == 1);
+            condition.And(p => p.Status == 1);
             return _companyBusiness.Page(page, limit, condition.Combine());
         }
 
@@ -75,10 +76,10 @@ namespace XShop.GCenter.WebApi.Controllers
         /// <param name="companyId"></param>
         /// <returns></returns>
         [HttpGet("{companyId}")]
-        public Result GetBank(int companyId)
+        public IList<BankInfo> GetBank(int companyId)
         {
             var condition = new Condition<BankInfo>();
-            condition.And(p => p.IsDelete == 1 && p.CompanyId.Equals(companyId));
+            condition.And(p => p.Status == 1 && p.CompanyId.Equals(companyId));
             return _bankInfoBusiness.Query(condition.Combine());
         }
 

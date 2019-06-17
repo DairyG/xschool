@@ -38,7 +38,7 @@ namespace XShop.GCenter.WebApi.Controllers
         {
             return _business.Delete(Id);
         }
-        [HttpGet]
+        [HttpPost]
         [Description("根据Id获取部门信息")]
         public Department GetSingle([FromForm]int Id)
         {
@@ -50,6 +50,11 @@ namespace XShop.GCenter.WebApi.Controllers
         {
             return _business.Query();
         }
-
+        [HttpPost]
+        [Description("根据上级部门查询总数")]
+        public int Count([FromForm]int Id)
+        {
+            return _business.Count(p=>p.LevelMap.Contains(","+ Id + ","));
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace XShop.GCenter.DoMain
     {
         private CompanyBusiness _companyBuiness;
         private BankInfoBusiness _bankInfoBusiness;
+
         public CompanyDo(CompanyBusiness companyBuiness, BankInfoBusiness bankInfoBusiness)
         {
             _bankInfoBusiness = bankInfoBusiness;
@@ -23,7 +24,7 @@ namespace XShop.GCenter.DoMain
             {
                 return Result.Fail("主键编号不能小于等于零");
             }
-            var model = _companyBuiness.GetSingle(p => p.Id.Equals(id)).Data.MapTo<CompanyDto>();
+            var model = _companyBuiness.GetSingle(p => p.Id.Equals(id)).MapTo<CompanyDto>();
             if (model == null)
             {
                 return Result.Fail("未找到数据");
@@ -31,7 +32,7 @@ namespace XShop.GCenter.DoMain
             model.Bank = new List<Model.BankInfo>();
             if (isLoadBankInfo)
             {
-                model.Bank = _bankInfoBusiness.Query(p => p.CompanyId.Equals(id)).Data;
+                model.Bank = _bankInfoBusiness.Query(p => p.CompanyId.Equals(id));
             }
             return Result.Success(model);
         }

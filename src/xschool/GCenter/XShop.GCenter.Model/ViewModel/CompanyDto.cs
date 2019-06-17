@@ -114,37 +114,12 @@ namespace XShop.GCenter.Model.ViewModel
         /// <summary>
         /// 1-有效，0-无效
         /// </summary>
-        public int IsDelete { get; set; } = 1;
+        public int Status { get; set; } = 1;
 
         /// <summary>
         /// 开户行信息
         /// </summary>
         public IList<BankInfo> Bank { get; set; }
-
-        ///// <summary>
-        ///// 开户行Id
-        ///// </summary>
-        //public string OpenBankId { get; set; }
-
-        ///// <summary>
-        ///// 开户银行
-        ///// </summary>
-        //public string OpenBank { get; set; }
-
-        ///// <summary>
-        ///// 开户名称
-        ///// </summary>
-        //public string OpenBankName { get; set; }
-
-        ///// <summary>
-        ///// 开户账号
-        ///// </summary>
-        //public string BankAccount { get; set; }
-
-        ///// <summary>
-        ///// 联系电话
-        ///// </summary>
-        //public string LinkPhone { get; set; }
 
     }
 }

@@ -39,7 +39,7 @@ namespace XShop.GCenter.Businesses
             }
             if (model.Id != 0)
             {
-                return base.GetSingle(p => p.DptName == model.DptName) != null ? Result.Fail("部门名称已经存在，无法重复添加！") : Result.Success();
+                return base.GetSingle(p => p.DptName == model.DptName && p.Id != model.Id) != null ? Result.Fail("部门名称已经存在，无法执行本操作！") : Result.Success();
             }
             return Result.Success();
         }
@@ -70,7 +70,16 @@ namespace XShop.GCenter.Businesses
         /// <returns></returns>
         public override Result Delete(int Id)
         {
-            return base.Delete(Id);
+            return this.Exist(p => p.HigherLevel == Id) ? Result.Fail("该部门含有下级，无法删除！") : base.Delete(Id);
+        }
+        /// <summary>
+        /// 查询是否存在
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public override bool Exist(Expression<Func<Department, bool>> where)
+        {
+            return base.Exist(where);
         }
     }
 }

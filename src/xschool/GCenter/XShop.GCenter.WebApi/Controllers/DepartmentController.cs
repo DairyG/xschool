@@ -46,9 +46,9 @@ namespace XShop.GCenter.WebApi.Controllers
         }
 
         [HttpGet]
-        public Result GetTree()
+        public IList<Department> GetTree()
         {
-            return _business.Query();
+            return _business.Query(p => p.DptStatus == 1);
         }
         [HttpPost]
         [Description("根据上级部门查询总数")]

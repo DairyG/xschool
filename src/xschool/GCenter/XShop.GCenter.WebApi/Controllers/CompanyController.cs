@@ -30,11 +30,11 @@ namespace XShop.GCenter.WebApi.Controllers
         /// <param name="limit">页大小</param>
         /// <returns></returns>
         [HttpPost]
-        public IPageCollection<Company> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit)
+        public object Get([FromForm]int page, [Range(1, 50)][FromForm]int limit)
         {
             var condition = new Condition<Company>();
-            condition.And(p => p.Status == 1);
-            return _companyBusiness.Page(page, limit, condition.Combine());
+            condition.And(p => p.Status.Equals(Status.Valid));
+            return _companyBusiness.Page(page, limit, condition.Combine(), p => new { p.Id, p.CompanyName, p.Credit, p.CompanyType, p.LegalPerson, p.RegisteredCapital, p.RegisteredTime });
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace XShop.GCenter.WebApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public Result GetInfo(int id)
+        public Company GetInfo(int id)
         {
             return _companyDo.GetInfo(id, true);
         }
@@ -79,7 +79,7 @@ namespace XShop.GCenter.WebApi.Controllers
         public IList<BankInfo> GetBank(int companyId)
         {
             var condition = new Condition<BankInfo>();
-            condition.And(p => p.Status == 1 && p.CompanyId.Equals(companyId));
+            condition.And(p => p.Status.Equals(Status.Valid) && p.CompanyId.Equals(companyId));
             return _bankInfoBusiness.Query(condition.Combine());
         }
 

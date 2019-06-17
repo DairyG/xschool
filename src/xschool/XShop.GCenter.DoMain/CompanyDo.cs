@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using XSchool.Core;
+﻿using XSchool.Core;
 using XSchool.DoMain;
-using XSchool.Helpers;
 using XShop.GCenter.Businesses;
-using XShop.GCenter.Model.ViewModel;
+using XShop.GCenter.Model;
 
 namespace XShop.GCenter.DoMain
 {
@@ -18,23 +16,18 @@ namespace XShop.GCenter.DoMain
             _companyBuiness = companyBuiness;
         }
 
-        public Result GetInfo(int id, bool isLoadBankInfo = false)
+        public Company GetInfo(int id, bool isLoadBankInfo = false)
         {
-            if (id <= 0)
-            {
-                return Result.Fail("主键编号不能小于等于零");
-            }
-            var model = _companyBuiness.GetSingle(p => p.Id.Equals(id)).MapTo<CompanyDto>();
+            var model = _companyBuiness.GetSingle(p => p.Id.Equals(id));
             if (model == null)
             {
-                return Result.Fail("未找到数据");
+                return null;
             }
-            model.Bank = new List<Model.BankInfo>();
             if (isLoadBankInfo)
             {
-                model.Bank = _bankInfoBusiness.Query(p => p.CompanyId.Equals(id));
+                model.Bank = _bankInfoBusiness.Query(p => p.CompanyId.Equals(id) && p.Status.Equals(Status.Valid));
             }
-            return Result.Success(model);
+            return model;
         }
     }
 }

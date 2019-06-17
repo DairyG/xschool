@@ -92,7 +92,7 @@ namespace XShop.GCenter.Businesses
                 return Result.Fail("到岗时间不能为空");
             }
 
-            if (GetSingle(p => p.Name == model.Name && p.Id != model.Id).Data != null)
+            if (GetSingle(p => p.Name == model.Name && p.Id != model.Id) != null)
             {
                 return Result.Fail("到岗时间已存在，不能再次使用");
             }

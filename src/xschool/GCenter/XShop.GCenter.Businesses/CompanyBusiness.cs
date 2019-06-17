@@ -8,9 +8,10 @@ namespace XShop.GCenter.Businesses
 {
     public class CompanyBusiness : Business<Company>
     {
-        public CompanyBusiness(IServiceProvider provider, CompanyRepository repository, BankInfoRepository bankInfo) : base(provider, repository) { }
-
-        private Result Check(Company model)
+        
+        public CompanyBusiness(IServiceProvider provider, CompanyRepository repository) : base(provider, repository) { }
+        
+        public Result Check(Company model)
         {
             if (string.IsNullOrWhiteSpace(model.CompanyName))
             {
@@ -51,29 +52,46 @@ namespace XShop.GCenter.Businesses
 
             if (model.Id <= 0)
             {
-                var nameCount = base.Count(p => p.CompanyName.Equals(model.CompanyName));
-                if (nameCount > 0)
+                if (base.Exist(p => p.CompanyName.Equals(model.CompanyName) && p.Status.Equals(1)))
                 {
                     return Result.Fail("公司名称已存在");
                 }
-                var creditCount = base.Count(p => p.Credit.Equals(model.Credit));
-                if (creditCount > 0)
+                if (base.Exist(p => p.Credit.Equals(model.Credit) && p.Status.Equals(1)))
                 {
                     return Result.Fail("信用代码已存在");
                 }
+                //var nameCount = base.Count(p => p.CompanyName.Equals(model.CompanyName));
+                //if (nameCount > 0)
+                //{
+                //    return Result.Fail("公司名称已存在");
+                //}
+                //var creditCount = base.Count(p => p.Credit.Equals(model.Credit));
+                //if (creditCount > 0)
+                //{
+                //    return Result.Fail("信用代码已存在");
+                //}
             }
             else
             {
-                var nameCount = base.Count(p => p.Id != model.Id && p.CompanyName.Equals(model.CompanyName));
-                if (nameCount > 0)
+                if (base.Exist(p => p.CompanyName.Equals(model.CompanyName) && p.Id != model.Id && p.Status.Equals(1)))
                 {
                     return Result.Fail("公司名称已存在");
                 }
-                var creditCount = base.Count(p => p.Id != model.Id && p.Credit.Equals(model.Credit));
-                if (creditCount > 0)
+                if (base.Exist(p => p.Credit.Equals(model.Credit) && p.Id != model.Id && p.Status.Equals(1)))
                 {
                     return Result.Fail("信用代码已存在");
                 }
+
+                //var nameCount = base.Count(p => p.Id != model.Id && p.CompanyName.Equals(model.CompanyName));
+                //if (nameCount > 0)
+                //{
+                //    return Result.Fail("公司名称已存在");
+                //}
+                //var creditCount = base.Count(p => p.Id != model.Id && p.Credit.Equals(model.Credit));
+                //if (creditCount > 0)
+                //{
+                //    return Result.Fail("信用代码已存在");
+                //}
             }
 
             return Result.Success();
@@ -100,7 +118,7 @@ namespace XShop.GCenter.Businesses
             {
                 return Result.Fail("未找到数据");
             }
-            model.IsDelete = 0;
+            model.Status = 0;
             return base.Update(model);
         }
     }

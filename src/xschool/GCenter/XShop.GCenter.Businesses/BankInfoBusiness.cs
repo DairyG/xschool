@@ -9,7 +9,7 @@ namespace XShop.GCenter.Businesses
     public class BankInfoBusiness : Business<BankInfo>
     {
         public BankInfoBusiness(IServiceProvider provider, BankInfoRepository repository) : base(provider, repository) { }
-
+       
         private Result Check(BankInfo model)
         {
             if (model.CompanyId <= 0)
@@ -35,16 +35,14 @@ namespace XShop.GCenter.Businesses
 
             if (model.Id <= 0)
             {
-                var accountCount = base.Count(p => p.BankAccount.Equals(model.BankAccount));
-                if (accountCount > 0)
+                if (base.Exist(p => p.BankAccount.Equals(model.BankAccount) && p.Status.Equals(1)))
                 {
                     return Result.Fail("银行账号已存在");
                 }
             }
             else
             {
-                var accountCount = base.Count(p => p.Id != model.Id && p.BankAccount.Equals(model.BankAccount));
-                if (accountCount > 0)
+                if (base.Exist(p => p.BankAccount.Equals(model.BankAccount) && p.Id != model.Id && p.Status.Equals(1)))
                 {
                     return Result.Fail("银行账号已存在");
                 }
@@ -58,7 +56,7 @@ namespace XShop.GCenter.Businesses
             var result = Check(model);
 
             //验证是否存在基本账户
-            var basicCount = base.Count(p => p.IsDelete == 1 && p.CompanyId.Equals(model.CompanyId) && p.AccountType.Equals("基本账户"));
+            var basicCount = base.Count(p => p.Status == 1 && p.CompanyId.Equals(model.CompanyId) && p.AccountType.Equals("基本账户"));
             if (basicCount > 0)
             {
                 model.AccountType = "一般账户";
@@ -86,7 +84,7 @@ namespace XShop.GCenter.Businesses
             {
                 return Result.Fail("未找到数据");
             }
-            model.IsDelete = 0;
+            model.Status = 0;
             return base.Update(model);
         }
     }

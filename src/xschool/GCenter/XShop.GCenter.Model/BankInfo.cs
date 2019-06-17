@@ -33,5 +33,20 @@ namespace XShop.GCenter.Model
         /// 联系电话
         /// </summary>
         public string LinkPhone { get; set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remarks { get; set; }
+
+        /// <summary>
+        /// 账户类型，[基本账户/一般账户]
+        /// </summary>
+        public string AccountType { get; set; }
+
+        /// <summary>
+        /// 1-有效，0-无效
+        /// </summary>
+        public int IsDelete { get; set; } = 1;
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using XShop.GCenter.Businesses;
+using XShop.GCenter.DoMain;
 
 namespace XShop.GCenter.WebApi.Controllers
 {
@@ -10,6 +12,15 @@ namespace XShop.GCenter.WebApi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly CompanyBusiness _company;
+        private readonly CompanyDo _companyDo;
+
+        public ValuesController(CompanyBusiness company, CompanyDo companyDo)
+        {
+            _company = company;
+            _companyDo = companyDo;
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()

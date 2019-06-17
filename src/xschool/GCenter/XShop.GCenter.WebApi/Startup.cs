@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using XShop.GCenter.Businesses.Extensions;
-using System;
 using XShop.GCenter.Repositories.Extensions;
+using XShop.GCenter.Businesses.Extensions;
+using XShop.GCenter.DoMain.Extensions;
 
 namespace XShop.GCenter.WebApi
 {
@@ -40,6 +41,8 @@ namespace XShop.GCenter.WebApi
             });
 
             services.AddBusinesses();
+            services.AddDoMain();
+
             services.AddDbContextPool<GCenterDbContext>(options => options.UseSqlServer(connectonString), poolSize: 64);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

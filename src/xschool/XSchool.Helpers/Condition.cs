@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Linq.Expressions;
 
-namespace XShop.GCenter.WebApi.Controllers
+namespace XSchool.Helpers
 {
     internal class ParameterReplacer : ExpressionVisitor
     {
@@ -62,11 +61,5 @@ namespace XShop.GCenter.WebApi.Controllers
             }
             return null;
         }
-    }
-
-    [ApiController]
-    public class ApiBaseController : ControllerBase
-    {
-
     }
 }

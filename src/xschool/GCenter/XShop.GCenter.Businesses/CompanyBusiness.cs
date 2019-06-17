@@ -8,9 +8,9 @@ namespace XShop.GCenter.Businesses
 {
     public class CompanyBusiness : Business<Company>
     {
-        public CompanyBusiness(IServiceProvider provider, CompanyRepository repository) : base(provider, repository) { }
+        public CompanyBusiness(IServiceProvider provider, CompanyRepository repository, BankInfoRepository bankInfo) : base(provider, repository) { }
 
-        private static Result Check(Company model)
+        private Result Check(Company model)
         {
             if (string.IsNullOrWhiteSpace(model.CompanyName))
             {
@@ -48,6 +48,34 @@ namespace XShop.GCenter.Businesses
             {
                 return Result.Fail("办公地址不能为空");
             }
+
+            if (model.Id <= 0)
+            {
+                var nameCount = base.Count(p => p.CompanyName.Equals(model.CompanyName));
+                if (nameCount > 0)
+                {
+                    return Result.Fail("公司名称已存在");
+                }
+                var creditCount = base.Count(p => p.Credit.Equals(model.Credit));
+                if (creditCount > 0)
+                {
+                    return Result.Fail("信用代码已存在");
+                }
+            }
+            else
+            {
+                var nameCount = base.Count(p => p.Id != model.Id && p.CompanyName.Equals(model.CompanyName));
+                if (nameCount > 0)
+                {
+                    return Result.Fail("公司名称已存在");
+                }
+                var creditCount = base.Count(p => p.Id != model.Id && p.Credit.Equals(model.Credit));
+                if (creditCount > 0)
+                {
+                    return Result.Fail("信用代码已存在");
+                }
+            }
+
             return Result.Success();
         }
 
@@ -55,7 +83,7 @@ namespace XShop.GCenter.Businesses
         {
             var result = Check(model);
             //新增
-            if (model.Id == 0)
+            if (model.Id <= 0)
             {
                 return result.Succeed ? base.Add(model) : result;
             }
@@ -63,6 +91,17 @@ namespace XShop.GCenter.Businesses
             {
                 return result.Succeed ? base.Update(model) : result;
             }
+        }
+
+        public Result Del(int id)
+        {
+            var model = base.GetSingle(id);
+            if (model == null)
+            {
+                return Result.Fail("未找到数据");
+            }
+            model.IsDelete = 0;
+            return base.Update(model);
         }
     }
 }

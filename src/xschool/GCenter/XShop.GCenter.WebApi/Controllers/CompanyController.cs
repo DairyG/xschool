@@ -100,9 +100,6 @@ namespace XShop.GCenter.WebApi.Controllers
         [HttpGet("{id}")]
         public Result DelBank(int id)
         {
-            var condition = new Condition<Company>();
-            condition.And(p => p.IsDelete == 1);
-            return _company.Page(page, limit, condition.Combine());
             return _bankInfoBusiness.Del(id);
         }
 

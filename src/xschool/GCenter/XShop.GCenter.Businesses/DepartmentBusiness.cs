@@ -64,26 +64,5 @@ namespace XShop.GCenter.Businesses
         {
             return base.Delete(Id);
         }
-        /// <summary>
-        /// 根据ID查询单条数据
-        /// </summary>
-        /// <param name="Id">部门ID</param>
-        /// <returns></returns>
-        public override Department GetSingle(int Id)
-        {
-            return base.GetSingle(Id);
-        }
-        /// <summary>
-        /// 根据条件查询List
-        /// </summary>
-        /// <returns></returns>
-        public override Result<IList<Department>> Query()
-        {
-            return base.Query(p => p.DptStatus == 1);
-        }
-        public override int Count(Expression<Func<Department, bool>> where)
-        {
-            return base.Count(where);
-        }
     }
 }

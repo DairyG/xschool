@@ -9,7 +9,7 @@ namespace XShop.GCenter.Businesses
     public class BankInfoBusiness : Business<BankInfo>
     {
         public BankInfoBusiness(IServiceProvider provider, BankInfoRepository repository) : base(provider, repository) { }
-       
+
         private Result Check(BankInfo model)
         {
             if (model.CompanyId <= 0)
@@ -35,14 +35,14 @@ namespace XShop.GCenter.Businesses
 
             if (model.Id <= 0)
             {
-                if (base.Exist(p => p.BankAccount.Equals(model.BankAccount) && p.Status.Equals(1)))
+                if (base.Exist(p => p.BankAccount.Equals(model.BankAccount) && p.Status.Equals(Status.Valid)))
                 {
                     return Result.Fail("银行账号已存在");
                 }
             }
             else
             {
-                if (base.Exist(p => p.BankAccount.Equals(model.BankAccount) && p.Id != model.Id && p.Status.Equals(1)))
+                if (base.Exist(p => p.BankAccount.Equals(model.BankAccount) && p.Id != model.Id && p.Status.Equals(Status.Valid)))
                 {
                     return Result.Fail("银行账号已存在");
                 }
@@ -54,16 +54,13 @@ namespace XShop.GCenter.Businesses
         public Result AddOrEdit(BankInfo model)
         {
             var result = Check(model);
-
-            //验证是否存在基本账户
-            var basicCount = base.Count(p => p.Status == 1 && p.CompanyId.Equals(model.CompanyId) && p.AccountType.Equals("基本账户"));
-            if (basicCount > 0)
+            if (!base.Exist(p => p.Status.Equals(1) && p.CompanyId.Equals(model.CompanyId) && p.Id != model.Id && p.AccountType.Equals(AccountType.Basic)))
             {
-                model.AccountType = "一般账户";
+                model.AccountType = AccountType.Basic;
             }
             else
             {
-                model.AccountType = "基本账户";
+                model.AccountType = AccountType.Normal;
             }
 
             //新增

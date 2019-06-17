@@ -40,13 +40,13 @@ namespace XShop.GCenter.Model
         public string Remarks { get; set; }
 
         /// <summary>
-        /// 账户类型，[基本账户/一般账户]
+        /// 账户类型，[1-基本账户，2-一般账户]
         /// </summary>
-        public string AccountType { get; set; }
+        public AccountType AccountType { get; set; }
 
         /// <summary>
         /// 1-有效，0-无效
         /// </summary>
-        public int Status { get; set; } = 1;
+        public Status Status { get; set; } = Status.Invalid;
     }
 }

@@ -6,10 +6,19 @@
 
   <ItemGroup>
     <None Remove="BankInfo.cs~RFe8010f0.TMP" />
+    <None Remove="ViewModel\CompanyDto.cs~RF1481a3c6.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\XSchool.Core\XSchool.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModel\" />
   </ItemGroup>
 
 </Project>

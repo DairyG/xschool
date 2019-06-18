@@ -12,5 +12,6 @@ namespace XSchool.GCenter.Repositories.Extensions
         public DbSet<Department> Department { get; set; }
         public DbSet<WorkerInFieldSetting> WorkerInFieldSetting { get; set; }
         public DbSet<InterviewMethodSetting> InterviewMethodSetting { get; set; }
+        public DbSet<EducationInfoSetting> EducationInfoSetting { get; set; }
     }
 }

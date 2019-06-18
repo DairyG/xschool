@@ -42,6 +42,7 @@ namespace xschool
 
             services.AddBusinesses();
             services.AddDoMain();
+            services.AddScoped<xschool.Controllers.CompanyTestDo>();
 
             services.AddDbContextPool<GCenterDbContext>(options => options.UseSqlServer(connectonString), poolSize: 64);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

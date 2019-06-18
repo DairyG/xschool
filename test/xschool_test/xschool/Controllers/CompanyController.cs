@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using XShop.GCenter.DoMain;
+using System.Transactions;
+using XSchool.Core;
 
 namespace xschool.Controllers
 {
@@ -19,7 +21,25 @@ namespace xschool.Controllers
 
         public void Excute(Action action)
         {
+            using (var trans = new TransactionScope())
+            {
+                action.Invoke();
+                trans.Complete();
+            }
+        }
 
+        public void Add()
+        {
+            var company = _companyBusiness.GetSingle(1);
+            var bank = _bankInfoBusiness.GetSingle(1);
+
+            this.Excute(() => {
+                company.CompanyType = company.CompanyType + "__updated";
+                _companyBusiness.Update(company);
+                //throw new Exception("my exception");
+                bank.OpenBank = bank.OpenBank + "__updated";
+                _bankInfoBusiness.Update(bank);
+            });
         }
     }
 
@@ -29,15 +49,18 @@ namespace xschool.Controllers
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
     public class CompanyController:ControllerBase
     {
-        private readonly CompanyDo _companyDo;
-        public CompanyController(CompanyDo companyDo)
+        private readonly CompanyTestDo _companyDo;
+        public CompanyController(CompanyTestDo companyDo)
         {
             this._companyDo = companyDo;
         }
 
+
+        [HttpGet]
         public IActionResult Test()
         {
-            return null;
+            _companyDo.Add();
+            return new JsonResult(new { id = 10 });
         }
     }
 }

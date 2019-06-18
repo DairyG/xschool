@@ -33,11 +33,26 @@ namespace XShop.GCenter.WebApi.Controllers
             return _business.GetSingle(Id);
         }
         [HttpPost]
+        [Description("添加到岗时间")]
+        public Result Update([FromForm]WorkerInFieldSetting workerInField)
+        {
+            return _business.Update(workerInField);
+        }
+        [HttpPost]
+        [Description("获取到岗时间列表")]
         public IPageCollection<WorkerInFieldSetting> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit)
         {
             var condition = new Condition<WorkerInFieldSetting>();
-            condition.And(p => p.Id > 0);
+            condition.And(p => p.WorkinStatus == 1);
             return _business.Page(page, limit, condition.Combine());
+        }
+
+        [HttpPost]
+        [Description("添加到岗时间")]
+        public Result Delete([FromForm]WorkerInFieldSetting workerInField)
+        {
+            workerInField.WorkinStatus = 0;
+            return _business.Update(workerInField);
         }
     }
 }

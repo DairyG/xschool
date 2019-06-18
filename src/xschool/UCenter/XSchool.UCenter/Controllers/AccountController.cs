@@ -12,6 +12,7 @@ using MSLogger = Microsoft.Extensions.Logging.ILogger;
 using Microsoft.Extensions.Caching.Distributed;
 using System;
 using Microsoft.AspNetCore.Authentication;
+using XSchool.UCenter.Extensions;
 
 namespace XSchool.UCenter.Controllers
 {
@@ -22,33 +23,18 @@ namespace XSchool.UCenter.Controllers
     {
         private readonly MSLogger _logger;
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager _signInManager;
         private readonly IDistributedCache _cache;
-        public AccountController(UserManager<User> userManager, ILogger<UserController> logger, IDistributedCache cache)
+        public AccountController(UserManager<User> userManager, SignInManager signInManager, ILogger<UserController> logger, IDistributedCache cache)
         {
             this._userManager = userManager;
+            this._signInManager = signInManager;
             this._logger = logger;
             this._cache = cache;
         }
 
 
-        public IActionResult Login(string account,string password)
-        {
-            return null;
-        }
 
-
-        [HttpGet]
-        [Authorize("upolicy")]
-        [Description("登出")]
-        public async Task<IActionResult> Logout()
-        {
-            if (HttpContext.User.Identity.IsAuthenticated)
-            {
-                await HttpContext.SignOutAsync();
-            }
-            return new JsonResult(new { Id = 10 });
-        }
- 
 
         [HttpPost]
         [AllowAnonymous]
@@ -72,6 +58,20 @@ namespace XSchool.UCenter.Controllers
                 _logger.LogError("注册用户失败：{0}", string.Join(',', identity.Errors.Select(p => p.Description)));
                 return Result.Fail("注册失败,请稍后重试");
             }
+        }
+
+
+        [HttpPost]
+        [Description("用户登录")]
+        public async Task<object> Login([FromForm]string account, [FromForm]string password)
+        {
+            
+            var signResult = await _signInManager.PasswordSignInAsync(account, password, false, true);
+            if (signResult.Succeeded)
+            {
+                
+            }
+            return null;
         }
 
     }

@@ -1,5 +1,6 @@
-﻿using IdentityServer4.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using IdentityServer4;
+using IdentityServer4.Models;
+using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using XSchool.UCenter.Extensions;
 using XSchool.UCenter.Model;
 
@@ -21,8 +23,8 @@ namespace XSchool.UCenter
         {
             return new List<ApiResource>
             {
-                new ApiResource("ResourceAPI", "资源管理接口"),
-                new ApiResource("UCenter", "用户中心"),
+                //new ApiResource(IdentityServerConstants.LocalApi.ScopeName),
+                new ApiResource("UCenter", "用户中心")
             };
         }
 
@@ -35,7 +37,36 @@ namespace XSchool.UCenter
             };
         }
 
+        public static IEnumerable<Client> GetClients()
+        {
+            yield return new Client
+            {
+                
+                ClientName = "phone_token",
+                ClientId = "phone_token",
+                AllowedGrantTypes = new string[] { "phone_number_token" },
+                AccessTokenLifetime = (int)TimeSpan.FromDays(30).TotalSeconds,
+                RefreshTokenUsage = TokenUsage.ReUse,
+                ClientSecrets = new List<Secret> { new Secret("secret".Sha256()) },
+                AllowedScopes = new List<string> {
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile
+                }
+            };
+        }
+
     }
+
+    public class PhoneTokenValidator : IExtensionGrantValidator
+    {
+        public string GrantType => "phone_number_token";
+
+        public Task ValidateAsync(ExtensionGrantValidationContext context)
+        {
+            return null;
+        }
+    }
+
 
     public class Startup
     {
@@ -60,16 +91,6 @@ namespace XSchool.UCenter
                 options.InstanceName = "xschool";
             });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
-                options.Authority = "http://localhost:80";
-            });
-            services.AddAuthorization(options=> {
-                options.AddPolicy("upolicy", policy => {
-                    policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
-                    policy.RequireAuthenticatedUser();
-                });
-            });
-
             services.AddApiVersioning(options =>
             {
                 options.ReportApiVersions = true;
@@ -78,12 +99,18 @@ namespace XSchool.UCenter
                 options.ApiVersionReader = ApiVersionReader.Combine(new QueryStringApiVersionReader("version"), new HeaderApiVersionReader("api-version", "version"));
             });
 
-            services.AddIdentityServer()
+            services.AddLocalApiAuthentication();
+
+            services.AddIdentityServer(options => {
+                options.Discovery.CustomEntries.Add("api", "~/api");
+            })
             .AddDeveloperSigningCredential()
             .AddClientStore<ClientStore>()
+            .AddInMemoryClients(Config.GetClients())
             .AddInMemoryIdentityResources(Config.GetIdentityResources())
             .AddInMemoryApiResources(Config.GetApiResources())
             .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
+            .AddExtensionGrantValidator<PhoneTokenValidator>()
             .AddProfileService<ProfileService>();
 
             services.AddIdentity<User, IdentityRole<int>>(options =>

@@ -30,7 +30,7 @@ namespace XSchool.GCenter.Model
         [Description("有效")]
         Valid = 1,
         /// <summary>
-        /// 一般账户
+        /// 无效
         /// </summary>
         [Description("无效")]
         Invalid = 0,
@@ -73,5 +73,45 @@ namespace XSchool.GCenter.Model
         /// </summary>
         [Description("女")]
         Woman = 2,
+    }
+    /// <summary>
+    /// 基础信息类型
+    /// </summary>
+    public enum BasicInfoType
+    {
+        [Description("到岗时间")]
+        /// <summary>
+        /// 到岗时间
+        /// </summary>
+        WorkerInField = 1,
+        [Description("面试方式")]
+        /// <summary>
+        /// 面试方式
+        /// </summary>
+        InterviewMethod = 2,
+        [Description("学历")]
+        /// <summary>
+        /// 学历
+        /// </summary>
+        Education = 3,
+        [Description("教育性质")]
+        /// <summary>
+        /// 教育性质
+        /// </summary>
+        Properties = 4,
+    }
+
+    public enum IsSystem
+    {
+        [Description("是")]
+        /// <summary>
+        /// 是
+        /// </summary>
+        Yes = 1,
+        [Description("否")]
+        /// <summary>
+        /// 否
+        /// </summary>
+        No = 0,
     }
 }

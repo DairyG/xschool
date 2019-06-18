@@ -23,7 +23,7 @@ namespace XSchool.GCenter.Businesses
 
         public IList<WorkerInFieldSetting> Get()
         {
-            return base.Query( p => p.WorkinStatus == 1);
+            return base.Query( p => p.WorkinStatus.Equals(Status.Valid));
         }
         
         public override Result Add(WorkerInFieldSetting model)
@@ -55,6 +55,8 @@ namespace XSchool.GCenter.Businesses
             oldModel.Memo = model.Memo;
             oldModel.SortId = model.SortId;
             oldModel.WorkinStatus = model.WorkinStatus;
+            oldModel.Type = BasicInfoType.WorkerInField;
+            oldModel.IsSystem = model.IsSystem;
             return base.Update(oldModel);
         }
 
@@ -62,16 +64,20 @@ namespace XSchool.GCenter.Businesses
         {
             if (model == null)
             {
-                return Result.Fail("到岗时间数据不能为空");
+                return Result.Fail("数据不能为空");
+            }
+            if (model.IsSystem.Equals(IsSystem.Yes))
+            {
+                return Result.Fail("数据为系统数据，无法更改！");
             }
             if (string.IsNullOrWhiteSpace(model.Name))
             {
-                return Result.Fail("到岗时间不能为空");
+                return Result.Fail("该项不能为空");
             }
 
             if (GetSingle(p => p.Name == model.Name && p.Id != model.Id) != null)
             {
-                return Result.Fail("到岗时间已存在，不能再次使用");
+                return Result.Fail("数据已存在，不能再次使用");
             }
 
             if (string.IsNullOrWhiteSpace(model.Memo))

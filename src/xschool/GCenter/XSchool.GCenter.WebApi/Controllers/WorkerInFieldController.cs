@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using XSchool.Core;
@@ -21,6 +22,8 @@ namespace XSchool.GCenter.WebApi.Controllers
         [Description("添加到岗时间")]
         public Result Add([FromForm]WorkerInFieldSetting workerInField)
         {
+            //workerInField.Type = (BasicInfoType)Enum.Parse(typeof(BasicInfoType), workerInField.Type);
+            workerInField.IsSystem = IsSystem.No;
             return _business.Add(workerInField);
         }
         [HttpPost]

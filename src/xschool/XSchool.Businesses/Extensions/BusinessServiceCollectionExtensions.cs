@@ -16,6 +16,11 @@ namespace XSchool.Businesses.Extensions
                     //services.AddDynamicProxy(type);
                     services.AddScoped(type);
                 }
+                //append bussiness wrapper
+                if (type.BaseType == typeof(BusinessWrapper))
+                {
+                    services.AddScoped(type);
+                }
             }
             return services;
         }

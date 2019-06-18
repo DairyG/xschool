@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GCenter\XShop.GCenter.Businesses\XSchool.GCenter.Businesses.csproj" />
+    <ProjectReference Include="..\XSchool.Core\XSchool.Core.csproj" />
+    <ProjectReference Include="..\XSchool.Helpers\XSchool.Helpers.csproj" />
+  </ItemGroup>
+
+</Project>

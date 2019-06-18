@@ -21,5 +21,10 @@ namespace XSchool.UCenter.Model
         /// </summary>
         public string IdCard { get; set; }
 
+        /// <summary>
+        /// 组织机构代码
+        /// </summary>
+        public string OrganizationCode { get; set; }
+
     }
 }

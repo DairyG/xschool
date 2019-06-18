@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <Folder Include="Middlewares\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Businesses\" />
   </ItemGroup>
 
   <ItemGroup>

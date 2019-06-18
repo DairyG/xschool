@@ -5,14 +5,14 @@ using XSchool.Core;
 
 namespace XShop.GCenter.Model
 {
-    public class WorkerInFieldSetting : IModel<int>
+    public class InterviewMethodSetting : IModel<int>
     {
         /// <summary>
-        /// 到岗时间ID
+        /// 面试方式Id
         /// </summary>
         public int Id { get; set; }
         /// <summary>
-        /// 到岗时间
+        /// 面试方式
         /// </summary>
         public string Name { get; set; }
         /// <summary>

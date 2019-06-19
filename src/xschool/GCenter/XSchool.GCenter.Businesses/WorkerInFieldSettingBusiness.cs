@@ -55,7 +55,7 @@ namespace XSchool.GCenter.Businesses
             oldModel.Memo = model.Memo;
             oldModel.SortId = model.SortId;
             oldModel.WorkinStatus = model.WorkinStatus;
-            oldModel.Type = BasicInfoType.WorkerInField;
+            oldModel.Type = model.Type;
             oldModel.IsSystem = model.IsSystem;
             return base.Update(oldModel);
         }

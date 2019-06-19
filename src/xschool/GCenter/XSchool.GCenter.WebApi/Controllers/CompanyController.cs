@@ -32,7 +32,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         public object Get([FromForm]int page, [Range(1, 50)][FromForm]int limit)
         {
             var condition = new Condition<Company>();
-            condition.And(p => p.Status.Equals(Status.Valid));
+            condition.And(p => p.Status == NomalStatus.Valid);
             return _companyBusiness.Page(page, limit, condition.Combine(), p => new { p.Id, p.CompanyName, p.Credit, p.CompanyType, p.LegalPerson, p.RegisteredCapital, p.RegisteredTime });
         }
 
@@ -78,7 +78,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         public IList<BankInfo> GetBank(int companyId)
         {
             var condition = new Condition<BankInfo>();
-            condition.And(p => p.Status.Equals(Status.Valid) && p.CompanyId.Equals(companyId));
+            condition.And(p => p.Status == NomalStatus.Valid && p.CompanyId == companyId);
             return _bankInfoBusiness.Query(condition.Combine());
         }
 

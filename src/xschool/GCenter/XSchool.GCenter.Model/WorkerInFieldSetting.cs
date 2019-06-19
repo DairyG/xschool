@@ -27,6 +27,14 @@ namespace XSchool.GCenter.Model
         /// <summary>
         /// 启用状态（0-不启用，1-启用）
         /// </summary>
-        public int WorkinStatus { get; set; }
+        public EDStatus WorkinStatus { get; set; }
+        /// <summary>
+        /// 类型（枚举-BasicInfoType）
+        /// </summary>
+        public BasicInfoType Type { get; set; }
+        /// <summary>
+        /// 是否为系统数据（枚举-IsSystem）
+        /// </summary>
+        public IsSystem IsSystem { get; set; }
     }
 }

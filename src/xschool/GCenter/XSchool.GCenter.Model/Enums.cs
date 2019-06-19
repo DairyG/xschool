@@ -20,24 +20,41 @@ namespace XSchool.GCenter.Model
     }
 
     /// <summary>
-    /// 通用状态，[有效，无效]
+    /// 常用状态，[有效，无效]
     /// </summary>
-    public enum Status
+    public enum NomalStatus
     {
+        /// <summary>
+        /// 无效
+        /// </summary>
+        [Description("无效")]
+        Invalid = 0,
         /// <summary>
         /// 有效
         /// </summary>
         [Description("有效")]
         Valid = 1,
-        /// <summary>
-        /// 一般账户
-        /// </summary>
-        [Description("无效")]
-        Invalid = 0,
     }
 
     /// <summary>
-    /// 员工状态，[有效，无效]
+    /// 禁启状态，[禁用，启用]
+    /// </summary>
+    public enum EDStatus
+    {
+        /// <summary>
+        /// 禁用
+        /// </summary>
+        [Description("禁用")]
+        Disable = 0,
+        /// <summary>
+        /// 启用
+        /// </summary>
+        [Description("启用")]
+        Enable = 1,
+    }
+
+    /// <summary>
+    /// 员工在职状态
     /// </summary>
     public enum PersonStatus
     {
@@ -73,5 +90,46 @@ namespace XSchool.GCenter.Model
         /// </summary>
         [Description("女")]
         Woman = 2,
+    }
+
+    /// <summary>
+    /// 基础信息类型
+    /// </summary>
+    public enum BasicInfoType
+    {
+        [Description("到岗时间")]
+        /// <summary>
+        /// 到岗时间
+        /// </summary>
+        WorkerInField = 1,
+        [Description("面试方式")]
+        /// <summary>
+        /// 面试方式
+        /// </summary>
+        InterviewMethod = 2,
+        [Description("学历")]
+        /// <summary>
+        /// 学历
+        /// </summary>
+        Education = 3,
+        [Description("教育性质")]
+        /// <summary>
+        /// 教育性质
+        /// </summary>
+        Properties = 4,
+    }
+
+    public enum IsSystem
+    {
+        [Description("是")]
+        /// <summary>
+        /// 是
+        /// </summary>
+        Yes = 1,
+        [Description("否")]
+        /// <summary>
+        /// 否
+        /// </summary>
+        No = 0,
     }
 }

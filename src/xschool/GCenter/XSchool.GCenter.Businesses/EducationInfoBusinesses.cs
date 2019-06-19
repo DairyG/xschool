@@ -23,7 +23,7 @@ namespace XSchool.GCenter.Businesses
 
         public IList<EducationInfoSetting> Get()
         {
-            return base.Query(p => p.WorkinStatus == 1);
+            return base.Query(p => p.WorkinStatus == EDStatus.Enable);
         }
 
         public override Result Add(EducationInfoSetting model)

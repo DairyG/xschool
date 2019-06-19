@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <None Remove="BankInfo.cs~RFe8010f0.TMP" />
-    <None Remove="ViewModel\CompanyDto.cs~RF1481a3c6.TMP" />
   </ItemGroup>
 
   <ItemGroup>

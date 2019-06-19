@@ -48,7 +48,7 @@ namespace XSchool.GCenter.Model
         /// <summary>
         /// 个人QQ
         /// </summary>
-        public string QQ { get; set; }
+        public string Qq { get; set; }
 
         /// <summary>
         /// 所属民族
@@ -210,7 +210,50 @@ namespace XSchool.GCenter.Model
         /// </summary>
         public string Work { get; set; }
 
+        /// <summary>
+        /// 所属部门
+        /// </summary>
+        public int DepartmentId { get; set; }
 
+        /// <summary>
+        /// 职位Id
+        /// </summary>
+        public int PositionId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string EmployeeNo { get; set; }
+
+        /// <summary>
+        /// 办公电话
+        /// </summary>
+        public string OfficePhone { get; set; }
+
+        /// <summary>
+        /// 办公邮箱
+        /// </summary>
+        public string OfficeEmail { get; set; }
+
+        /// <summary>
+        /// 传真号码
+        /// </summary>
+        public string FaxNumber { get; set; }
+
+        /// <summary>
+        /// 推荐人
+        /// </summary>
+        public string Referees { get; set; }
+
+        /// <summary>
+        /// 办公地址
+        /// </summary>
+        public string OfficeAddress { get; set; }
+
+        /// <summary>
+        /// 职位描述
+        /// </summary>
+        public string PositionDescribe { get; set; }
 
         /// <summary>
         /// 在职状态：1-试用，2-正式，0-离职

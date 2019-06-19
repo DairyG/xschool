@@ -45,8 +45,8 @@ namespace XSchool.GCenter.Model
         public AccountType AccountType { get; set; }
 
         /// <summary>
-        /// 1-有效，0-无效
+        /// 状态
         /// </summary>
-        public Status Status { get; set; } = Status.Invalid;
+        public NomalStatus Status { get; set; } = NomalStatus.Valid;
     }
 }

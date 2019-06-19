@@ -23,9 +23,9 @@ namespace XSchool.GCenter.Businesses
 
         public IList<WorkerInFieldSetting> Get()
         {
-            return base.Query( p => p.WorkinStatus.Equals(Status.Valid));
+            return base.Query(p => p.WorkinStatus.Equals(EDStatus.Enable));
         }
-        
+
         public override Result Add(WorkerInFieldSetting model)
         {
             var res = ChkData(model);

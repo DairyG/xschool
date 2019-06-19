@@ -43,7 +43,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         public IPageCollection<EducationInfoSetting> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit)
         {
             var condition = new Condition<EducationInfoSetting>();
-            condition.And(p => p.WorkinStatus == 1);
+            condition.And(p => p.WorkinStatus == EDStatus.Enable);
             return _business.Page(page, limit, condition.Combine());
         }
 
@@ -51,7 +51,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         [Description("删除学历")]
         public Result Delete([FromForm]EducationInfoSetting educationSetting)
         {
-            educationSetting.WorkinStatus = 0;
+            educationSetting.WorkinStatus = EDStatus.Disable;
             return _business.Update(educationSetting);
         }
     }

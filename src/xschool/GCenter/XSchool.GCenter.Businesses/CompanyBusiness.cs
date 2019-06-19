@@ -9,7 +9,7 @@ namespace XSchool.GCenter.Businesses
     public class CompanyBusiness : Business<Company>
     {
         public CompanyBusiness(IServiceProvider provider, CompanyRepository repository) : base(provider, repository) { }
-        
+
         public Result Check(Company model)
         {
             if (string.IsNullOrWhiteSpace(model.CompanyName))
@@ -51,7 +51,7 @@ namespace XSchool.GCenter.Businesses
 
             if (model.Id <= 0)
             {
-                if (base.Exist(p => p.CompanyName.Equals(model.CompanyName) && p.Status.Equals(Status.Valid)))
+                if (base.Exist(p => p.CompanyName == model.CompanyName && p.Status == NomalStatus.Valid))
                 {
                     return Result.Fail("公司名称已存在");
                 }
@@ -62,11 +62,11 @@ namespace XSchool.GCenter.Businesses
             }
             else
             {
-                if (base.Exist(p => p.CompanyName.Equals(model.CompanyName) && p.Id != model.Id && p.Status.Equals(Status.Valid)))
+                if (base.Exist(p => p.CompanyName == model.CompanyName && p.Id != model.Id && p.Status == NomalStatus.Valid))
                 {
                     return Result.Fail("公司名称已存在");
                 }
-                if (base.Exist(p => p.Credit.Equals(model.Credit) && p.Id != model.Id && p.Status.Equals(Status.Valid)))
+                if (base.Exist(p => p.Credit == model.Credit && p.Id != model.Id && p.Status == NomalStatus.Valid))
                 {
                     return Result.Fail("信用代码已存在");
                 }
@@ -96,7 +96,7 @@ namespace XSchool.GCenter.Businesses
             {
                 return Result.Fail("未找到数据");
             }
-            model.Status = 0;
+            model.Status = NomalStatus.Invalid;
             return base.Update(model);
         }
     }

@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using XSchool.Core;
 using XSchool.GCenter.Businesses;
+using XSchool.GCenter.Businesses.Wrappers;
 using XSchool.GCenter.Model;
+using XSchool.GCenter.Model.ViewModel;
 using XSchool.Query.Pageing;
 
 namespace XSchool.GCenter.WebApi.Controllers
@@ -14,9 +16,11 @@ namespace XSchool.GCenter.WebApi.Controllers
     public class WorkerInFieldController : ApiBaseController
     {
         private readonly WorkerInFieldSettingBusiness _business;
-        public WorkerInFieldController(WorkerInFieldSettingBusiness business)
+        private readonly BasicInfoWrapper _basicInfoWrapper;
+        public WorkerInFieldController(WorkerInFieldSettingBusiness business, BasicInfoWrapper basicInfoWrapper)
         {
             this._business = business;
+            _basicInfoWrapper = basicInfoWrapper;
         }
         [HttpPost]
         [Description("添加到岗时间")]
@@ -43,7 +47,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         public IPageCollection<WorkerInFieldSetting> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit)
         {
             var condition = new Condition<WorkerInFieldSetting>();
-            condition.And(p => p.WorkinStatus == 1);
+            condition.And(p => p.WorkinStatus == EDStatus.Enable);
             return _business.Page(page, limit, condition.Combine());
         }
 
@@ -54,5 +58,17 @@ namespace XSchool.GCenter.WebApi.Controllers
             workerInField.WorkinStatus = 0;
             return _business.Update(workerInField);
         }
+
+        /// <summary>
+        /// 获取基础信息
+        /// </summary>
+        /// <param name="type">类型，多个以,分割</param>
+        /// <returns></returns>
+        [HttpGet]
+        public BasicInfoResultDto GetData(string type)
+        {
+            return _basicInfoWrapper.GetData(type);
+        }
+
     }
 }

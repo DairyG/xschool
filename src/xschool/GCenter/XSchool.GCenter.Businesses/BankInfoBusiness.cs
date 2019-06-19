@@ -35,14 +35,14 @@ namespace XSchool.GCenter.Businesses
 
             if (model.Id <= 0)
             {
-                if (base.Exist(p => p.BankAccount.Equals(model.BankAccount) && p.Status.Equals(Status.Valid)))
+                if (base.Exist(p => p.BankAccount == model.BankAccount && p.Status == NomalStatus.Valid))
                 {
                     return Result.Fail("银行账号已存在");
                 }
             }
             else
             {
-                if (base.Exist(p => p.BankAccount.Equals(model.BankAccount) && p.Id != model.Id && p.Status.Equals(Status.Valid)))
+                if (base.Exist(p => p.BankAccount == model.BankAccount && p.Id != model.Id && p.Status == NomalStatus.Valid))
                 {
                     return Result.Fail("银行账号已存在");
                 }
@@ -54,7 +54,7 @@ namespace XSchool.GCenter.Businesses
         public Result AddOrEdit(BankInfo model)
         {
             var result = Check(model);
-            if (!base.Exist(p => p.Status.Equals(1) && p.CompanyId.Equals(model.CompanyId) && p.Id != model.Id && p.AccountType.Equals(AccountType.Basic)))
+            if (!base.Exist(p => p.Status == NomalStatus.Valid && p.CompanyId == model.CompanyId && p.Id != model.Id && p.AccountType == AccountType.Basic))
             {
                 model.AccountType = AccountType.Basic;
             }

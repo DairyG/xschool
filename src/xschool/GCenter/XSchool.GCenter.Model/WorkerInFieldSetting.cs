@@ -8,11 +8,11 @@ namespace XSchool.GCenter.Model
     public class WorkerInFieldSetting : IModel<int>
     {
         /// <summary>
-        /// 到岗时间ID
+        /// 基础数据ID
         /// </summary>
         public int Id { get; set; }
         /// <summary>
-        /// 到岗时间
+        /// 基础数据
         /// </summary>
         public string Name { get; set; }
         /// <summary>

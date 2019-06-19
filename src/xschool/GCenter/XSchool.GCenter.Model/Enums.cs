@@ -45,12 +45,12 @@ namespace XSchool.GCenter.Model
         /// 禁用
         /// </summary>
         [Description("禁用")]
-        Disable = 0,
+        Disable = 1,
         /// <summary>
         /// 启用
         /// </summary>
         [Description("启用")]
-        Enable = 1,
+        Enable = 2,
     }
 
     /// <summary>
@@ -117,6 +117,32 @@ namespace XSchool.GCenter.Model
         /// 教育性质
         /// </summary>
         Properties = 4,
+        [Description("社会关系")]
+        /// <summary>
+        /// 社会关系
+        /// </summary>
+        SocialRelations = 5,
+        [Description("招聘来源")]
+        /// <summary>
+        /// 招聘来源
+        /// </summary>
+        RecruitmentSource = 6,
+        [Description("合同性质")]
+        /// <summary>
+        /// 合同性质
+        /// </summary>
+        ContractNature = 7,
+        [Description("工资类别")]
+        /// <summary>
+        /// 工资类别
+        /// </summary>
+        WagesType = 8,
+        [Description("保险类别")]
+        /// <summary>
+        /// 保险类别
+        /// </summary>
+        InsuranceType = 9,
+        
     }
 
     public enum IsSystem

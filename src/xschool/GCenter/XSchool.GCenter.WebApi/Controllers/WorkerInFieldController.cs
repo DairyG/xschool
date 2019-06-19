@@ -23,7 +23,7 @@ namespace XSchool.GCenter.WebApi.Controllers
             _basicInfoWrapper = basicInfoWrapper;
         }
         [HttpPost]
-        [Description("添加到岗时间")]
+        [Description("添加基础数据")]
         public Result Add([FromForm]WorkerInFieldSetting workerInField)
         {
             //workerInField.Type = (BasicInfoType)Enum.Parse(typeof(BasicInfoType), workerInField.Type);
@@ -31,28 +31,28 @@ namespace XSchool.GCenter.WebApi.Controllers
             return _business.Add(workerInField);
         }
         [HttpPost]
-        [Description("根据Id获取到岗时间")]
+        [Description("根据Id获取基础数据")]
         public WorkerInFieldSetting GetSingle([FromForm]int Id)
         {
             return _business.GetSingle(Id);
         }
         [HttpPost]
-        [Description("添加到岗时间")]
+        [Description("修改基础数据")]
         public Result Update([FromForm]WorkerInFieldSetting workerInField)
         {
             return _business.Update(workerInField);
         }
         [HttpPost]
-        [Description("获取到岗时间列表")]
-        public IPageCollection<WorkerInFieldSetting> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit)
+        [Description("获取基础数据列表")]
+        public IPageCollection<WorkerInFieldSetting> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit,[FromForm]string search)
         {
             var condition = new Condition<WorkerInFieldSetting>();
-            condition.And(p => p.WorkinStatus == EDStatus.Enable);
+            condition.And(p => p.WorkinStatus == EDStatus.Enable && p.Type.Equals(Enum.Parse(typeof(BasicInfoType), search)));
             return _business.Page(page, limit, condition.Combine());
         }
 
         [HttpPost]
-        [Description("添加到岗时间")]
+        [Description("删除基础数据")]
         public Result Delete([FromForm]WorkerInFieldSetting workerInField)
         {
             workerInField.WorkinStatus = 0;

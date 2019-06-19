@@ -28,6 +28,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             //workerInField.Type = (BasicInfoType)Enum.Parse(typeof(BasicInfoType), workerInField.Type);
             workerInField.IsSystem = IsSystem.No;
+            workerInField.WorkinStatus = EDStatus.Enable;
             return _business.Add(workerInField);
         }
         [HttpPost]

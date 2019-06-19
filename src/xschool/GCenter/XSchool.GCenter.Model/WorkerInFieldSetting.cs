@@ -25,7 +25,7 @@ namespace XSchool.GCenter.Model
         public string Memo { get; set; }
 
         /// <summary>
-        /// 启用状态（0-不启用，1-启用）
+        /// 启用状态（1-不启用，2-启用）
         /// </summary>
         public EDStatus WorkinStatus { get; set; }
         /// <summary>

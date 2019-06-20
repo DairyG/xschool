@@ -156,6 +156,11 @@ namespace XSchool.GCenter.Model
         public string IdCardCounty { get; set; }
 
         /// <summary>
+        /// 身份证所在地区
+        /// </summary>
+        public string IdCardArea { get; set; }
+
+        /// <summary>
         /// 身份证详细地址
         /// </summary>
         public string IdCardAddress { get; set; }
@@ -174,6 +179,11 @@ namespace XSchool.GCenter.Model
         /// 居住区县
         /// </summary>
         public string LiveCounty { get; set; }
+
+        /// <summary>
+        /// 居住所在地区
+        /// </summary>
+        public string LiveArea { get; set; }
 
         /// <summary>
         /// 居住详细地址

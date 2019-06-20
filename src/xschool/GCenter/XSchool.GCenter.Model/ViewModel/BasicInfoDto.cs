@@ -10,46 +10,46 @@ namespace XSchool.GCenter.Model.ViewModel
         /// <summary>
         /// 到岗时间
         /// </summary>
-        public IList<BasicInfoDto> WorkerInField { get; set; }
+        public IList<BasicInfoDto> WorkerInField { get; set; } = new List<BasicInfoDto>();
 
         /// <summary>
         /// 面试方式
         /// </summary>
-        public IList<BasicInfoDto> InterviewMethod { get; set; }
+        public IList<BasicInfoDto> InterviewMethod { get; set; } = new List<BasicInfoDto>();
         /// <summary>
         /// 学历
         /// </summary>
-        public IList<BasicInfoDto> Education { get; set; }
+        public IList<BasicInfoDto> Education { get; set; } = new List<BasicInfoDto>();
 
         /// <summary>
         /// 教育性质
         /// </summary>
-        public IList<BasicInfoDto> Properties { get; set; }
+        public IList<BasicInfoDto> Properties { get; set; } = new List<BasicInfoDto>();
 
         /// <summary>
         /// 社会关系
         /// </summary>
-        public IList<BasicInfoDto> SocialRelations { get; set; }
+        public IList<BasicInfoDto> SocialRelations { get; set; } = new List<BasicInfoDto>();
 
         /// <summary>
         /// 招聘来源
         /// </summary>
-        public IList<BasicInfoDto> RecruitmentSource { get; set; }
+        public IList<BasicInfoDto> RecruitmentSource { get; set; } = new List<BasicInfoDto>();
 
         /// <summary>
         /// 合同性质
         /// </summary>
-        public IList<BasicInfoDto> ContractNature { get; set; }
+        public IList<BasicInfoDto> ContractNature { get; set; } = new List<BasicInfoDto>();
 
         /// <summary>
         /// 工资类别
         /// </summary>
-        public IList<BasicInfoDto> WagesType { get; set; }
+        public IList<BasicInfoDto> WagesType { get; set; } = new List<BasicInfoDto>();
 
         /// <summary>
         /// 保险类别
         /// </summary>
-        public IList<BasicInfoDto> InsuranceType { get; set; }
+        public IList<BasicInfoDto> InsuranceType { get; set; } = new List<BasicInfoDto>();
     }
 
     /// <summary>

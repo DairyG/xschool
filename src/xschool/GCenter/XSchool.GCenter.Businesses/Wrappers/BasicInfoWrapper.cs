@@ -38,16 +38,31 @@ namespace XSchool.GCenter.Businesses.Wrappers
                 switch (item)
                 {
                     case (int)BasicInfoType.WorkerInField:
-                        model.WorkerInField = lsBasic.Where(p => p.Type == BasicInfoType.WorkerInField).OrderBy(p => p.SortId).MapTo<List<BasicInfoDto>>();
+                        model.WorkerInField = lsBasic.Where(p => p.Type == BasicInfoType.WorkerInField).OrderBy(p => p.SortId).MapToList<BasicInfoDto>();
                         break;
                     case (int)BasicInfoType.InterviewMethod:
-                        model.InterviewMethod = lsBasic.Where(p => p.Type == BasicInfoType.InterviewMethod).OrderBy(p => p.SortId).MapTo<List<BasicInfoDto>>();
+                        model.InterviewMethod = lsBasic.Where(p => p.Type == BasicInfoType.InterviewMethod).OrderBy(p => p.SortId).MapToList<BasicInfoDto>();
                         break;
                     case (int)BasicInfoType.Education:
-                        model.Education = lsBasic.Where(p => p.Type == BasicInfoType.Education).OrderBy(p => p.SortId).MapTo<List<BasicInfoDto>>();
+                        model.Education = lsBasic.Where(p => p.Type == BasicInfoType.Education).OrderBy(p => p.SortId).MapToList<BasicInfoDto>();
                         break;
                     case (int)BasicInfoType.Properties:
-                        model.Properties = lsBasic.Where(p => p.Type == BasicInfoType.Properties).OrderBy(p => p.SortId).MapTo<List<BasicInfoDto>>();
+                        model.Properties = lsBasic.Where(p => p.Type == BasicInfoType.Properties).OrderBy(p => p.SortId).MapToList<BasicInfoDto>();
+                        break;
+                    case (int)BasicInfoType.SocialRelations:
+                        model.SocialRelations = lsBasic.Where(p => p.Type == BasicInfoType.SocialRelations).OrderBy(p => p.SortId).MapToList<BasicInfoDto>();
+                        break;
+                    case (int)BasicInfoType.RecruitmentSource:
+                        model.RecruitmentSource = lsBasic.Where(p => p.Type == BasicInfoType.RecruitmentSource).OrderBy(p => p.SortId).MapToList<BasicInfoDto>();
+                        break;
+                    case (int)BasicInfoType.ContractNature:
+                        model.ContractNature = lsBasic.Where(p => p.Type == BasicInfoType.ContractNature).OrderBy(p => p.SortId).MapToList<BasicInfoDto>();
+                        break;
+                    case (int)BasicInfoType.WagesType:
+                        model.WagesType = lsBasic.Where(p => p.Type == BasicInfoType.WagesType).OrderBy(p => p.SortId).MapToList<BasicInfoDto>();
+                        break;
+                    case (int)BasicInfoType.InsuranceType:
+                        model.InsuranceType = lsBasic.Where(p => p.Type == BasicInfoType.InsuranceType).OrderBy(p => p.SortId).MapToList<BasicInfoDto>();
                         break;
                 }
             }

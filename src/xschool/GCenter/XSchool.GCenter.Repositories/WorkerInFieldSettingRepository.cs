@@ -2,7 +2,7 @@
 using XSchool.GCenter.Repositories.Extensions;
 using XSchool.Repositories;
 
-namespace XShop.GCenter.Repositories
+namespace XSchool.GCenter.Repositories
 {
     public class WorkerInFieldSettingRepository : Repository<WorkerInFieldSetting>
     {

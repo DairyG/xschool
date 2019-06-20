@@ -145,6 +145,9 @@ namespace XSchool.GCenter.Model
         
     }
 
+    /// <summary>
+    /// 是否为系统数据
+    /// </summary>
     public enum IsSystem
     {
         [Description("是")]
@@ -157,5 +160,21 @@ namespace XSchool.GCenter.Model
         /// 否
         /// </summary>
         No = 0,
+    }
+    /// <summary>
+    /// 加or减
+    /// </summary>
+    public enum AddSubtraction
+    {
+        [Description("增加")]
+        /// <summary>
+        /// 增加
+        /// </summary>
+        Add = 1,
+        [Description("扣除")]
+        /// <summary>
+        /// 扣除
+        /// </summary>
+        Subtraction = 2,
     }
 }

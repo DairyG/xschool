@@ -9,24 +9,24 @@ using System.Linq;
 
 namespace XSchool.GCenter.Businesses
 {
-    public class WorkerInFieldSettingBusiness : Business<WorkerInFieldSetting>
+    public class BonusPenaltyBusiness : Business<BonusPenaltySetting>
     {
-        private readonly WorkerInFieldSettingRepository _repository;
-        public WorkerInFieldSettingBusiness(IServiceProvider provider, WorkerInFieldSettingRepository repository) : base(provider, repository)
+        private readonly BonusPenaltyRepository _repository;
+        public BonusPenaltyBusiness(IServiceProvider provider, BonusPenaltyRepository repository) : base(provider, repository)
         {
             this._repository = repository;
         }
-        public virtual Result<WorkerInFieldSetting> GetSingle(string Name)
+        public virtual Result<BonusPenaltySetting> GetSingle(string Name)
         {
             return Result.Success(_repository.GetSingle(p => p.Name == Name));
         }
 
-        public IList<WorkerInFieldSetting> Get()
+        public IList<BonusPenaltySetting> Get()
         {
             return base.Query(p => p.WorkinStatus.Equals(EDStatus.Enable));
         }
 
-        public override Result Add(WorkerInFieldSetting model)
+        public override Result Add(BonusPenaltySetting model)
         {
             var res = ChkData(model);
             if (!res.Succeed) { return res; }
@@ -38,7 +38,7 @@ namespace XSchool.GCenter.Businesses
             return base.Add(model);
         }
 
-        public override Result Update(WorkerInFieldSetting model)
+        public override Result Update(BonusPenaltySetting model)
         {
             var res = ChkData(model);
             if (!res.Succeed) { return res; }
@@ -55,12 +55,12 @@ namespace XSchool.GCenter.Businesses
             oldModel.Memo = model.Memo;
             oldModel.SortId = model.SortId;
             oldModel.WorkinStatus = model.WorkinStatus;
-            oldModel.Type = model.Type;
             oldModel.IsSystem = model.IsSystem;
+            oldModel.AddSubtraction = model.AddSubtraction;
             return base.Update(oldModel);
         }
 
-        private Result ChkData(WorkerInFieldSetting model)
+        private Result ChkData(BonusPenaltySetting model)
         {
             if (model == null)
             {
@@ -73,6 +73,10 @@ namespace XSchool.GCenter.Businesses
             if (string.IsNullOrWhiteSpace(model.Name))
             {
                 return Result.Fail("该项不能为空");
+            }
+            if (model.AddSubtraction == 0)
+            {
+                return Result.Fail("请选择加减类型");
             }
 
             if (GetSingle(p => p.Name == model.Name && p.Id != model.Id) != null)

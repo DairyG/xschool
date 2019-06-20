@@ -11,5 +11,6 @@ namespace XSchool.GCenter.Repositories.Extensions
         public DbSet<BankInfo> bankInfo { get; set; }
         public DbSet<Department> Department { get; set; }
         public DbSet<WorkerInFieldSetting> WorkerInFieldSetting { get; set; }
+        public DbSet<BonusPenaltySetting> BonusPenaltySetting { get; set; }
     }
 }

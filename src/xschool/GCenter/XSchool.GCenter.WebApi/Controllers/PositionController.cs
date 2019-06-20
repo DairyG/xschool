@@ -56,7 +56,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         [Description("删除基础数据")]
         public Result Delete([FromForm]PositionSetting positionSetting)
         {
-            positionSetting.WorkinStatus = 0;
+            positionSetting.WorkinStatus = EDStatus.Disable;
             return _business.Update(positionSetting);
         }
 

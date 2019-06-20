@@ -12,6 +12,7 @@ namespace XSchool.GCenter.Model
         /// </summary>
         [Description("基本账户")]
         Basic = 1,
+
         /// <summary>
         /// 一般账户
         /// </summary>
@@ -29,6 +30,7 @@ namespace XSchool.GCenter.Model
         /// </summary>
         [Description("无效")]
         Invalid = 0,
+
         /// <summary>
         /// 有效
         /// </summary>
@@ -46,6 +48,7 @@ namespace XSchool.GCenter.Model
         /// </summary>
         [Description("禁用")]
         Disable = 1,
+
         /// <summary>
         /// 启用
         /// </summary>
@@ -63,11 +66,13 @@ namespace XSchool.GCenter.Model
         /// </summary>
         [Description("试用")]
         Trial = 1,
+
         /// <summary>
         /// 转正
         /// </summary>
         [Description("转正")]
         Positive = 2,
+
         /// <summary>
         /// 离职
         /// </summary>
@@ -85,6 +90,7 @@ namespace XSchool.GCenter.Model
         /// </summary>
         [Description("男")]
         Man = 1,
+
         /// <summary>
         /// 女
         /// </summary>
@@ -97,50 +103,58 @@ namespace XSchool.GCenter.Model
     /// </summary>
     public enum BasicInfoType
     {
-        [Description("到岗时间")]
         /// <summary>
         /// 到岗时间
         /// </summary>
+        [Description("到岗时间")]
         WorkerInField = 1,
-        [Description("面试方式")]
+
         /// <summary>
         /// 面试方式
         /// </summary>
+        [Description("面试方式")]
         InterviewMethod = 2,
-        [Description("学历")]
+
         /// <summary>
         /// 学历
         /// </summary>
+        [Description("学历")]
         Education = 3,
-        [Description("教育性质")]
+
         /// <summary>
         /// 教育性质
         /// </summary>
+        [Description("教育性质")]
         Properties = 4,
-        [Description("社会关系")]
+
         /// <summary>
         /// 社会关系
         /// </summary>
+        [Description("社会关系")]
         SocialRelations = 5,
-        [Description("招聘来源")]
+
         /// <summary>
         /// 招聘来源
         /// </summary>
+        [Description("招聘来源")]
         RecruitmentSource = 6,
-        [Description("合同性质")]
+
         /// <summary>
         /// 合同性质
         /// </summary>
+        [Description("合同性质")]
         ContractNature = 7,
-        [Description("工资类别")]
+
         /// <summary>
         /// 工资类别
         /// </summary>
+        [Description("工资类别")]
         WagesType = 8,
-        [Description("保险类别")]
+
         /// <summary>
         /// 保险类别
         /// </summary>
+        [Description("保险类别")]
         InsuranceType = 9,
         
     }
@@ -150,31 +164,34 @@ namespace XSchool.GCenter.Model
     /// </summary>
     public enum IsSystem
     {
-        [Description("是")]
         /// <summary>
         /// 是
         /// </summary>
+        [Description("是")]
         Yes = 1,
-        [Description("否")]
+
         /// <summary>
         /// 否
         /// </summary>
+        [Description("否")]
         No = 0,
     }
+
     /// <summary>
     /// 加or减
     /// </summary>
     public enum AddSubtraction
     {
-        [Description("增加")]
         /// <summary>
         /// 增加
         /// </summary>
+        [Description("增加")]
         Add = 1,
-        [Description("扣除")]
+
         /// <summary>
         /// 扣除
         /// </summary>
+        [Description("扣除")]
         Subtraction = 2,
     }
 }

@@ -25,6 +25,31 @@ namespace XSchool.GCenter.Model.ViewModel
         /// 教育性质
         /// </summary>
         public IList<BasicInfoDto> Properties { get; set; }
+
+        /// <summary>
+        /// 社会关系
+        /// </summary>
+        public IList<BasicInfoDto> SocialRelations { get; set; }
+
+        /// <summary>
+        /// 招聘来源
+        /// </summary>
+        public IList<BasicInfoDto> RecruitmentSource { get; set; }
+
+        /// <summary>
+        /// 合同性质
+        /// </summary>
+        public IList<BasicInfoDto> ContractNature { get; set; }
+
+        /// <summary>
+        /// 工资类别
+        /// </summary>
+        public IList<BasicInfoDto> WagesType { get; set; }
+
+        /// <summary>
+        /// 保险类别
+        /// </summary>
+        public IList<BasicInfoDto> InsuranceType { get; set; }
     }
 
     /// <summary>

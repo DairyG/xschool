@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using XSchool.Core;
@@ -14,51 +13,51 @@ namespace XSchool.GCenter.WebApi.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
-    public class WorkerInFieldController : ApiBaseController
+    public class PositionController : ApiBaseController
     {
-        private readonly WorkerInFieldSettingBusiness _business;
+        private readonly PositionBusiness _business;
         private readonly BasicInfoWrapper _basicInfoWrapper;
-        public WorkerInFieldController(WorkerInFieldSettingBusiness business, BasicInfoWrapper basicInfoWrapper)
+        public PositionController(PositionBusiness business, BasicInfoWrapper basicInfoWrapper)
         {
             this._business = business;
             _basicInfoWrapper = basicInfoWrapper;
         }
         [HttpPost]
         [Description("添加基础数据")]
-        public Result Add([FromForm]WorkerInFieldSetting workerInField)
+        public Result Add([FromForm]PositionSetting positionSetting)
         {
             //workerInField.Type = (BasicInfoType)Enum.Parse(typeof(BasicInfoType), workerInField.Type);
-            workerInField.IsSystem = IsSystem.No;
-            workerInField.WorkinStatus = EDStatus.Enable;
-            return _business.Add(workerInField);
+            positionSetting.IsSystem = IsSystem.No;
+            positionSetting.WorkinStatus = EDStatus.Enable;
+            return _business.Add(positionSetting);
         }
         [HttpPost]
         [Description("根据Id获取基础数据")]
-        public WorkerInFieldSetting GetSingle([FromForm]int Id)
+        public PositionSetting GetSingle([FromForm]int Id)
         {
             return _business.GetSingle(Id);
         }
         [HttpPost]
         [Description("修改基础数据")]
-        public Result Update([FromForm]WorkerInFieldSetting workerInField)
+        public Result Update([FromForm]PositionSetting positionSetting)
         {
-            return _business.Update(workerInField);
+            return _business.Update(positionSetting);
         }
         [HttpPost]
         [Description("获取基础数据列表")]
-        public IPageCollection<WorkerInFieldSetting> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit,[FromForm]string search)
+        public IPageCollection<PositionSetting> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit)
         {
-            var condition = new Condition<WorkerInFieldSetting>();
-            condition.And(p => p.WorkinStatus == EDStatus.Enable && p.Type.Equals(Enum.Parse(typeof(BasicInfoType), search)));
+            var condition = new Condition<PositionSetting>();
+            condition.And(p => p.WorkinStatus == EDStatus.Enable);
             return _business.Page(page, limit, condition.Combine());
         }
 
         [HttpPost]
         [Description("删除基础数据")]
-        public Result Delete([FromForm]WorkerInFieldSetting workerInField)
+        public Result Delete([FromForm]PositionSetting positionSetting)
         {
-            workerInField.WorkinStatus = 0;
-            return _business.Update(workerInField);
+            positionSetting.WorkinStatus = 0;
+            return _business.Update(positionSetting);
         }
 
         /// <summary>

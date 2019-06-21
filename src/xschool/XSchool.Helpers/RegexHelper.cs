@@ -225,6 +225,15 @@ namespace XSchool.Helpers
             return true;
         }
 
+        /// <summary>
+        /// 验证统一社会信用代码
+        /// </summary>
+        /// <param name="input">要验证的字符串</param>
+        /// <returns>是否验证成功</returns>
+        public static bool IsCredit(string input)
+        {
+            return RegMatch(input, @"^[^_IOZSVa-z\W]{2}\d{6}[^_IOZSVa-z\W]{10}$");
+        }
 
         /// <summary>
         /// 是否是密码(32未的密码)

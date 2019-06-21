@@ -119,12 +119,17 @@ namespace XSchool.Helpers
         /// <returns>是否验证成功</returns>
         public static bool IsMobilePhone(string input)
         {
-            return RegMatch(input, @"^(13|14|15|16|17|18)\d{9}$");
+            return RegMatch(input, @"^(1[345789][0-9])[0-9]{8}$");
         }
 
-        public  static  bool IsTelephone(string input)
+        /// <summary>
+        /// 是否是座机号码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static  bool IsTelephone(string input)
         {
-            return System.Text.RegularExpressions.Regex.IsMatch(input, @"^(\d{3,4}-)?\d{6,8}$");
+            return Regex.IsMatch(input, @"^(\d{3,4}-)?\d{6,8}$");
         }
 
         /// <summary>

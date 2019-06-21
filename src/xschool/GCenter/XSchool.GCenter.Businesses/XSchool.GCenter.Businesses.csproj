@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="PersonBusiness.cs~RF9d0ccea.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\XSchool.Businesses\XSchool.Businesses.csproj" />
     <ProjectReference Include="..\..\XSchool.Helpers\XSchool.Helpers.csproj" />
     <ProjectReference Include="..\XSchool.GCenter.Model\XSchool.GCenter.Model.csproj" />

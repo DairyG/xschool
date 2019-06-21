@@ -233,7 +233,7 @@ namespace XSchool.GCenter.Model
         /// <summary>
         /// 
         /// </summary>
-        public string EmployeeNo { get; set; }
+        public string EmployeeNo { get; set; } = string.Empty;
 
         /// <summary>
         /// 办公电话

@@ -12,12 +12,12 @@ namespace XSchool.GCenter.WebApi.Controllers
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
     public class CompanyController : ApiBaseController
     {
-        private readonly CompanyBusinessWrapper _wrapper;
+        private readonly CompanyBusinessWrapper _companyWrapper;
         private readonly CompanyBusiness _companyBusiness;
         private readonly BankInfoBusiness _bankInfoBusiness;
-        public CompanyController(CompanyBusinessWrapper wrapper, CompanyBusiness companyBusiness, BankInfoBusiness bankInfoBusiness)
+        public CompanyController(CompanyBusinessWrapper companyWrapper, CompanyBusiness companyBusiness, BankInfoBusiness bankInfoBusiness)
         {
-            _wrapper = wrapper;
+            _companyWrapper = companyWrapper;
             _companyBusiness = companyBusiness;
             _bankInfoBusiness = bankInfoBusiness;
         }
@@ -44,7 +44,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         [HttpGet("{id}")]
         public Company GetInfo(int id)
         {
-            return _wrapper.GetInfo(id, true);
+            return _companyWrapper.GetInfo(id, true);
         }
 
         /// <summary>

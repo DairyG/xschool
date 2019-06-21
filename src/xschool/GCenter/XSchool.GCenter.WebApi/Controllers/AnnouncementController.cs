@@ -49,7 +49,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         public IPageCollection<Announcement> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]string search)
         {
             var condition = new Condition<Announcement>();
-            condition.And(p => p.AcStatus == EDStatus.Enable && p.Type.Equals(Enum.Parse(typeof(BasicInfoType), search)));
+            condition.And(p => p.AcStatus == EDStatus.Enable);
             return _business.Page(page, limit, condition.Combine());
         }
 

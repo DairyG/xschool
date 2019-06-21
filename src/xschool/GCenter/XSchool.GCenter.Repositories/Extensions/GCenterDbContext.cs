@@ -13,5 +13,6 @@ namespace XSchool.GCenter.Repositories.Extensions
         public DbSet<WorkerInFieldSetting> WorkerInFieldSetting { get; set; }
         public DbSet<BonusPenaltySetting> BonusPenaltySetting { get; set; }
         public DbSet<PositionSetting> PositionSetting { get; set; }
+        public DbSet<Person> Person { get; set; }
     }
 }

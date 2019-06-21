@@ -55,7 +55,7 @@ namespace XSchool.GCenter.Businesses
                 {
                     return Result.Fail("公司名称已存在");
                 }
-                if (base.Exist(p => p.Credit.Equals(model.Credit) && p.Status.Equals(1)))
+                if (base.Exist(p => p.Credit == model.Credit && p.Status == NomalStatus.Valid))
                 {
                     return Result.Fail("信用代码已存在");
                 }

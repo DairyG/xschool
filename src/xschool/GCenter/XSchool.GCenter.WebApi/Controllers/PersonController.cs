@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using XSchool.Core;
@@ -23,7 +24,40 @@ namespace XSchool.GCenter.WebApi.Controllers
         }
 
         /// <summary>
-        /// [添加/编辑] 人员
+        /// [列表] 员工
+        /// </summary>
+        /// <param name="page">页索引</param>
+        /// <param name="limit">页大小</param>
+        /// <returns></returns>
+        [HttpPost]
+        public object Get([FromForm]int page, [Range(1, 50)][FromForm]int limit)
+        {
+            var condition = new Condition<Person>();
+            return _personBusiness.Page(page, limit, condition.Combine(), p => new
+            {
+                p.Id,
+                p.UserName,
+                p.Status,
+                p.EmployeeNo,
+                p.Gender,
+                p.LinkPhone,
+                p.OfficePhone
+            });
+        }
+
+        /// <summary>
+        /// [详情] 员工
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public Person GetInfo(int id)
+        {
+            return _personBusiness.GetSingle(id);
+        }
+
+        /// <summary>
+        /// [添加/编辑] 员工
         /// </summary>
         /// <param name="model">传入的参数</param>
         /// <returns></returns>

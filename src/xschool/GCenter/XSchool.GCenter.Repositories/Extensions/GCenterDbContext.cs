@@ -15,5 +15,6 @@ namespace XSchool.GCenter.Repositories.Extensions
         public DbSet<PositionSetting> PositionSetting { get; set; }
         public DbSet<Person> Person { get; set; }
         public DbSet<Budget> Budget { get; set; }
+        public DbSet<Resume> Resume { get; set; }
     }
 }

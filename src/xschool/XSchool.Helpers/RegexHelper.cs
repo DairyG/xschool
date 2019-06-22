@@ -119,12 +119,17 @@ namespace XSchool.Helpers
         /// <returns>是否验证成功</returns>
         public static bool IsMobilePhone(string input)
         {
-            return RegMatch(input, @"^(13|14|15|16|17|18)\d{9}$");
+            return RegMatch(input, @"^(1[345789][0-9])[0-9]{8}$");
         }
 
-        public  static  bool IsTelephone(string input)
+        /// <summary>
+        /// 是否是座机号码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static  bool IsTelephone(string input)
         {
-            return System.Text.RegularExpressions.Regex.IsMatch(input, @"^(\d{3,4}-)?\d{6,8}$");
+            return Regex.IsMatch(input, @"^(\d{3,4}-)?\d{6,8}$");
         }
 
         /// <summary>
@@ -220,6 +225,15 @@ namespace XSchool.Helpers
             return true;
         }
 
+        /// <summary>
+        /// 验证统一社会信用代码
+        /// </summary>
+        /// <param name="input">要验证的字符串</param>
+        /// <returns>是否验证成功</returns>
+        public static bool IsCredit(string input)
+        {
+            return RegMatch(input, @"^[^_IOZSVa-z\W]{2}\d{6}[^_IOZSVa-z\W]{10}$");
+        }
 
         /// <summary>
         /// 是否是密码(32未的密码)

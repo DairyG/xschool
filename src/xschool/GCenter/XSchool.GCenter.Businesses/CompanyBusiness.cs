@@ -3,6 +3,7 @@ using XSchool.Businesses;
 using XSchool.Core;
 using XSchool.GCenter.Model;
 using XSchool.GCenter.Repositories;
+using XSchool.Helpers;
 
 namespace XSchool.GCenter.Businesses
 {
@@ -19,6 +20,10 @@ namespace XSchool.GCenter.Businesses
             if (string.IsNullOrWhiteSpace(model.Credit))
             {
                 return Result.Fail("信用代码不能为空");
+            }
+            if (RegexHelper.IsCredit(model.Credit))
+            {
+                return Result.Fail("信用代码格式不正确");
             }
             if (string.IsNullOrWhiteSpace(model.LegalPerson))
             {
@@ -55,7 +60,7 @@ namespace XSchool.GCenter.Businesses
                 {
                     return Result.Fail("公司名称已存在");
                 }
-                if (base.Exist(p => p.Credit.Equals(model.Credit) && p.Status.Equals(1)))
+                if (base.Exist(p => p.Credit == model.Credit && p.Status == NomalStatus.Valid))
                 {
                     return Result.Fail("信用代码已存在");
                 }
@@ -69,6 +74,15 @@ namespace XSchool.GCenter.Businesses
                 if (base.Exist(p => p.Credit == model.Credit && p.Id != model.Id && p.Status == NomalStatus.Valid))
                 {
                     return Result.Fail("信用代码已存在");
+                }
+                var modelTemp = base.GetSingle(model.Id);
+                if (modelTemp == null)
+                {
+                    return Result.Fail("未找到数据");
+                }
+                if (modelTemp.Credit != model.Credit)
+                {
+                    return Result.Fail("请勿修改信用代码");
                 }
             }
 

@@ -231,9 +231,9 @@ namespace XSchool.GCenter.Model
         public int PositionId { get; set; }
 
         /// <summary>
-        /// 
+        /// 员工工号
         /// </summary>
-        public string EmployeeNo { get; set; }
+        public string EmployeeNo { get; set; } = string.Empty;
 
         /// <summary>
         /// 办公电话
@@ -266,7 +266,7 @@ namespace XSchool.GCenter.Model
         public string PositionDescribe { get; set; }
 
         /// <summary>
-        /// 在职状态：1-试用，2-正式，0-离职
+        /// 在职状态
         /// </summary>
         public PersonStatus Status { get; set; }
 

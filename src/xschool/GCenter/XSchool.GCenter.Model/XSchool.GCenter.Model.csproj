@@ -14,10 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\XSchool.Core\XSchool.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModel\" />
+    <ProjectReference Include="..\..\XSchool.Helpers\XSchool.Helpers.csproj" />
   </ItemGroup>
 
 </Project>

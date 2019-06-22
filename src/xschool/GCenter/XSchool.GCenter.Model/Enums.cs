@@ -62,6 +62,12 @@ namespace XSchool.GCenter.Model
     public enum PersonStatus
     {
         /// <summary>
+        /// 未入职
+        /// </summary>
+        [Description("未入职")]
+        Unknown = 0,
+
+        /// <summary>
         /// 试用
         /// </summary>
         [Description("试用")]
@@ -156,7 +162,7 @@ namespace XSchool.GCenter.Model
         /// </summary>
         [Description("保险类别")]
         InsuranceType = 9,
-        
+
     }
 
     /// <summary>
@@ -193,6 +199,24 @@ namespace XSchool.GCenter.Model
         /// </summary>
         [Description("扣除")]
         Subtraction = 2,
+    }
+
+    /// <summary>
+    /// 员工 添加/编辑 操作的选项卡
+    /// </summary>
+    public enum PersonOperation
+    {
+        /// <summary>
+        /// 人员信息
+        /// </summary>
+        [Description("人员信息")]
+        PersonInfo = 1,
+
+        /// <summary>
+        /// 职位信息
+        /// </summary>
+        [Description("职位信息")]
+        PositionInfo = 2,
     }
 
     /// <summary>

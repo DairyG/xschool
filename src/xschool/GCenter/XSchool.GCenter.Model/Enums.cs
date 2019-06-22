@@ -194,4 +194,26 @@ namespace XSchool.GCenter.Model
         [Description("扣除")]
         Subtraction = 2,
     }
+
+    /// <summary>
+    /// 预算管理
+    /// </summary>
+    public enum BudgetType
+    {
+        /// <summary>
+        /// 建设成本
+        /// </summary>
+        [Description("建设成本")]
+        Construction = 1,
+        /// <summary>
+        /// 费用预算
+        /// </summary>
+        [Description("费用预算")]
+        CostBudget = 2,
+        /// <summary>
+        /// 固定资产
+        /// </summary>
+        [Description("固定资产")]
+        FixedAssets = 3,
+    }
 }

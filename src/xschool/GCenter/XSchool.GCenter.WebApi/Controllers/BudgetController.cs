@@ -14,51 +14,51 @@ namespace XSchool.GCenter.WebApi.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
-    public class AnnouncementController : ApiBaseController
+    public class BudgetController : ApiBaseController
     {
-        private readonly AnnouncementBusiness _business;
+        private readonly BudgetBusiness _business;
         private readonly BasicInfoWrapper _basicInfoWrapper;
-        public AnnouncementController(AnnouncementBusiness business, BasicInfoWrapper basicInfoWrapper)
+        public BudgetController(BudgetBusiness business, BasicInfoWrapper basicInfoWrapper)
         {
             this._business = business;
             _basicInfoWrapper = basicInfoWrapper;
         }
         [HttpPost]
         [Description("添加基础数据")]
-        public Result Add([FromForm]Announcement announcement)
+        public Result Add([FromForm]Budget budget)
         {
-            //workerInField.Type = (BasicInfoType)Enum.Parse(typeof(BasicInfoType), workerInField.Type);
-            announcement.IsSystem = IsSystem.No;
-            announcement.AcStatus = EDStatus.Enable;
-            return _business.Add(announcement);
+            budget.IsSystem = IsSystem.No;
+            budget.BgStatus = EDStatus.Enable;
+            return _business.Add(budget);
         }
         [HttpPost]
         [Description("根据Id获取基础数据")]
-        public Announcement GetSingle([FromForm]int Id)
+        public Budget GetSingle([FromForm]int Id)
         {
             return _business.GetSingle(Id);
         }
         [HttpPost]
         [Description("修改基础数据")]
-        public Result Update([FromForm]Announcement announcement)
+        public Result Update([FromForm]Budget budget)
         {
-            return _business.Update(announcement);
+            return _business.Update(budget);
         }
         [HttpPost]
         [Description("获取基础数据列表")]
-        public IPageCollection<Announcement> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit)
+        public object Get([FromForm]string search)
         {
-            var condition = new Condition<Announcement>();
-            condition.And(p => p.AcStatus == EDStatus.Enable);
-            return _business.Page(page, limit, condition.Combine());
+            return _business.Query(p => p.Type.Equals(Enum.Parse(typeof(BudgetType), search)), p => new { p.Id, p.Pid, p.Name, p.SortId,p.Memo, p.BgStatus,p.LevelMap,p.Type,p.IsSystem });
+            //var condition = new Condition<Budget>();
+            //condition.And(p => p.Type.Equals(Enum.Parse(typeof(BudgetType), search)));
+            //return _business.Query(condition, p => new { p.Id, p.Pid, p.Name, p.SortId, p.BgStatus });
         }
 
         [HttpPost]
         [Description("删除基础数据")]
-        public Result Delete([FromForm]Announcement announcement)
+        public Result Delete([FromForm]Budget budget)
         {
-            announcement.AcStatus = EDStatus.Disable;
-            return _business.Update(announcement);
+            //budget.BgStatus = EDStatus.Disable;
+            return _business.Update(budget);
         }
 
         /// <summary>
@@ -71,5 +71,6 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             return _basicInfoWrapper.GetData(type);
         }
+
     }
 }

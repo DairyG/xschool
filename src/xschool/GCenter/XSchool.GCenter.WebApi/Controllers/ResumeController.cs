@@ -37,11 +37,12 @@ namespace XSchool.GCenter.WebApi.Controllers
             {
                 p.Id,
                 p.UserName,
-                p.Status,
-                p.EmployeeNo,
-                p.Gender,
+                p.Age,
                 p.LinkPhone,
-                p.OfficePhone
+                p.JobCandidates,
+                p.JobYears,
+                p.ExpectSalary,
+                p.ArrivalTime
             });
         }
 

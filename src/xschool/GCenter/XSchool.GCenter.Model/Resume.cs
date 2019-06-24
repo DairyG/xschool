@@ -131,6 +131,11 @@ namespace XSchool.GCenter.Model
         public string JobCandidates { get; set; }
 
         /// <summary>
+        /// 工作年限
+        /// </summary>
+        public int JobYears { get; set; }
+
+        /// <summary>
         /// 期望月薪
         /// </summary>
         public string ExpectSalary { get; set; }

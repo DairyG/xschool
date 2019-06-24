@@ -55,7 +55,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         [HttpGet("{companyId}")]
         public object GetZTree(int companyId)
         {
-            return _business.Query(p => p.DptStatus == 1 && p.BelongCompany == companyId, p => new { p.Id, p.HigherLevel, p.DptName });
+            return _business.Query(p => p.DptStatus == 1 && p.PId == companyId, p => new { p.Id, p.PId, p.DptName });
         }
 
         [HttpPost]

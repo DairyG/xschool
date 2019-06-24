@@ -9,11 +9,11 @@ namespace XSchool.GCenter.Model
         /// <summary>
         /// 所属公司ID
         /// </summary>
-        public int BelongCompany { get; set; }
+        public int CompanyId { get; set; }
         /// <summary>
         /// 上级部门ID
         /// </summary>
-        public int HigherLevel { get; set; }
+        public int PId { get; set; }
         /// <summary>
         /// 部门名称
         /// </summary>

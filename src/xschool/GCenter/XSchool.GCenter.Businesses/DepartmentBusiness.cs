@@ -70,7 +70,7 @@ namespace XSchool.GCenter.Businesses
         /// <returns></returns>
         public override Result Delete(int Id)
         {
-            return this.Exist(p => p.HigherLevel == Id) ? Result.Fail("该部门含有下级，无法删除！") : base.Delete(Id);
+            return this.Exist(p => p.PId == Id) ? Result.Fail("该部门含有下级，无法删除！") : base.Delete(Id);
         }
         /// <summary>
         /// 查询是否存在

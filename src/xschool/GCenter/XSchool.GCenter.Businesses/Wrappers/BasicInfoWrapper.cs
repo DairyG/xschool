@@ -11,9 +11,11 @@ namespace XSchool.GCenter.Businesses.Wrappers
     public class BasicInfoWrapper : BusinessWrapper
     {
         private WorkerInFieldSettingBusiness _workerInFieldSettingBusiness;
-        public BasicInfoWrapper(WorkerInFieldSettingBusiness workerInFieldSettingBusiness)
+        private PositionBusiness _positionBusiness;
+        public BasicInfoWrapper(WorkerInFieldSettingBusiness workerInFieldSettingBusiness, PositionBusiness positionBusiness)
         {
             _workerInFieldSettingBusiness = workerInFieldSettingBusiness;
+            _positionBusiness = positionBusiness;
         }
 
         /// <summary>
@@ -63,6 +65,9 @@ namespace XSchool.GCenter.Businesses.Wrappers
                         break;
                     case (int)BasicInfoType.InsuranceType:
                         model.InsuranceType = lsBasic.Where(p => p.Type == BasicInfoType.InsuranceType).OrderBy(p => p.SortId).MapToList<BasicInfoDto>();
+                        break;
+                    case 10:
+                        model.PositionType = _positionBusiness.Query(p => p.WorkinStatus == EDStatus.Enable).OrderBy(p => p.SortId).MapToList<BasicInfoDto>();
                         break;
                 }
             }

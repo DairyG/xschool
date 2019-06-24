@@ -47,11 +47,22 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             return _business.Query(p => p.DptStatus == 1);
         }
+
+        /// <summary>
+        /// [列表] 部门，ZTree
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("{companyId}")]
+        public object GetZTree(int companyId)
+        {
+            return _business.Query(p => p.DptStatus == 1 && p.BelongCompany == companyId, p => new { p.Id, p.HigherLevel, p.DptName });
+        }
+
         [HttpPost]
         [Description("根据上级部门查询总数")]
         public int Count([FromForm]int Id)
         {
-            return _business.Count(p=>p.LevelMap.Contains(","+ Id + ","));
+            return _business.Count(p => p.LevelMap.Contains("," + Id + ","));
         }
     }
 }

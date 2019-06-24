@@ -50,6 +50,11 @@ namespace XSchool.GCenter.Model.ViewModel
         /// 保险类别
         /// </summary>
         public IList<BasicInfoDto> InsuranceType { get; set; } = new List<BasicInfoDto>();
+
+        /// <summary>
+        /// 职位信息
+        /// </summary>
+        public IList<BasicInfoDto> PositionType { get; set; } = new List<BasicInfoDto>();
     }
 
     /// <summary>

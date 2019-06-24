@@ -83,7 +83,7 @@ namespace XSchool.GCenter.Model
         /// 离职
         /// </summary>
         [Description("离职")]
-        Departure = 0,
+        Departure = -1,
     }
 
     /// <summary>

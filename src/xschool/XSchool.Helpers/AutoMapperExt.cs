@@ -20,6 +20,24 @@ namespace XSchool.Helpers
         }
 
         /// <summary>
+        /// 类型映射,可指定映射字段的配置信息
+        /// </summary>
+        /// <typeparam name="TSource">源数据：要被转化的实体对象</typeparam>
+        /// <typeparam name="TDestination">目标数据：转换后的实体对象</typeparam>
+        /// <param name="source">任何引用类型对象</param>
+        /// <param name="cfgExp">可为null，则自动一一映射</param>
+        /// <returns></returns>
+        public static TDestination MapTo<TSource, TDestination>(this TSource source, Action<IMapperConfigurationExpression> cfgExp)
+         where TDestination : class
+         where TSource : class
+        {
+            if (source == null) return default(TDestination);
+            var config = new MapperConfiguration(cfgExp != null ? cfgExp : cfg => cfg.CreateMap<TSource, TDestination>());
+            var mapper = config.CreateMapper();
+            return mapper.Map<TDestination>(source);
+        }
+
+        /// <summary>
         /// 集合列表类型映射
         /// </summary>
         public static List<TDestination> MapToList<TDestination>(this IEnumerable source)

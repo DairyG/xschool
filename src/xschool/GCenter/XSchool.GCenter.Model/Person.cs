@@ -223,12 +223,12 @@ namespace XSchool.GCenter.Model
         /// <summary>
         /// 所属部门
         /// </summary>
-        public int DepartmentId { get; set; }
+        public int? DepartmentId { get; set; } = 0;
 
         /// <summary>
         /// 职位Id
         /// </summary>
-        public int PositionId { get; set; }
+        public int? PositionId { get; set; } = 0;
 
         /// <summary>
         /// 员工工号
@@ -268,7 +268,7 @@ namespace XSchool.GCenter.Model
         /// <summary>
         /// 在职状态
         /// </summary>
-        public PersonStatus Status { get; set; }
+        public PersonStatus Status { get; set; } = PersonStatus.Unknown;
 
     }
 }

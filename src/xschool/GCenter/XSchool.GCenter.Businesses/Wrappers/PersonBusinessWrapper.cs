@@ -13,5 +13,23 @@ namespace XSchool.GCenter.Businesses.Wrappers
         {
             _personBusiness = personBusiness;
         }
+
+        /// <summary>
+        /// 添加/修改
+        /// </summary>
+        public Result AddOrEdit(PersonOperation operation, Person model)
+        {
+            var result = _personBusiness.CheckBasic(model);
+            if (!result.Succeed)
+            {
+                return result;
+            }
+            if (operation == PersonOperation.PositionInfo)
+            {
+                result = _personBusiness.CheckPosition(model);
+            }
+            return result.Succeed ? _personBusiness.AddOrEdit(model) : result;
+        }
+
     }
 }

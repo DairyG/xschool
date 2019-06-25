@@ -51,9 +51,11 @@ namespace XSchool.GCenter.WebApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public Person GetInfo(int id)
+        public PersonDto GetInfo(int id)
         {
-            return _personBusiness.GetSingle(id);
+            var mm = _personBusiness.GetPerson(id);
+
+            return _personBusiness.GetPerson(id);
         }
 
         /// <summary>
@@ -64,7 +66,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         [HttpPost]
         public Result Edit(PersonOperation operation, [FromForm]Person model)
         {
-            return _personBusiness.AddOrEdit(model);
+            return _personWrapper.AddOrEdit(operation, model);
         }
 
     }

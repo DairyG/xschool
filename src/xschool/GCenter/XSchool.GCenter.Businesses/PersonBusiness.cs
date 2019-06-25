@@ -3,6 +3,7 @@ using System;
 using XSchool.Businesses;
 using XSchool.Core;
 using XSchool.GCenter.Model;
+using XSchool.GCenter.Model.ViewModel;
 using XSchool.GCenter.Repositories;
 using XSchool.Helpers;
 
@@ -10,9 +11,16 @@ namespace XSchool.GCenter.Businesses
 {
     public class PersonBusiness : Business<Person>
     {
-        public PersonBusiness(IServiceProvider provider, PersonRepository repository) : base(provider, repository) { }
+        private readonly PersonRepository _repository;
+        public PersonBusiness(IServiceProvider provider, PersonRepository repository) : base(provider, repository)
+        {
+            _repository = repository;
+        }
 
-        public Result Check(Person model)
+        /// <summary>
+        /// 验证员工 基础信息
+        /// </summary>
+        public Result CheckBasic(Person model)
         {
             if (string.IsNullOrWhiteSpace(model.UserName))
             {
@@ -105,19 +113,65 @@ namespace XSchool.GCenter.Businesses
             return Result.Success();
         }
 
+        /// <summary>
+        /// 验证员工 职位信息
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public Result CheckPosition(Person model)
+        {
+            if (model.Id <= 0)
+            {
+                return Result.Fail("请先填写个人信息");
+            }
+            if (model.DepartmentId == 0)
+            {
+                return Result.Fail("请选择部门");
+            }
+            if (model.PositionId == 0)
+            {
+                return Result.Fail("请选择职位");
+            }
+            if (string.IsNullOrWhiteSpace(model.EmployeeNo))
+            {
+                return Result.Fail("请输入员工工号");
+            }
+            if (model.Status == PersonStatus.Unknown)
+            {
+                return Result.Fail("请选择在职状态");
+            }
+
+            if (base.Exist(p => p.EmployeeNo == model.EmployeeNo && p.Id != model.Id))
+            {
+                return Result.Fail("员工工号已存在");
+            }
+
+            return Result.Success();
+        }
+
+        /// <summary>
+        /// 添加员工 基础信息
+        /// </summary>
         public Result AddOrEdit(Person model)
         {
-            var result = Check(model);
             model.PinYinName = PingYinHelper.GetFirstSpell(model.UserName);
             //新增
             if (model.Id <= 0)
             {
-                return result.Succeed ? base.Add(model) : result;
+                return base.Add(model);
             }
             else
             {
-                return result.Succeed ? base.Update(model) : result;
+                return base.Update(model);
             }
+        }
+
+        /// <summary>
+        /// 获取员工 信息
+        /// </summary>
+        public PersonDto GetPerson(int id)
+        {
+            return _repository.GetPerson(id);
         }
     }
 }

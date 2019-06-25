@@ -273,6 +273,6 @@ namespace XSchool.GCenter.Model
         /// <summary>
         /// 在职状态
         /// </summary>
-        public PersonStatus Status { get; set; }
+        public ResumeStatus Status { get; set; }
     }
 }

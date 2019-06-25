@@ -240,4 +240,21 @@ namespace XSchool.GCenter.Model
         [Description("固定资产")]
         FixedAssets = 3,
     }
+
+    /// <summary>
+    /// 简历状态
+    /// </summary>
+    public enum ResumeStatus
+    {
+        /// <summary>
+        /// 有效
+        /// </summary>
+        [Description("有效")]
+        Effective = 1,
+        /// <summary>
+        /// 无效
+        /// </summary>
+        [Description("无效")]
+        Invalid = 2,
+    }
 }

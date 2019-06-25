@@ -24,7 +24,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         }
 
         /// <summary>
-        /// [列表] 员工
+        /// [列表] 简历
         /// </summary>
         /// <param name="page">页索引</param>
         /// <param name="limit">页大小</param>
@@ -33,6 +33,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         public object Get([FromForm]int page, [Range(1, 50)][FromForm]int limit)
         {
             var condition = new Condition<Resume>();
+            condition.And(p => p.Status == ResumeStatus.Effective);
             return _resumeBusiness.Page(page, limit, condition.Combine(), p => new
             {
                 p.Id,
@@ -47,7 +48,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         }
 
         /// <summary>
-        /// [详情] 员工
+        /// [详情] 简历
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -58,14 +59,24 @@ namespace XSchool.GCenter.WebApi.Controllers
         }
 
         /// <summary>
-        /// [添加/编辑] 员工
+        /// [添加/编辑] 简历
         /// </summary>
         /// <param name="model">传入的参数</param>
         /// <returns></returns>
         [HttpPost]
-        public Result Edit(PersonOperation operation, [FromForm]Resume model)
+        public Result Edit([FromForm]Resume model)
         {
             return _resumeBusiness.AddOrEdit(model);
+        }
+        /// <summary>
+        /// [删除] 简历
+        /// </summary>
+        /// <param name="model">传入的参数</param>
+        /// <returns></returns>
+        [HttpPost]
+        public int Delete([FromForm]Resume model,[FromForm]int id)
+        {
+            return _resumeBusiness.Delete(model, id);
         }
     }
 }

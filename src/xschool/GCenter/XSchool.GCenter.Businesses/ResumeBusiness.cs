@@ -10,7 +10,9 @@ namespace XSchool.GCenter.Businesses
 {
     public class ResumeBusiness : Business<Resume>
     {
+        private ResumeRepository _resumeRepository;
         public ResumeBusiness(IServiceProvider provider, ResumeRepository repository) : base(provider, repository) {
+            _resumeRepository = repository;
         }
         public Result Check(Resume model)
         {
@@ -118,6 +120,11 @@ namespace XSchool.GCenter.Businesses
             {
                 return result.Succeed ? base.Update(model) : result;
             }
+        }
+
+        public int Delete(Resume model, int id)
+        {
+            return _resumeRepository.Delete(model, id);
         }
     }
 }

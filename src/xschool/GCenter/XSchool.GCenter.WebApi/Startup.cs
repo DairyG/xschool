@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 using System;
+using System.IO;
+using System.Reflection;
 using XSchool.GCenter.Repositories.Extensions;
 using XShop.GCenter.Businesses.Extensions;
 
@@ -28,6 +31,13 @@ namespace XSchool.GCenter.WebApi
             {
                 throw new Exception("找不到ConnectionStrings:Default节点,未能正确配置数据库连接字符串");
             }
+
+            //注册 Swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "XSchool.GCenter", Version = "v1" });
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
+            });
 
             services.AddCors();
 
@@ -55,6 +65,13 @@ namespace XSchool.GCenter.WebApi
 
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseMvc();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.InjectJavascript("");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "XSchool.GCenter V1");
+            });
         }
     }
 }

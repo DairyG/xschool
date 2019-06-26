@@ -53,8 +53,6 @@ namespace XSchool.GCenter.WebApi.Controllers
         [HttpGet("{id}")]
         public PersonDto GetInfo(int id)
         {
-            var mm = _personBusiness.GetPerson(id);
-
             return _personBusiness.GetPerson(id);
         }
 

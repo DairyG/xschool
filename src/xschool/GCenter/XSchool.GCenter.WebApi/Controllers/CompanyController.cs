@@ -87,6 +87,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         /// </summary>
         /// <param name="model">传入的参数</param>
         /// <returns></returns>
+        [HttpPost]
         public Result EditBank([FromForm]BankInfo model)
         {
             return _bankInfoBusiness.AddOrEdit(model);

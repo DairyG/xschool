@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>XSchool.GCenter.WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.AnnouncementController.GetData(System.String)">
+            <summary>
+            获取基础信息
+            </summary>
+            <param name="type">类型，多个以,分割</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.BonusPenaltyController.GetData(System.String)">
+            <summary>
+            获取基础信息
+            </summary>
+            <param name="type">类型，多个以,分割</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.BudgetController.GetData(System.String)">
+            <summary>
+            获取基础信息
+            </summary>
+            <param name="type">类型，多个以,分割</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.CompanyController.Get(System.Int32,System.Int32)">
+            <summary>
+            [列表] 公司
+            </summary>
+            <param name="page">页索引</param>
+            <param name="limit">页大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.CompanyController.GetInfo(System.Int32)">
+            <summary>
+            [详情] 公司
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.CompanyController.Edit(XSchool.GCenter.Model.Company)">
+            <summary>
+            [添加/编辑] 公司
+            </summary>
+            <param name="model">传入的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.CompanyController.Delete(System.Int32)">
+            <summary>
+            [删除] 公司
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.CompanyController.GetBank(System.Int32)">
+            <summary>
+            [列表] 开户信息
+            </summary>
+            <param name="companyId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.CompanyController.EditBank(XSchool.GCenter.Model.BankInfo)">
+            <summary>
+            [添加/编辑] 开户信息
+            </summary>
+            <param name="model">传入的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.CompanyController.DelBank(System.Int32)">
+            <summary>
+            [删除] 开户信息
+            </summary>
+            <param name="model">传入的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.DepartmentController.GetZTree(System.Int32)">
+            <summary>
+            [列表] 部门，ZTree
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.InsuranceTypeController.GetData(System.String)">
+            <summary>
+            获取基础信息
+            </summary>
+            <param name="type">类型，多个以,分割</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.PersonController.Get(System.Int32,System.Int32)">
+            <summary>
+            [列表] 员工
+            </summary>
+            <param name="page">页索引</param>
+            <param name="limit">页大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.PersonController.GetInfo(System.Int32)">
+            <summary>
+            [详情] 员工
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.PersonController.Edit(XSchool.GCenter.Model.PersonOperation,XSchool.GCenter.Model.Person)">
+            <summary>
+            [添加/编辑] 员工
+            </summary>
+            <param name="model">传入的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.PositionController.GetData(System.String)">
+            <summary>
+            获取基础信息
+            </summary>
+            <param name="type">类型，多个以,分割</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.ResumeController.Get(System.Int32,System.Int32)">
+            <summary>
+            [列表] 简历
+            </summary>
+            <param name="page">页索引</param>
+            <param name="limit">页大小</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.ResumeController.GetInfo(System.Int32)">
+            <summary>
+            [详情] 简历
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.ResumeController.Edit(XSchool.GCenter.Model.Resume)">
+            <summary>
+            [添加/编辑] 简历
+            </summary>
+            <param name="model">传入的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.ResumeController.Delete(XSchool.GCenter.Model.Resume,System.Int32)">
+            <summary>
+            [删除] 简历
+            </summary>
+            <param name="model">传入的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.WorkerInFieldController.GetData(System.String)">
+            <summary>
+            获取基础信息
+            </summary>
+            <param name="type">类型，多个以,分割</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

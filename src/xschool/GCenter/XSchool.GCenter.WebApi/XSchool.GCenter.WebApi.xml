@@ -32,13 +32,6 @@
             <param name="type">类型，多个以,分割</param>
             <returns></returns>
         </member>
-        <member name="M:XSchool.GCenter.WebApi.Controllers.PositionController.GetData(System.String)">
-            <summary>
-            获取基础信息
-            </summary>
-            <param name="type">类型，多个以,分割</param>
-            <returns></returns>
-        </member>
         <member name="M:XSchool.GCenter.WebApi.Controllers.ResumeController.Get(System.Int32,System.Int32)">
             <summary>
             [列表] 简历

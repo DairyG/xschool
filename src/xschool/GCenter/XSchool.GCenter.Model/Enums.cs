@@ -96,7 +96,6 @@ namespace XSchool.GCenter.Model
         /// </summary>
         [Description("保险类别")]
         InsuranceType = 9,
-
     }
 
     /// <summary>

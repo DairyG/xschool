@@ -11,5 +11,7 @@ namespace XSchool.GCenter.Repositories.Extensions
         public DbSet<BonusPenaltySetting> BonusPenaltySetting { get; set; }
         public DbSet<Budget> Budget { get; set; }
         public DbSet<Resume> Resume { get; set; }
+        public DbSet<Training> Training { get; set; }
+        
     }
 }

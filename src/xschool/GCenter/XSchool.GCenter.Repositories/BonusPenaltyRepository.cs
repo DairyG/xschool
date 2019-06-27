@@ -4,11 +4,8 @@ using XSchool.Repositories;
 
 namespace XSchool.GCenter.Repositories
 {
-    public class BonusPenaltyRepository : Repository<BonusPenaltySetting>
+    public class TrainingRepository : Repository<Training>
     {
-        public BonusPenaltyRepository(GCenterDbContext dbContext) : base(dbContext)
-        {
-
-        }
+        public TrainingRepository(GCenterDbContext dbContext) : base(dbContext) { }
     }
 }

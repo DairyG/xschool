@@ -61,6 +61,20 @@
             <param name="model">传入的参数</param>
             <returns></returns>
         </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.TrainingController.Edit(XSchool.GCenter.Model.Training)">
+            <summary>
+            [添加/编辑] 成长管理
+            </summary>
+            <param name="model">传入的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.TrainingController.Query(System.Int32)">
+            <summary>
+            [列表] 成长管理
+            </summary>
+            <param name="personId">员工Id</param>
+            <returns></returns>
+        </member>
         <member name="M:XSchool.GCenter.WebApi.Controllers.WorkerInFieldController.GetData(System.String)">
             <summary>
             获取基础信息

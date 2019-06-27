@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using XSchool.Core;
 using XSchool.GCenter.Businesses;
-using XSchool.GCenter.Businesses.Wrappers;
 using XSchool.GCenter.Model;
-using XSchool.GCenter.Model.ViewModel;
 
 namespace XSchool.GCenter.WebApi.Controllers
 {
@@ -15,11 +10,9 @@ namespace XSchool.GCenter.WebApi.Controllers
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
     public class ResumeController : ApiBaseController
     {
-        //private readonly PersonBusinessWrapper _personWrapper;
         private readonly ResumeBusiness _resumeBusiness;
         public ResumeController(ResumeBusiness resumeBusiness)
         {
-            // _personWrapper = personWrapper;
             _resumeBusiness = resumeBusiness;
         }
 

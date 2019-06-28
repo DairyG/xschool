@@ -39,11 +39,11 @@ namespace XSchool.GCenter.WebApi.Controllers
         [HttpGet("{personId}")]
         public List<Training> Query(int personId)
         {
-            //List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
-            //{
-            //    new KeyValuePair<string, OrderBy>("ID", OrderBy.Desc)
-            //};
-            return _trainingBusinesses.Query(p => p.PersonId == personId).OrderByDescending(p => p.Id).ToList();
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
+            {
+                new KeyValuePair<string, OrderBy>("ID", OrderBy.Desc)
+            };
+            return _trainingBusinesses.Query(p => p.PersonId == personId,p=>p, order).ToList();
         }
 
     }

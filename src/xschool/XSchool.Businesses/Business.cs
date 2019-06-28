@@ -120,12 +120,9 @@ namespace XSchool.Businesses
             return Result.Success(list);
         }
 
-
-
-        public virtual Result<IList<TSelect>> Query<TSelect>(Expression<Func<TModel, bool>> where, Expression<Func<TModel, TSelect>> select, IEnumerable<KeyValuePair<string, OrderBy>> orderColumns)
+        public virtual IList<TSelect> Query<TSelect>(Expression<Func<TModel, bool>> where, Expression<Func<TModel, TSelect>> select, IEnumerable<KeyValuePair<string, OrderBy>> orderColumns)
         {
-            var list = this.Repository.Query(where, select, orderColumns);
-            return Result.Success(list);
+            return this.Repository.Query(where, select, orderColumns);
         }
 
         public virtual IPageCollection<TModel> Page(int page, int size, Expression<Func<TModel, bool>> where)

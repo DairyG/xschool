@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using XSchool.GCenter.Repositories.Extensions;
 using XShop.GCenter.Businesses.Extensions;

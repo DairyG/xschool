@@ -12,6 +12,8 @@ namespace XSchool.GCenter.Repositories.Extensions
         public DbSet<Budget> Budget { get; set; }
         public DbSet<Resume> Resume { get; set; }
         public DbSet<Training> Training { get; set; }
-        
+        public DbSet<Evaluation> Evaluation { get; set; }
+        public DbSet<EvaluationType> EvaluationType { get; set; }
+
     }
 }

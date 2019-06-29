@@ -190,4 +190,30 @@ namespace XSchool.GCenter.Model
         [Description("无效")]
         Invalid = 2,
     }
+    /// <summary>
+    /// 面试状态
+    /// </summary>
+    public enum InterviewStatus
+    {
+        /// <summary>
+        /// 未面试
+        /// </summary>
+        [Description("未面试")]
+        NoInterview = 1,
+        /// <summary>
+        /// 面试中
+        /// </summary>
+        [Description("面试中")]
+        InterviewIng = 2,
+        /// <summary>
+        /// 已通过
+        /// </summary>
+        [Description("已通过")]
+        IsPass = 3,
+        /// <summary>
+        /// 未通过
+        /// </summary>
+        [Description("未通过")]
+        NoPass = 4,
+    }
 }

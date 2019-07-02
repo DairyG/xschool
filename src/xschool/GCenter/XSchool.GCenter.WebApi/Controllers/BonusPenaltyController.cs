@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using XSchool.Core;
@@ -44,11 +45,15 @@ namespace XSchool.GCenter.WebApi.Controllers
         }
         [HttpPost]
         [Description("获取基础数据列表")]
-        public IPageCollection<BonusPenaltySetting> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit)
+        public object Get([FromForm]int page, [Range(1, 50)][FromForm]int limit)
         {
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
+            {
+                new KeyValuePair<string, OrderBy>("SortId", OrderBy.Asc)
+            };
             var condition = new Condition<BonusPenaltySetting>();
             condition.And(p => p.Id > 0);
-            return _business.Page(page, limit, condition.Combine());
+            return _business.Page(page, limit, condition.Combine(),order);
         }
 
         [HttpPost]

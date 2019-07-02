@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using XSchool.Core;
@@ -46,11 +47,15 @@ namespace XSchool.GCenter.WebApi.Controllers
         }
         [HttpPost]
         [Description("获取基础数据列表")]
-        public IPageCollection<WorkerInFieldSetting> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]string search)
+        public Result<IPageCollection<WorkerInFieldSetting>> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]string search)
         {
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
+            {
+                new KeyValuePair<string, OrderBy>("SortId", OrderBy.Asc)
+            };
             var condition = new Condition<WorkerInFieldSetting>();
             condition.And(p => p.Type.Equals(Enum.Parse(typeof(BasicInfoType), search)));
-            return _business.Page(page, limit, condition.Combine());
+            return _business.Page(page, limit, condition.Combine(),order);
         }
 
         [HttpPost]

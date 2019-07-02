@@ -19,6 +19,10 @@ namespace XSchool.GCenter.Model
         /// </summary>
         public string InterviewerIds { get; set; }
         /// <summary>
+        /// 面试人姓名（用,隔开）
+        /// </summary>
+        public string InterviewerNames { get; set; }
+        /// <summary>
         /// 面试内容
         /// </summary>
         public string Content { get; set; }

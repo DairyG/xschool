@@ -47,7 +47,11 @@ namespace XSchool.GCenter.WebApi.Controllers
         [Description("获取基础数据列表")]
         public object Get([FromForm]string search)
         {
-            return _business.Query(p => p.Type.Equals(Enum.Parse(typeof(BudgetType), search)), p => new { p.Id, p.Pid, p.Name, p.SortId,p.Memo, p.BgStatus,p.LevelMap,p.Type,p.IsSystem });
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
+            {
+                new KeyValuePair<string, OrderBy>("SortId", OrderBy.Asc)
+            };
+            return _business.Query(p => p.Type.Equals(Enum.Parse(typeof(BudgetType), search)), p => new { p.Id, p.Pid, p.Name, p.SortId,p.Memo, p.BgStatus,p.LevelMap,p.Type,p.IsSystem }, order);
             //var condition = new Condition<Budget>();
             //condition.And(p => p.Type.Equals(Enum.Parse(typeof(BudgetType), search)));
             //return _business.Query(condition, p => new { p.Id, p.Pid, p.Name, p.SortId, p.BgStatus });

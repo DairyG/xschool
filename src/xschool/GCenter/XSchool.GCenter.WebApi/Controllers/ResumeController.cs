@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using XSchool.Core;
 using XSchool.GCenter.Businesses;
 using XSchool.GCenter.Model;
+using XSchool.Query.Pageing;
 
 namespace XSchool.GCenter.WebApi.Controllers
 {
@@ -25,6 +27,11 @@ namespace XSchool.GCenter.WebApi.Controllers
         [HttpPost]
         public object Get([FromForm]int page, [Range(1, 50)][FromForm]int limit)
         {
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
+            {
+                new KeyValuePair<string, OrderBy>("Id", OrderBy.Desc)
+            };
+
             var condition = new Condition<Resume>();
             condition.And(p => p.Status == ResumeStatus.Effective);
             return _resumeBusiness.Page(page, limit, condition.Combine(), p => new
@@ -37,7 +44,7 @@ namespace XSchool.GCenter.WebApi.Controllers
                 p.JobYears,
                 p.ExpectSalary,
                 p.ArrivalTime
-            });
+            }, order);
         }
 
         /// <summary>

@@ -32,7 +32,11 @@ namespace XSchool.GCenter.WebApi.Controllers
         [Description("获取基础数据列表")]
         public IList<ResumeRecord> Get(int id)
         {
-            return _business.Query(p=>p.ResumeId == id);
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
+            {
+                new KeyValuePair<string, OrderBy>("ResumeTime", OrderBy.Desc)
+            };
+            return _business.Query(p=>p.ResumeId == id,p=>p, order);
         }
 
     }

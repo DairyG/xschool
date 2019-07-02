@@ -27,7 +27,7 @@ namespace XSchool.WorkFlow.Model
         /// <summary>
         ///  流程类型
         /// </summary>
-        public enum WorkFType
+        public enum FlowType
         {
             /// <summary>
             /// 事务流程

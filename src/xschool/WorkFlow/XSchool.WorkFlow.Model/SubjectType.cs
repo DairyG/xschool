@@ -22,5 +22,10 @@ namespace XSchool.WorkFlow.Model
         /// 启用状态（枚举）
         /// </summary>
         public EDStatus Status { get; set; }
+        /// <summary>
+        /// 公司Id
+        /// </summary>
+        public int CompanyId { get; set; }
+        
     }
 }

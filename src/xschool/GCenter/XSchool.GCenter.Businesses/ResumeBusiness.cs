@@ -1,10 +1,12 @@
 ﻿using Logistics.Helpers;
 using System;
+using System.Collections.Generic;
 using XSchool.Businesses;
 using XSchool.Core;
 using XSchool.GCenter.Model;
 using XSchool.GCenter.Repositories;
 using XSchool.Helpers;
+using XSchool.Query.Pageing;
 
 namespace XSchool.GCenter.Businesses
 {
@@ -125,6 +127,16 @@ namespace XSchool.GCenter.Businesses
         public int Delete(Resume model, int id)
         {
             return _resumeRepository.Delete(model, id);
+        }
+
+        /// <summary>
+        /// 根据面试状态查询简历
+        /// </summary>
+        /// <param name="state">面试状态</param>
+        /// <returns></returns>
+        public IPageCollection<Resume> GetListByInterviewStatus(int page, int limit, InterviewStatus state)
+        {
+            return _resumeRepository.GetListByInterviewStatus(page, limit, state);
         }
     }
 }

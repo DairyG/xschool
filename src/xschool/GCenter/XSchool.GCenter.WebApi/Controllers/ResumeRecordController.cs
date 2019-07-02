@@ -39,5 +39,15 @@ namespace XSchool.GCenter.WebApi.Controllers
             return _business.Query(p=>p.ResumeId == id,p=>p, order);
         }
 
+        [HttpGet]
+        [Description("获取基础数据列表")]
+        public IList<ResumeRecord> GetByInterviewStatus(int state)
+        {
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
+            {
+                new KeyValuePair<string, OrderBy>("ResumeTime", OrderBy.Desc)
+            };
+            return _business.Query(p => p.ResumeId == state, p => p, order);
+        }
     }
 }

@@ -271,6 +271,11 @@ namespace XSchool.GCenter.Model
         public string PositionDescribe { get; set; }
 
         /// <summary>
+        /// 面试状态
+        /// </summary>
+        public InterviewStatus InterviewStatus { get; set; }
+
+        /// <summary>
         /// 在职状态
         /// </summary>
         public ResumeStatus Status { get; set; }

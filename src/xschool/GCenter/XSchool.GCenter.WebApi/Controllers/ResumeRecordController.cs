@@ -17,15 +17,22 @@ namespace XSchool.GCenter.WebApi.Controllers
     public class ResumeRecordController : ApiBaseController
     {
         private readonly ResumeRecordBusiness _business;
-        public ResumeRecordController(ResumeRecordBusiness business)
+        private readonly ResumeBusiness _resumebusiness;
+        public ResumeRecordController(ResumeRecordBusiness business, ResumeBusiness resumebusiness)
         {
             this._business = business;
+            this._resumebusiness = resumebusiness;
         }
         [HttpPost]
         [Description("添加基础数据")]
         public Result Add([FromForm]ResumeRecord model)
         {
-            return _business.Add(model);
+            var result = _business.Add(model);
+            if (result.Succeed)
+            {
+                _resumebusiness.UpdateInterviewStatus(new Resume(), model.ResumeId, model.InterviewStatus);
+            }
+            return result;
         }
 
         [HttpGet]

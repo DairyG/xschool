@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using XSchool.Core;
@@ -17,6 +18,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             public string Name { get; set; }
             public string Phone { get; set; }
+            public int State { get; set; }
         };
         public ResumeController(ResumeBusiness resumeBusiness)
         {
@@ -33,21 +35,49 @@ namespace XSchool.GCenter.WebApi.Controllers
         public object Get([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]Search search)
         {
             var condition = new Condition<Resume>();
-            if (!string.IsNullOrWhiteSpace(search.Name) && !string.IsNullOrWhiteSpace(search.Phone))
+            if(!string.IsNullOrWhiteSpace(search.Name) && !string.IsNullOrWhiteSpace(search.Phone))
             {
-                condition.And(p => p.Status == ResumeStatus.Effective && p.UserName.Contains(search.Name) && p.LinkPhone.Contains(search.Phone));
+                if (search.State != 0)
+                {
+                    condition.And(p => p.Status == ResumeStatus.Effective && p.UserName.Contains(search.Name) && p.LinkPhone.Contains(search.Phone) && p.InterviewStatus == (InterviewStatus)search.State);
+                }
+                else
+                {
+                    condition.And(p => p.Status == ResumeStatus.Effective && p.UserName.Contains(search.Name) && p.LinkPhone.Contains(search.Phone));
+                }
             }
             else if (!string.IsNullOrWhiteSpace(search.Name))
             {
-                condition.And(p => p.Status == ResumeStatus.Effective && p.UserName.Contains(search.Name));
+                if (search.State != 0)
+                {
+                    condition.And(p => p.Status == ResumeStatus.Effective && p.UserName.Contains(search.Name) && p.InterviewStatus == (InterviewStatus)search.State);
+                }
+                else
+                {
+                    condition.And(p => p.Status == ResumeStatus.Effective && p.UserName.Contains(search.Name));
+                }
             }
             else if (!string.IsNullOrWhiteSpace(search.Phone))
             {
-                condition.And(p => p.Status == ResumeStatus.Effective && p.LinkPhone.Contains(search.Phone));
+                if (search.State != 0)
+                {
+                    condition.And(p => p.Status == ResumeStatus.Effective && p.LinkPhone.Contains(search.Phone) && p.InterviewStatus == (InterviewStatus)search.State);
+                }
+                else
+                {
+                    condition.And(p => p.Status == ResumeStatus.Effective && p.LinkPhone.Contains(search.Phone));
+                }
             }
             else
             {
-                condition.And(p => p.Status == ResumeStatus.Effective);
+                if (search.State != 0)
+                {
+                    condition.And(p => p.Status == ResumeStatus.Effective && p.InterviewStatus ==(InterviewStatus)search.State);
+                }
+                else
+                {
+                    condition.And(p => p.Status == ResumeStatus.Effective);
+                }
             }
             List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
                 {
@@ -110,5 +140,19 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             return _resumeBusiness.GetListByInterviewStatus(page, limit, InterviewStatus.IsPass);
         }
+
+        /// <summary>
+        /// 根据ID修改Resume的面试状态
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="id"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        public int UpdateInterviewStatus(Resume model, int id, InterviewStatus state)
+        {
+            return _resumeBusiness.UpdateInterviewStatus(model, id, state);
+        }
+
+        
     }
 }

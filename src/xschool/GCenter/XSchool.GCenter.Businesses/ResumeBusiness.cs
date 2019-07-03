@@ -116,6 +116,7 @@ namespace XSchool.GCenter.Businesses
             //新增
             if (model.Id <= 0)
             {
+                model.InterviewStatus = InterviewStatus.NoInterview;
                 return result.Succeed ? base.Add(model) : result;
             }
             else
@@ -137,6 +138,17 @@ namespace XSchool.GCenter.Businesses
         public IPageCollection<Resume> GetListByInterviewStatus(int page, int limit, InterviewStatus state)
         {
             return _resumeRepository.GetListByInterviewStatus(page, limit, state);
+        }
+
+        /// <summary>
+        /// 根据ID修改Resume的面试状态
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int UpdateInterviewStatus(Resume model, int id, InterviewStatus state)
+        {
+            return _resumeRepository.UpdateInterviewStatus(model, id, state);
         }
     }
 }

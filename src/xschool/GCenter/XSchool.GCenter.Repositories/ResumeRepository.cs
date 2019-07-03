@@ -27,6 +27,23 @@ namespace XSchool.GCenter.Repositories
             }
         }
         /// <summary>
+        /// 根据ID修改Resume的面试状态
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int UpdateInterviewStatus(Resume model, int id,InterviewStatus state)
+        {
+            Resume resume = new Resume();
+            resume.Id = id;
+            using (_dbContext)
+            {
+                _dbContext.Resume.Attach(resume);
+                resume.InterviewStatus = state;
+                return _dbContext.SaveChanges();
+            }
+        }
+        /// <summary>
         /// 根据面试状态查询简历
         /// </summary>
         /// <param name="state">面试状态</param>

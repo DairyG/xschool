@@ -216,4 +216,87 @@ namespace XSchool.GCenter.Model
         [Description("未通过")]
         NoPass = 4,
     }
+
+    /// <summary>
+    /// [绩效考核] 考核类型
+    /// </summary>
+    public enum KpiType
+    {
+        /// <summary>
+        /// 部门
+        /// </summary>
+        [Description("部门")]
+        Dept = 1,
+        /// <summary>
+        /// 人员
+        /// </summary>
+        [Description("人员")]
+        User = 2,
+    }
+    /// <summary>
+    /// [绩效考核] 考核对象类型
+    /// </summary>
+    public enum KpiObjectType
+    {
+        /// <summary>
+        /// 部门
+        /// </summary>
+        [Description("部门负责人")]
+        DeptHead = 1,
+        /// <summary>
+        /// 人员
+        /// </summary>
+        [Description("人员")]
+        User = 2,
+    }
+
+    /// <summary>
+    /// [绩效考核] 审核对象类型
+    /// </summary>
+    public enum KpiAuditObjectType
+    {
+        /// <summary>
+        /// 部门
+        /// </summary>
+        [Description("部门负责人")]
+        DeptHead = 1,
+        /// <summary>
+        /// 部门
+        /// </summary>
+        [Description("上级部门负责人")]
+        LeaderDeptHead = 2,
+        /// <summary>
+        /// 人员
+        /// </summary>
+        [Description("人员")]
+        Others = 3,
+    }
+
+    /// <summary>
+    /// [绩效考核] 考核方案
+    /// </summary>
+    public enum KpiPlan
+    {
+        /// <summary>
+        /// 月度考核方案
+        /// </summary>
+        [Description("月度考核方案")]
+        Monthly = 1,
+        /// <summary>
+        /// 季度考核方案
+        /// </summary>
+        [Description("季度考核方案")]
+        Quarter = 2,
+        /// <summary>
+        /// 半年考核方案
+        /// </summary>
+        [Description("半年考核方案")]
+        HalfYear = 3,
+        /// <summary>
+        /// 年度考核方案
+        /// </summary>
+        [Description("年度考核方案")]
+        Annual = 4,
+    }
+
 }

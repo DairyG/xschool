@@ -92,7 +92,8 @@ namespace XSchool.GCenter.WebApi.Controllers
                 p.JobCandidates,
                 p.JobYears,
                 p.ExpectSalary,
-                p.ArrivalTime
+                p.ArrivalTime,
+                p.InterviewStatus
             }, order);
 
         }

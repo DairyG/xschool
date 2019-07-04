@@ -299,4 +299,103 @@ namespace XSchool.GCenter.Model
         Annual = 4,
     }
 
+    /// <summary>
+    ///  时间段（周报【第一周，第二周...】；季度报【第一季度，第二季度...】；年报【上半年，下半年】）
+    /// </summary>
+    public enum SummaryIndex
+    {
+        /// <summary>
+        /// 第一周
+        /// </summary>
+        [Description("第一周")]
+        FirstWeek = 1,
+        /// <summary>
+        /// 第二周
+        /// </summary>
+        [Description("第二周")]
+        SecondWeek = 2,
+        /// <summary>
+        /// 第三周
+        /// </summary>
+        [Description("第三周")]
+        ThirdWeek = 3,
+        /// <summary>
+        /// 第四周
+        /// </summary>
+        [Description("第四周")]
+        FourthWeek = 4,
+        /// <summary>
+        /// 第五周
+        /// </summary>
+        [Description("第五周")]
+        FifthWeek = 5,
+        //---------------------------------------------------------
+        /// <summary>
+        /// 第一季度
+        /// </summary>
+        [Description("第一季度")]
+        FirstQuarter = 6,
+        /// <summary>
+        /// 第二季度
+        /// </summary>
+        [Description("第二季度")]
+        SecondQuarter = 7,
+        /// <summary>
+        /// 第三季度
+        /// </summary>
+        [Description("第三季度")]
+        ThirdQuarter = 8,
+        /// <summary>
+        /// 第四季度
+        /// </summary>
+        [Description("第四季度")]
+        FourthQuarter = 9,
+        //--------------------------------------------------------
+        /// <summary>
+        /// 上半年
+        /// </summary>
+        [Description("上半年")]
+        FirstHalf = 10,
+        /// <summary>
+        /// 下半年
+        /// </summary>
+        [Description("下半年")]
+        SecondHalf = 11,
+    }
+    /// <summary>
+    /// 总结的类型
+    /// </summary>
+    public enum SummaryType
+    {
+        /// <summary>
+        /// 日报
+        /// </summary>
+        [Description("日报")]
+        Daily = 1,
+        /// <summary>
+        /// 周报
+        /// </summary>
+        [Description("周报")]
+        Week = 2,
+        /// <summary>
+        /// 月报
+        /// </summary>
+        [Description("月报")]
+        Month = 3,
+        /// <summary>
+        /// 季度报
+        /// </summary>
+        [Description("季度报")]
+        Quarter = 4,
+        /// <summary>
+        /// 半年报
+        /// </summary>
+        [Description("半年报")]
+        Half = 5,
+        /// <summary>
+        /// 年报
+        /// </summary>
+        [Description("年报")]
+        Year = 6,
+    }
 }

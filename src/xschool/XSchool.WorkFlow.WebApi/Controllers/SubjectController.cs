@@ -10,12 +10,12 @@ using static XSchool.WorkFlow.Model.Enums;
 
 namespace XSchool.WorkFlow.WebApi.Controllers
 {
-    public class SubjectTypeController : Controller
+    public class SubjectController : Controller
     {
-        private readonly SubjectTypeBusiness subjectTypeBusiness;
-        public SubjectTypeController(SubjectTypeBusiness _subjectTypeBusiness)
+        private readonly SubjectBusiness subjectBusiness;
+        public SubjectController(SubjectBusiness _subjectBusiness)
         {
-            this.subjectTypeBusiness = _subjectTypeBusiness;
+            this.subjectBusiness = _subjectBusiness;
         }
 
         /// <summary>
@@ -24,10 +24,10 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public Result AddOrEdit([FromForm]SubjectType model)
+        public Result AddOrEdit([FromForm]Subject model)
         {
             model.Status = EDStatus.Enable;
-            return subjectTypeBusiness.AddOrEdit(model);
+            return null;
         }
     }
 }

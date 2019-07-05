@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using XSchool.Core;
+using static XSchool.WorkFlow.Model.Enums;
 
 namespace XSchool.WorkFlow.Model
 {
+
+    /// <summary>
+    /// 科目管理节点表
+    /// </summary>
     public class SubjectStep : IModel<int>
     {
         public int Id { get; set; }
@@ -28,5 +33,10 @@ namespace XSchool.WorkFlow.Model
         /// 是否会签（true：会签，false：或签）费用型默认都是会签
         /// </summary>
         public bool IsCountersign { get; set; }
+
+        /// <summary>
+        /// 节点类型
+        /// </summary>
+        public PassType PassType { get; set; }
     }
 }

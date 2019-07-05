@@ -41,5 +41,23 @@ namespace XSchool.WorkFlow.Model
             [Description("费用流程")]
             Expenses = 2,
         }
+
+        /// <summary>
+        ///  节点类型  1 审核节点，2 是抄送节点
+        /// </summary>
+        public enum PassType
+        {
+            /// <summary>
+            /// 节点类型 
+            /// </summary>
+            [Description("审核节点")]
+            Transaction = 1,
+
+            /// <summary>
+            /// 费用流程
+            /// </summary>
+            [Description("抄送节点")]
+            Expenses = 2,
+        }
     }
 }

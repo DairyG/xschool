@@ -5,6 +5,7 @@ using XSchool.Businesses;
 using XSchool.Core;
 using XSchool.WorkFlow.Model;
 using XSchool.WorkFlow.Repositories;
+using static XSchool.WorkFlow.Model.Enums;
 
 namespace XSchool.WorkFlow.Businesses
 {
@@ -51,5 +52,15 @@ namespace XSchool.WorkFlow.Businesses
             }
             return new Result() { Message = msg, Succeed = string.IsNullOrEmpty(msg)?true:false };
         }
+        /// <summary>
+        /// /获取启用的所有流程组别
+        /// </summary>
+        /// <returns></returns>
+        public IList<SubjectType> GetSubjectTypeList()
+        {
+           var subjectTypeList=  _repository.Query(s=>s.Status== EDStatus.Enable);
+            return subjectTypeList;
+        }
+
     }
 }

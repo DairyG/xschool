@@ -10,6 +10,8 @@ using static XSchool.WorkFlow.Model.Enums;
 
 namespace XSchool.WorkFlow.WebApi.Controllers
 {
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]/[action]")]
     public class SubjectTypeController : Controller
     {
         private readonly SubjectTypeBusiness subjectTypeBusiness;
@@ -28,6 +30,15 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         {
             model.Status = EDStatus.Enable;
             return subjectTypeBusiness.AddOrEdit(model);
+        }
+        /// <summary>
+        /// 获取启用的所有流程组别
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IList<SubjectType> GetSubjectTypeList()
+        {
+            return subjectTypeBusiness.GetSubjectTypeList();
         }
     }
 }

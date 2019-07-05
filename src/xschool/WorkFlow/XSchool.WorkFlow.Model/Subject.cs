@@ -51,7 +51,7 @@ namespace XSchool.WorkFlow.Model
         /// <summary>
         /// 公司Id
         /// </summary>
-        public DateTime CompanyId { get; set; }
+        public int CompanyId { get; set; }
 
         /// <summary>
         /// 启用状态（枚举）

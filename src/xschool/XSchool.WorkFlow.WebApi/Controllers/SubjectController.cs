@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using XSchool.Core;
 using XSchool.WorkFlow.Businesses;
 using XSchool.WorkFlow.Model;
+using XSchool.WorkFlow.WebApi.ViewModel;
 using static XSchool.WorkFlow.Model.Enums;
 
 namespace XSchool.WorkFlow.WebApi.Controllers
@@ -19,14 +20,18 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         }
 
         /// <summary>
-        /// 添加或编辑流程组别
+        /// 添加或编辑流程
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public Result AddOrEdit([FromForm]Subject model)
+        public Result AddOrEdit([FromForm]SubjectDto model)
         {
-            model.Status = EDStatus.Enable;
+            model.Subject.Status = EDStatus.Enable;
+            model.Subject.CreateTime = DateTime.Now;
+            model.Subject.CompanyId = 0;//当前登陆人公司id
+
+            subjectBusiness.AddOrEdit(model);
             return null;
         }
     }

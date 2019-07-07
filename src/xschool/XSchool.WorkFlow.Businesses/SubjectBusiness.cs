@@ -111,12 +111,12 @@ namespace XSchool.WorkFlow.Businesses
         public SubjectDto GetSubjectById(int Id)
         {
 
-           var query = (from a in _repository.Entites
+            var query = (from a in _repository.Entites
                          join b in _rulerepository.Entites
                          on a.Id equals b.SubjectId into ruleRangeList
                          join c in _steprepository.Entites
                          on a.Id equals c.SubjectId into stepRangeList
-                         where a.Id==Id
+                         where a.Id == Id
                          select new SubjectDto
                          {
                              FlowTypeId = a.FlowTypeId,
@@ -127,11 +127,30 @@ namespace XSchool.WorkFlow.Businesses
                              SubjectName = a.SubjectName,
                              SubjectTypeId = a.SubjectTypeId,
                              SubjectRuleRangeList = ruleRangeFun(ruleRangeList),
-                             SubjectStepFlowList = stepRangeFun(stepRangeList)
+                             SubjectStepFlowList = stepRangeList.Select(q => new SubjectStepDto
+                             {
+                                 IsCountersign = q.IsCountersign,
+                                 IsEnd = q.IsEnd,
+                                 PassName = q.PassName,
+                                 PassNo = q.PassNo,
+                                 PassType = q.PassType,
+                                 SubjectRulePassList = _rulerepository.Entites.Where(s => s.SubjectStepId == q.Id).Select(s => new SubjectRuleDto
+                                 {
+                                     CompanyId = s.CompanyId,
+                                     DepId = s.DepId,
+                                     JobDepId = s.JobDepId,
+                                     JobId = s.JobId,
+                                     UserId = s.UserId
+                                 }).ToList()
+                             }).OrderBy(s => s.PassNo).ToList()
                          }).FirstOrDefault();
             return query;
         }
-
+        /// <summary>
+        /// 流程可视人范围
+        /// </summary>
+        /// <param name="subjectRulesList"></param>
+        /// <returns></returns>
         private List<SubjectRuleDto> ruleRangeFun(IEnumerable<SubjectRule> subjectRulesList)
         {
             var list = subjectRulesList.Select(p => new SubjectRuleDto
@@ -143,33 +162,6 @@ namespace XSchool.WorkFlow.Businesses
                 UserId = p.UserId
             }).ToList();
             return list;
-        }
-        private List<SubjectStepDto> stepRangeFun(IEnumerable<SubjectStep> subjectRulesList)
-        {
-            var list = subjectRulesList.Select(q => new SubjectStepDto
-            {
-                IsCountersign = q.IsCountersign,
-                IsEnd = q.IsEnd,
-                PassName = q.PassName,
-                PassNo = q.PassNo,
-                PassType = q.PassType,
-                //SubjectRulePassList = fun3(subjectRulePass)
-            }).OrderBy(s=>s.PassNo).ToList();
-            return list;
-        }
-
-        public List<SubjectRuleDto> fun3(IEnumerable<SubjectRule> subjectRulePass)
-        {
-            var aa = subjectRulePass.Select(s => new SubjectRuleDto
-            {
-                CompanyId = s.CompanyId,
-                DepId = s.DepId,
-                JobDepId = s.JobDepId,
-                JobId = s.JobId,
-                UserId = s.UserId,
-                SubjectStepId = s.SubjectStepId
-            }).ToList();
-            return aa;
         }
     }
 }

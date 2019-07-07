@@ -9,7 +9,7 @@ namespace XSchool.WorkFlow.Repositories
 {
     public class SubjectStepRepository : Repository<SubjectStep>
     {
-        public SubjectStepRepository(WorkFlowDbContext dbContext) : base(dbContext)
+        public SubjectStepRepository(xschool_workflowDbContext dbContext) : base(dbContext)
         {
 
         }

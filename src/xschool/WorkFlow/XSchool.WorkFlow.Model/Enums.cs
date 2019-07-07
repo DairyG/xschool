@@ -59,5 +59,24 @@ namespace XSchool.WorkFlow.Model
             [Description("抄送节点")]
             Expenses = 2,
         }
+
+        /// <summary>
+        ///  业务类型 1流程管理可见者，2流程管理节点人员
+        /// </summary>
+        public enum BusinessType
+        {
+            /// <summary>
+            /// 流程管理可见者 
+            /// </summary>
+            [Description("流程管理可见者")]
+            Transaction = 1,
+
+            /// <summary>
+            /// 流程管理节点人员
+            /// </summary>
+            [Description("流程管理节点人员")]
+            Expenses = 2,
+        }
+        
     }
 }

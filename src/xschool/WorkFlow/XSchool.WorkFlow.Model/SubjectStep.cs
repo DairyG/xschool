@@ -38,5 +38,15 @@ namespace XSchool.WorkFlow.Model
         /// 节点类型
         /// </summary>
         public PassType PassType { get; set; }
+
+        /// <summary>
+        /// 流程主表
+        /// </summary>
+        public Subject SubjectObj { get; set; }
+
+        /// <summary>
+        /// 流程节点人员表
+        /// </summary>
+        public ICollection<SubjectRule> SubjectRulePassList { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using XSchool.WorkFlow.Model;
 using static XSchool.WorkFlow.Model.Enums;
 
-namespace XSchool.WorkFlow.WebApi.ViewModel
+namespace XSchool.WorkFlow.Model.ViewModel
 {
     /// <summary>
     /// 流程节点dto
@@ -41,6 +41,6 @@ namespace XSchool.WorkFlow.WebApi.ViewModel
         /// <summary>
         /// 节点审核人信息
         /// </summary>
-        public List<SubjectRule> SubjectRulePassInfo { get; set; }
+        public List<SubjectRuleDto> SubjectRulePassList { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using XSchool.Core;
 using XSchool.Query.Pageing;
+using Z.EntityFramework.Plus;
 
 namespace XSchool.Repositories
 {
@@ -89,8 +90,21 @@ namespace XSchool.Repositories
             this.DbContext.Entry(model).Property(expression).IsModified = true;
             return this.DbContext.SaveChanges();
         }
+        /// <summary>
+        /// 根据Linq更新实体
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="modelsExpression"></param>
+        /// <returns></returns>
+        public virtual bool Update(Expression<Func<TModel, bool>> filterExpression, Expression<Func<TModel, TModel>> modelsExpression)
+        {
+            return this.Entites.Where(filterExpression).Update(modelsExpression)>0?true:false;
 
-
+        }
+        /// <summary>
+        /// 数据操作实体
+        /// </summary>
+        public IQueryable<TModel> Entites => this.DbContext.Set<TModel>();
 
         public virtual TModel GetSingle(TKey key)
         {

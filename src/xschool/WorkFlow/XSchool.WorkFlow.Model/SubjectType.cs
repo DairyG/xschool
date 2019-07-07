@@ -25,7 +25,7 @@ namespace XSchool.WorkFlow.Model
         /// <summary>
         /// 公司Id
         /// </summary>
-        public int CompanyId { get; set; }
-        
+        public int CompanyId { get; set; }        
+
     }
 }

@@ -19,7 +19,7 @@ namespace XSchool.WorkFlow.Model
         /// <summary>
         /// 流程类型id
         /// </summary>
-        public int FlowTypeId { get; set; }
+        public FlowType FlowTypeId { get; set; }
         /// <summary>
         /// 业务组别id
         /// </summary>
@@ -57,5 +57,13 @@ namespace XSchool.WorkFlow.Model
         /// 启用状态（枚举）
         /// </summary>
         public EDStatus Status { get; set; }
+        /// <summary>
+        /// 流程节点集合
+        /// </summary>
+        public ICollection<SubjectStep> SubjectStepFlowList { get; set; }
+        /// <summary>
+        /// 流程可视范围
+        /// </summary>
+        public ICollection<SubjectRule> SubjectRuleRangeList { get; set; }
     }
 }

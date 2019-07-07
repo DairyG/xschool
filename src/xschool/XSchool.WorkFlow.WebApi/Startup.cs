@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using XSchool.WorkFlow.Repositories.Extensions;
+using XSchool.WorkFlow.WebApi.AutoMapper;
 using XShop.GCenter.Businesses.Extensions;
 
 namespace XSchool.WorkFlow.WebApi
@@ -38,6 +39,8 @@ namespace XSchool.WorkFlow.WebApi
                 c.SwaggerDoc("v1", new Info { Title = "XSchool.WorkFlow", Version = "v1" });
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
             });
+            //AutoMpper注入
+            AutoMapperHelper.Start();
 
             services.AddCors();
 
@@ -51,7 +54,7 @@ namespace XSchool.WorkFlow.WebApi
 
             services.AddBusinesses();
 
-            services.AddDbContextPool<WorkFlowDbContext>(options => options.UseSqlServer(connectonString), poolSize: 64);
+            services.AddDbContextPool<xschool_workflowDbContext>(options => options.UseSqlServer(connectonString), poolSize: 64);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

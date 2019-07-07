@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using XSchool.Businesses;
 using XSchool.Core;
 using XSchool.WorkFlow.Model;
+using XSchool.WorkFlow.Model.ViewModel;
 using XSchool.WorkFlow.Repositories;
-using XSchool.WorkFlow.WebApi.ViewModel;
 
 namespace XSchool.WorkFlow.Businesses
 {
@@ -15,54 +16,160 @@ namespace XSchool.WorkFlow.Businesses
     public class SubjectBusiness : Business<Subject>
     {
         private readonly SubjectRepository _repository;
-        public SubjectBusiness(IServiceProvider provider, SubjectRepository repository) : base(provider, repository)
+        private readonly SubjectRuleRepository _rulerepository;
+        private readonly SubjectStepRepository _steprepository;
+        public SubjectBusiness(IServiceProvider provider, SubjectRepository repository, SubjectRuleRepository rulerepository, SubjectStepRepository steprepository)
+            : base(provider, repository)
         {
             this._repository = repository;
+            this._rulerepository = rulerepository;
+            this._steprepository = steprepository;
         }
         /// <summary>
         /// /添加流程管理
         /// </summary>
-        /// <param name="SubjectTypeName"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
-        public Result AddOrEdit(SubjectDto model)
+        public Result Add(Subject model)
+        {
+            if (model.SubjectRuleRangeList == null || model.SubjectStepFlowList == null)
+            {
+                return new Result() { Succeed = false, Message = "参数错误!" };
+            }
+
+            string msg = string.Empty;
+            bool status = false;
+            try
+            {
+                status = _repository.Add(model) > 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message.ToString();
+            }
+            return new Result() { Succeed = status, Message = msg };
+        }
+        /// <summary>
+        /// 修改流程管理
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public Result Edit(Subject model)
         {
             string msg = string.Empty;
             bool status = false;
-            if (model.Subject.Id > 0)
+            try
             {
                 using (System.Transactions.TransactionScope ts = new System.Transactions.TransactionScope())
                 {
+                    //主表
+                    status = _repository.Update(s => s.Id == model.Id, s => new Subject
+                    {
+                        FlowTypeId = model.FlowTypeId,
+                        FormContent = model.FormContent,
+                        IcoUrl = model.IcoUrl,
+                        PassInfo = model.PassInfo,
+                        SubjectName = model.SubjectName,
+                        SubjectTypeId = model.SubjectTypeId
+                    });
+                    if (!status) return new Result() { Succeed = status, Message = "参数修改失败" };
+                    //根据流程id删除对应可视范围
+                    status = _rulerepository.Delete(s => s.SubjectId == model.Id) > 0 ? true : false;
+                    if (!status) return new Result() { Succeed = status, Message = "参数修改失败" };
+                    //根据节点id删除对应节点人员表
+                    var stepList = _steprepository.Query(s => s.SubjectId == model.Id);
+                    var SubjectIds = (from b in stepList select b.Id).ToArray();
+                    status = _rulerepository.Delete(s => SubjectIds.Contains(s.SubjectStepId)) > 0 ? true : false;
+                    if (!status) return new Result() { Succeed = status, Message = "参数修改失败" };
+                    //根据流程id删除对应节点
+                    status = _steprepository.Delete(s => s.SubjectId == model.Id) > 0 ? true : false;
+                    if (!status) return new Result() { Succeed = status, Message = "参数修改失败" };
+                    //添加可视范围
+                    var subjectRuleList = model.SubjectRuleRangeList as List<SubjectRule>;
+                    status = _rulerepository.AddRange(subjectRuleList) > 0 ? true : false;
+                    if (!status) return new Result() { Succeed = status, Message = "参数修改失败" };
+                    //添加流程节点
+                    var subjectStepList = model.SubjectStepFlowList as List<SubjectStep>;
+                    status = _steprepository.AddRange(subjectStepList) > 0 ? true : false;
+                    if (!status) return new Result() { Succeed = status, Message = "参数修改失败" };
 
-                    ////流程主表
-                    //_repository.Add(model.Subject);
-                    ////节点表
-                    //_repository.Add(subjectModel);
-                    ////节点详情表
-                    //_repository.Add(subjectModel);
                     ts.Complete();//提交事务
                 }
-                
+
             }
-            else
-            {   //主表
-                //_repository.Update(subjectModel);
-                ////节点表
-                //_repository.Update(subjectModel);
-                ////节点详情表
-                //_repository.Update(subjectModel);
+            catch (Exception ex)
+            {
+                msg = ex.Message.ToString();
             }
-            return new Result() { Succeed=status,Message= msg };
+            return new Result() { Succeed = status, Message = msg };
         }
         /// <summary>
-        /// /查询流程管理
+        /// /获取流程对象
         /// </summary>
-        /// <param name="SubjectTypeName"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public Result GetSubjectModelById(SubjectType model)
+        public SubjectDto GetSubjectById(int Id)
         {
-            return new Result();
+
+           var query = (from a in _repository.Entites
+                         join b in _rulerepository.Entites
+                         on a.Id equals b.SubjectId into ruleRangeList
+                         join c in _steprepository.Entites
+                         on a.Id equals c.SubjectId into stepRangeList
+                         where a.Id==Id
+                         select new SubjectDto
+                         {
+                             FlowTypeId = a.FlowTypeId,
+                             FormContent = a.FormContent,
+                             IcoUrl = a.IcoUrl,
+                             Id = a.Id,
+                             PassInfo = a.PassInfo,
+                             SubjectName = a.SubjectName,
+                             SubjectTypeId = a.SubjectTypeId,
+                             SubjectRuleRangeList = ruleRangeFun(ruleRangeList),
+                             SubjectStepFlowList = stepRangeFun(stepRangeList)
+                         }).FirstOrDefault();
+            return query;
         }
 
+        private List<SubjectRuleDto> ruleRangeFun(IEnumerable<SubjectRule> subjectRulesList)
+        {
+            var list = subjectRulesList.Select(p => new SubjectRuleDto
+            {
+                CompanyId = p.CompanyId,
+                DepId = p.DepId,
+                JobDepId = p.JobDepId,
+                JobId = p.JobId,
+                UserId = p.UserId
+            }).ToList();
+            return list;
+        }
+        private List<SubjectStepDto> stepRangeFun(IEnumerable<SubjectStep> subjectRulesList)
+        {
+            var list = subjectRulesList.Select(q => new SubjectStepDto
+            {
+                IsCountersign = q.IsCountersign,
+                IsEnd = q.IsEnd,
+                PassName = q.PassName,
+                PassNo = q.PassNo,
+                PassType = q.PassType,
+                //SubjectRulePassList = fun3(subjectRulePass)
+            }).OrderBy(s=>s.PassNo).ToList();
+            return list;
+        }
 
+        public List<SubjectRuleDto> fun3(IEnumerable<SubjectRule> subjectRulePass)
+        {
+            var aa = subjectRulePass.Select(s => new SubjectRuleDto
+            {
+                CompanyId = s.CompanyId,
+                DepId = s.DepId,
+                JobDepId = s.JobDepId,
+                JobId = s.JobId,
+                UserId = s.UserId,
+                SubjectStepId = s.SubjectStepId
+            }).ToList();
+            return aa;
+        }
     }
 }

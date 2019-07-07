@@ -5,8 +5,10 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageReference Include="EntityFramework.Extensions" Version="0.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.2" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="2.0.3" />
   </ItemGroup>
   
   <ItemGroup>

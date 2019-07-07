@@ -9,7 +9,7 @@ namespace XSchool.WorkFlow.Repositories
 {
     public class SubjectRuleRepository : Repository<SubjectRule>
     {
-        public SubjectRuleRepository(WorkFlowDbContext dbContext) : base(dbContext)
+        public SubjectRuleRepository(xschool_workflowDbContext dbContext) : base(dbContext)
         {
 
         }

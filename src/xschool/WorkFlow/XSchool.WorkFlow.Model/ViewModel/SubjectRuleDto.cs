@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using XSchool.Core;
-using static XSchool.WorkFlow.Model.Enums;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace XSchool.WorkFlow.Model
+namespace XSchool.WorkFlow.Model.ViewModel
 {
     /// <summary>
-    /// 节点人员表、流程可视范围人员表
+    /// 可视范围、审核节点人员表
     /// </summary>
-    public class SubjectRule : IModel<int>
-    {	
-        public int Id { get; set; }
+    public class SubjectRuleDto
+    {
 
         /// <summary>
         /// 流程id
         /// </summary>		
         public int SubjectId { get; set; }
-
         /// <summary>
         /// 节点id
         /// </summary>		
@@ -26,7 +23,7 @@ namespace XSchool.WorkFlow.Model
         /// <summary>
         /// 业务类型 1流程管理可见者，2流程管理节点人员
         /// </summary>		
-        public BusinessType BusinessType { get; set; }
+        public int BusinessType { get; set; }
 
         /// <summary>
         /// 公司id
@@ -52,16 +49,5 @@ namespace XSchool.WorkFlow.Model
         /// 部门岗位id
         /// </summary>		
         public int JobId { get; set; }
-        /// <summary>
-        /// 流程主表
-        /// </summary>
-        public Subject SubjectObj { get; set; }
-
-        /// <summary>
-        ///流程节点表
-        /// </summary>
-        public SubjectStep SubjectStepObj { get; set; }
-
-
     }
 }

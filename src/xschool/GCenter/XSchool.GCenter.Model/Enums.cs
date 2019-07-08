@@ -371,31 +371,31 @@ namespace XSchool.GCenter.Model
         /// 日报
         /// </summary>
         [Description("日报")]
-        Daily = 1,
+        Daily = 0,
         /// <summary>
         /// 周报
         /// </summary>
         [Description("周报")]
-        Week = 2,
+        Week = 1,
         /// <summary>
         /// 月报
         /// </summary>
         [Description("月报")]
-        Month = 3,
+        Month = 2,
         /// <summary>
         /// 季度报
         /// </summary>
         [Description("季度报")]
-        Quarter = 4,
+        Quarter = 3,
         /// <summary>
         /// 半年报
         /// </summary>
         [Description("半年报")]
-        Half = 5,
+        Half = 4,
         /// <summary>
         /// 年报
         /// </summary>
         [Description("年报")]
-        Year = 6,
+        Year = 5,
     }
 }

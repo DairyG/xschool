@@ -25,11 +25,23 @@ namespace XSchool.GCenter.Businesses
 
         public override Result Add(Summary model)
         {
-            if (model.Id != 0)
+            //if (model.Id != 0)
+            //{
+            //    return Result.Fail("添加操作主键编号必须为零");
+            //}
+            //model.AddTime = DateTime.Now;
+            //return base.Add(model);
+
+            model.AddTime = DateTime.Now;
+            //新增
+            if (model.Id <= 0)
             {
-                return Result.Fail("添加操作主键编号必须为零");
+                return base.Add(model);
             }
-            return base.Add(model);
+            else
+            {
+                return base.Update(model);
+            }
         }
 
         public override Result Update(Summary model)

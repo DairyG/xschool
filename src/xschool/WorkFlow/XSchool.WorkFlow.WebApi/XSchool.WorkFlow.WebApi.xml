@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>XSchool.WorkFlow.WebApi</name>
+    </assembly>
+    <members>
+        <!-- 对于成员“T:XSchool.WorkFlow.WebApi.AutoMapper.AutoMapperHelper”忽略有格式错误的 XML 注释 -->
+        <member name="M:XSchool.WorkFlow.WebApi.AutoMapper.AutoMapperHelper.Start">
+            <summary>
+            注入AutoMapper
+            </summary>
+        </member>
+        <member name="M:XSchool.WorkFlow.WebApi.Controllers.SubjectController.Add(XSchool.WorkFlow.Model.ViewModel.SubjectDto)">
+            <summary>
+            添加流程
+            </summary>
+            <param name="modelDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.WorkFlow.WebApi.Controllers.SubjectController.Edit(XSchool.WorkFlow.Model.ViewModel.SubjectDto)">
+            <summary>
+            编辑流程
+            </summary>
+            <param name="modelDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.WorkFlow.WebApi.Controllers.SubjectController.GetSubjectById(System.Int32)">
+            <summary>
+            获取流程对象
+            </summary>
+            <param name="Id">流程id</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.WorkFlow.WebApi.Controllers.SubjectTypeController.AddOrEdit(XSchool.WorkFlow.Model.SubjectType)">
+            <summary>
+            添加或编辑流程组别
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.WorkFlow.WebApi.Controllers.SubjectTypeController.GetSubjectTypeList">
+            <summary>
+            获取启用的所有流程组别
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

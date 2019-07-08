@@ -67,6 +67,7 @@ namespace XSchool.WorkFlow.Businesses
                     {
                         FlowTypeId = model.FlowTypeId,
                         FormContent = model.FormContent,
+                        FormAttribute = model.FormAttribute,
                         IcoUrl = model.IcoUrl,
                         PassInfo = model.PassInfo,
                         SubjectName = model.SubjectName,
@@ -121,6 +122,7 @@ namespace XSchool.WorkFlow.Businesses
                          {
                              FlowTypeId = a.FlowTypeId,
                              FormContent = a.FormContent,
+                             FormAttribute = a.FormAttribute,
                              IcoUrl = a.IcoUrl,
                              Id = a.Id,
                              PassInfo = a.PassInfo,

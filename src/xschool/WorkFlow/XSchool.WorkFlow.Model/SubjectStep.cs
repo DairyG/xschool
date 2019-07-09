@@ -35,7 +35,7 @@ namespace XSchool.WorkFlow.Model
         public bool IsCountersign { get; set; }
 
         /// <summary>
-        /// 节点类型
+        /// 节点类型 （复盘节点时候发起人存userId，部门经理存DepId）
         /// </summary>
         public PassType PassType { get; set; }
 

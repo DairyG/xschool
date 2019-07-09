@@ -43,21 +43,28 @@ namespace XSchool.WorkFlow.Model
         }
 
         /// <summary>
-        ///  节点类型  1 审核节点，2 是抄送节点
+        ///  节点类型  1 审核节点，2 是抄送节点，3 是复盘节点
         /// </summary>
         public enum PassType
         {
             /// <summary>
-            /// 节点类型 
+            /// 审核节点 
             /// </summary>
             [Description("审核节点")]
-            Transaction = 1,
+            Audit = 1,
 
             /// <summary>
-            /// 费用流程
+            /// 抄送节点
             /// </summary>
             [Description("抄送节点")]
-            Expenses = 2,
+            Copy = 2,
+
+            /// <summary>
+            /// 复盘节点
+            /// </summary>
+            [Description("复盘节点")]
+            Summary = 3,
+
         }
 
         /// <summary>

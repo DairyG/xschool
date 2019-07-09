@@ -72,5 +72,9 @@ namespace XSchool.GCenter.Businesses
         {
             return _summaryRepository.UpdateRead(id);
         }
+        public Result Delete(int id)
+        {
+            return base.Delete(id);
+        }
     }
 }

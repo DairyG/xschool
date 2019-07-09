@@ -121,7 +121,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             return _summaryBusiness.Add(model);
         }
-
+        [HttpGet("{id}")]
         public int UpdateRead(int id)
         {
             return _summaryBusiness.UpdateRead(id);
@@ -145,6 +145,16 @@ namespace XSchool.GCenter.WebApi.Controllers
                 }
             }
             return en.ToString();
+        }
+        /// <summary>
+        /// 删除报告
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Result Delete([FromForm]int id)
+        {
+            return _summaryBusiness.Delete(id);
         }
     }
 }

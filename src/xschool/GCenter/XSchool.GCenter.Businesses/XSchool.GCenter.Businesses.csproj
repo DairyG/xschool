@@ -5,6 +5,10 @@
     <AssemblyName>XSchool.GCenter.Businesses</AssemblyName>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="PersonBusiness.cs~RF9d0ccea.TMP" />
   </ItemGroup>

@@ -197,6 +197,8 @@ namespace XSchool.Businesses
     public class Business<TModel> : Business<TModel, int>
     where TModel : class, IModel<int>, new()
     {
+
+
         public Business(IServiceProvider provider, Repository<TModel, int> repository) : base(provider, repository)
         {
 

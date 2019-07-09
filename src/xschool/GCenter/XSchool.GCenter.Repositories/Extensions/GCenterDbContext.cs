@@ -16,5 +16,6 @@ namespace XSchool.GCenter.Repositories.Extensions
         public DbSet<Evaluation> Evaluation { get; set; }
         public DbSet<EvaluationType> EvaluationType { get; set; }
         public DbSet<Summary> Summary { get; set; }
+        public DbSet<SummaryReply> SummaryReply { get; set; }
     }
 }

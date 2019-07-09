@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\xp\project\dotnet\xschool\src\xschool\XSchool.WorkFlow.WebApi\XSchool.WorkFlow.WebApi.xml</DocumentationFile>
+    <DocumentationFile>D:\xp\project\dotnet\xschool\src\xschool\WorkFlow\XSchool.WorkFlow.WebApi\XSchool.WorkFlow.WebApi.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,10 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\XSchool.Businesses\XSchool.Businesses.csproj" />
-    <ProjectReference Include="..\XSchool.Helpers\XSchool.Helpers.csproj" />
+    <ProjectReference Include="..\..\XSchool.Helpers\XSchool.Helpers.csproj" />
     <ProjectReference Include="..\XSchool.WorkFlow.Businesses\XSchool.WorkFlow.Businesses.csproj" />
-    <ProjectReference Include="..\XSchool.WorkFlow.Repositories\XSchool.WorkFlow.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

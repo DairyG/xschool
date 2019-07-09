@@ -43,6 +43,12 @@ namespace XSchool.WorkFlow.Model
         /// </summary>
         public string FormContent { get; set; }
 
+
+        /// <summary>
+        /// 表单属性
+        /// </summary>
+        public string FormAttribute { get; set; }
+        
         /// <summary>
         /// 创建时间
         /// </summary>

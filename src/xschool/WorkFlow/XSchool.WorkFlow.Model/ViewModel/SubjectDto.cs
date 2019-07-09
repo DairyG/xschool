@@ -48,6 +48,10 @@ namespace XSchool.WorkFlow.Model.ViewModel
         public string FormContent { get; set; }
 
         /// <summary>
+        /// 表单属性
+        /// </summary>
+        public string FormAttribute { get; set; }
+        /// <summary>
         /// 启用状态（枚举）
         /// </summary>
         public EDStatus Status { get; set; }

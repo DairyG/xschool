@@ -9,9 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WorkFlow\XSchool.WorkFlow.Model\XSchool.WorkFlow.Model.csproj" />
-    <ProjectReference Include="..\XSchool.Core\XSchool.Core.csproj" />
-    <ProjectReference Include="..\XSchool.Repositories\XSchool.Repositories.csproj" />
+    <ProjectReference Include="..\..\XSchool.Core\XSchool.Core.csproj" />
+    <ProjectReference Include="..\..\XSchool.Repositories\XSchool.Repositories.csproj" />
+    <ProjectReference Include="..\XSchool.WorkFlow.Model\XSchool.WorkFlow.Model.csproj" />
   </ItemGroup>
 
 </Project>

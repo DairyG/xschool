@@ -11,16 +11,25 @@ namespace XSchool.GCenter.Businesses
 {
     public class SummaryBusiness : Business<Summary>
     {
-        private SummaryRepository _resumeRepository;
+        private SummaryRepository _summaryRepository;
         public SummaryBusiness(IServiceProvider provider, SummaryRepository repository) : base(provider, repository)
         {
-            _resumeRepository = repository;
+            _summaryRepository = repository;
         }
 
 
         public IList<Summary> Get(int type)
         {
-            return base.Query(p => p.Type.Equals((SummaryType)type));
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
+            {
+                new KeyValuePair<string, OrderBy>("AddTime", OrderBy.Desc)
+            };
+            return base.Query(p => p.Type == (SummaryType)type,p=>p,order);
+        }
+
+        public Summary GetInfo(int id)
+        {
+            return base.GetSingle(p => p.Id == id);
         }
 
         public override Result Add(Summary model)
@@ -33,6 +42,7 @@ namespace XSchool.GCenter.Businesses
             //return base.Add(model);
 
             model.AddTime = DateTime.Now;
+            model.IsRead = IsRead.No;
             //新增
             if (model.Id <= 0)
             {
@@ -58,5 +68,9 @@ namespace XSchool.GCenter.Businesses
             return base.Update(model);
         }
 
+        public int UpdateRead(int id)
+        {
+            return _summaryRepository.UpdateRead(id);
+        }
     }
 }

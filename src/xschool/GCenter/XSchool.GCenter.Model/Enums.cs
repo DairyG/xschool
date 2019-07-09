@@ -398,4 +398,20 @@ namespace XSchool.GCenter.Model
         [Description("年报")]
         Year = 5,
     }
+    /// <summary>
+    /// 是否已读
+    /// </summary>
+    public enum IsRead
+    {
+        /// <summary>
+        /// 未读
+        /// </summary>
+        [Description("未读")]
+        No = 1,
+        /// <summary>
+        /// 已读
+        /// </summary>
+        [Description("已读")]
+        Yes = 2,
+    }
 }

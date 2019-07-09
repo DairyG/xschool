@@ -58,5 +58,9 @@ namespace XSchool.GCenter.Model
         /// 上传时间
         /// </summary>
         public DateTime AddTime { get; set; }
+        /// <summary>
+        /// 是否已读
+        /// </summary>
+        public IsRead IsRead { get; set; }
     }
 }

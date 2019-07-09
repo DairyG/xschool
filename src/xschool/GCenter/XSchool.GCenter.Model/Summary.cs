@@ -21,7 +21,7 @@ namespace XSchool.GCenter.Model
         /// <summary>
         /// 日期
         /// </summary>
-        public DateTime SummaryDate { get; set; }
+        public string SummaryDate { get; set; }
         /// <summary>
         /// 时间段（周报【第一周，第二周...】；季度报【第一季度，第二季度...】；年报【上半年，下半年】）
         /// </summary>

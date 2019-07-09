@@ -28,5 +28,15 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             return _summaryBusiness.Get(type);
         }
+        /// <summary>
+        /// [添加] 总结
+        /// </summary>
+        /// <param name="model">传入的参数</param>
+        /// <returns></returns>
+        [HttpPost]
+        public Result Add([FromForm]Summary model)
+        {
+            return _summaryBusiness.Add(model);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Logistics.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using XSchool.Businesses;
 using XSchool.Core;
 using XSchool.GCenter.Model;
@@ -24,7 +25,16 @@ namespace XSchool.GCenter.Businesses
             {
                 new KeyValuePair<string, OrderBy>("AddTime", OrderBy.Desc)
             };
-            return base.Query(p => p.Type == (SummaryType)type,p=>p,order);
+            return base.Query(p => p.Type == (SummaryType)type, p => p, order);
+        }
+
+        public IList<Summary> Get(Expression<Func<Summary, bool>> where)
+        {
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
+            {
+                new KeyValuePair<string, OrderBy>("AddTime", OrderBy.Desc)
+            };
+            return base.Query(where, p => p, order);
         }
 
         public Summary GetInfo(int id)
@@ -75,6 +85,10 @@ namespace XSchool.GCenter.Businesses
         public Result Delete(int id)
         {
             return base.Delete(id);
+        }
+        public void UpdateBalance(List<int> channelInt)
+        {
+            _summaryRepository.UpdateBalance(channelInt);
         }
     }
 }

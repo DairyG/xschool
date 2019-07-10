@@ -24,6 +24,12 @@ namespace XSchool.WorkFlow.Model
         public int SubjectStepId { get; set; }
 
         /// <summary>
+        /// 1组织架构 2职位 3部门岗位
+        /// </summary>		
+        public int dataType { get; set; }
+        
+
+        /// <summary>
         /// 业务类型 1流程管理可见者，2流程管理节点人员
         /// </summary>		
         public BusinessType BusinessType { get; set; }

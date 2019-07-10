@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{70BC98B5-8F93-4967-A9EC-EA80C7FF1354}</ProjectGuid>
+    <ProjectGuid>{8D92045A-C91E-4C18-8677-FFA87F452009}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>T4ConsoleApplication</RootNamespace>

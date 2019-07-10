@@ -7,9 +7,6 @@ namespace XSchool.GCenter.Model
     /// </summary>
     public class KpiTemplateAudit : IModel<int>
     {
-        /// <summary>
-        /// 
-        /// </summary>
         public int Id { get; set; }
 
         /// <summary>

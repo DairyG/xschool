@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using XSchool.Core;
@@ -67,9 +68,60 @@ namespace XSchool.GCenter.WebApi.Controllers
             public string DateSummary { get; set; }
             public string ReadState { get; set; }
         }
+
+        public class Parameter
+        {
+            public int? companyId { get; set; }
+            public int? dptId { get; set; }
+            public SummaryType? type { get; set; }
+        }
         public SummaryController(SummaryBusiness summaryBusiness)
         {
             _summaryBusiness = summaryBusiness;
+        }
+        /// <summary>
+        /// 根据条件查询所有总结
+        /// </summary>
+        /// <param name="serch">查询条件</param>
+        /// <returns></returns>
+        [HttpPost]
+        public IList<SummaryModel> Get([FromForm]Parameter serch)
+        {
+            Condition<Summary> condition = new Condition<Summary>();
+            if (serch.type >= 0)
+            {
+                condition.And(p => p.Type == serch.type);
+            }
+            if (serch.companyId > 0)
+            {
+                condition.And(p => p.CompanyId.Equals(serch.companyId));
+            }
+            if (serch.dptId > 0)
+            {
+                condition.And(p => p.DptId.Equals(serch.dptId));
+            }
+            IList<Summary> list = _summaryBusiness.Get(condition.Combine());
+            IList<SummaryModel> modelList = new List<SummaryModel>();
+            foreach (var item in list)
+            {
+                SummaryModel model = new SummaryModel();
+                model.Id = item.Id;
+                model.CompanyId = item.CompanyId;
+                model.DptId = item.DptId;
+                model.EmployeeId = item.EmployeeId;
+                model.EmployeeName = item.EmployeeName;
+                model.SummaryDate = item.SummaryDate;
+                model.Finish = item.Finish;
+                model.Content = item.Content;
+                model.Plan = item.Plan;
+                model.Help = item.Help;
+                model.Description = item.Description;
+                model.AddTime = item.AddTime.ToString();
+                model.DateSummary = item.SummaryDate + GetDescription(item.Index);
+                model.ReadState = GetDescription(item.IsRead);
+                modelList.Add(model);
+            }
+            return modelList;
         }
         /// <summary>
         /// 根据类型查询所有总结
@@ -156,6 +208,15 @@ namespace XSchool.GCenter.WebApi.Controllers
         public Result Delete([FromForm]int id)
         {
             return _summaryBusiness.Delete(id);
+        }
+        /// <summary>
+        /// 根据编号数组修改阅读状态
+        /// </summary>
+        /// <param name="ids"></param>
+        [HttpPost]
+        public void UpdateReads([FromForm]List<int> ids)
+        {
+            _summaryBusiness.UpdateBalance(ids);
         }
     }
 }

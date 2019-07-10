@@ -4,6 +4,7 @@ using XSchool.GCenter.Repositories.Extensions;
 using XSchool.Repositories;
 using System.Linq;
 using XSchool.Query.Pageing;
+using Microsoft.EntityFrameworkCore;
 
 namespace XSchool.GCenter.Repositories
 {
@@ -25,6 +26,16 @@ namespace XSchool.GCenter.Repositories
                 model.IsRead = IsRead.Yes;
                 return _dbContext.SaveChanges();
             }
+        }
+        public void UpdateBalance(List<int> channelInt)
+        {
+            if (channelInt.Count == 0) {
+                return;
+            }
+            var channels = string.Join(",", channelInt);
+            var sql = $"UPDATE Summary SET IsRead=2 WHERE Id in ({channels})";
+            _dbContext.Database.ExecuteSqlCommand(sql);
+
         }
     }
 }

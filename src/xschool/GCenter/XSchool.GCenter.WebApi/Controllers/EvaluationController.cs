@@ -53,7 +53,7 @@ namespace XSchool.GCenter.WebApi.Controllers
             };
             var condition = new Condition<Evaluation>();
             condition.And(p => p.Id > 0);
-            return _business.Page(page, limit, condition.Combine(),order);
+            return _business.Page(page, limit, condition.Combine(), order);
         }
 
         [HttpPost]
@@ -73,6 +73,19 @@ namespace XSchool.GCenter.WebApi.Controllers
         public BasicInfoResultDto GetData(string type)
         {
             return _basicInfoWrapper.GetData(type);
+        }
+
+        /// <summary>
+        /// [列表] 考核项目
+        /// </summary>
+        /// <param name="page">页索引</param>
+        /// <param name="limit">页大小</param>
+        /// <param name="seach">筛选参数</param>
+        /// <returns></returns>
+        [HttpPost]
+        public IPageCollection<EvaluationDto> GetList([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]EvaluationSeach seach)
+        {
+            return _business.Page(page, limit, seach);
         }
     }
 }

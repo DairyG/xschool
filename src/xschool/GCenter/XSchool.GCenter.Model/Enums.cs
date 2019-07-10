@@ -99,7 +99,7 @@ namespace XSchool.GCenter.Model
     }
 
     /// <summary>
-    /// 性别
+    /// 性别，[男，女]
     /// </summary>
     public enum Gender
     {
@@ -218,62 +218,7 @@ namespace XSchool.GCenter.Model
     }
 
     /// <summary>
-    /// [绩效考核] 考核类型
-    /// </summary>
-    public enum KpiType
-    {
-        /// <summary>
-        /// 部门
-        /// </summary>
-        [Description("部门")]
-        Dept = 1,
-        /// <summary>
-        /// 人员
-        /// </summary>
-        [Description("人员")]
-        User = 2,
-    }
-    /// <summary>
-    /// [绩效考核] 考核对象类型
-    /// </summary>
-    public enum KpiObjectType
-    {
-        /// <summary>
-        /// 部门
-        /// </summary>
-        [Description("部门负责人")]
-        DeptHead = 1,
-        /// <summary>
-        /// 人员
-        /// </summary>
-        [Description("人员")]
-        User = 2,
-    }
-
-    /// <summary>
-    /// [绩效考核] 审核对象类型
-    /// </summary>
-    public enum KpiAuditObjectType
-    {
-        /// <summary>
-        /// 部门
-        /// </summary>
-        [Description("部门负责人")]
-        DeptHead = 1,
-        /// <summary>
-        /// 部门
-        /// </summary>
-        [Description("上级部门负责人")]
-        LeaderDeptHead = 2,
-        /// <summary>
-        /// 人员
-        /// </summary>
-        [Description("人员")]
-        Others = 3,
-    }
-
-    /// <summary>
-    /// [绩效考核] 考核方案
+    /// [绩效考核] 考核方案，[月度，季度，半年，年度]
     /// </summary>
     public enum KpiPlan
     {
@@ -297,6 +242,90 @@ namespace XSchool.GCenter.Model
         /// </summary>
         [Description("年度考核方案")]
         Annual = 4,
+    }
+    /// <summary>
+    /// [绩效考核] 考核类型，[部门，人员]
+    /// </summary>
+    public enum KpiType
+    {
+        /// <summary>
+        /// 部门
+        /// </summary>
+        [Description("部门")]
+        Dept = 1,
+        /// <summary>
+        /// 人员
+        /// </summary>
+        [Description("人员")]
+        User = 2,
+    }
+    /// <summary>
+    /// [绩效考核] 考核对象类型，[部门负责人，人员]
+    /// </summary>
+    public enum KpiObjectType
+    {
+        /// <summary>
+        /// 部门
+        /// </summary>
+        [Description("部门负责人")]
+        DeptHead = 1,
+        /// <summary>
+        /// 人员
+        /// </summary>
+        [Description("人员")]
+        User = 2,
+    }
+    /// <summary>
+    /// [绩效考核] 考核步骤，[自评，初审，终审，完成]
+    /// </summary>
+    public enum KpiSteps
+    {
+        /// <summary>
+        /// 自评
+        /// </summary>
+        [Description("自评")]
+        Zero = 0,
+        /// <summary>
+        /// 初审
+        /// </summary>
+        [Description("初审")]
+        One = 1,
+        /// <summary>
+        /// 终审
+        /// </summary>
+        [Description("终审")]
+        Two = 2,
+        /// <summary>
+        /// 完成
+        /// </summary>
+        [Description("完成")]
+        Complete = -1,
+    }
+    /// <summary>
+    /// [绩效考核] 考核步骤，[自评，审批中，完成，无效]
+    /// </summary>
+    public enum KpiStatus
+    {
+        /// <summary>
+        /// 自评
+        /// </summary>
+        [Description("自评")]
+        Zero = 0,
+        /// <summary>
+        /// 审批中
+        /// </summary>
+        [Description("审批中")]
+        Audit = 1,
+        /// <summary>
+        /// 完成
+        /// </summary>
+        [Description("完成")]
+        Two = 2,
+        /// <summary>
+        /// 无效
+        /// </summary>
+        [Description("无效")]
+        Invalid = -1,
     }
 
     /// <summary>

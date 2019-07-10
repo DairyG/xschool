@@ -6,6 +6,8 @@ using XSchool.Core;
 using XSchool.GCenter.Model;
 using XSchool.GCenter.Repositories;
 using System.Linq;
+using XSchool.Query.Pageing;
+using XSchool.GCenter.Model.ViewModel;
 
 namespace XSchool.GCenter.Businesses
 {
@@ -87,6 +89,18 @@ namespace XSchool.GCenter.Businesses
 
             model.Description = model.Description.Trim();
             return Result.Success();
+        }
+
+        /// <summary>
+        /// [列表] 考核项目
+        /// </summary>
+        /// <param name="page">页索引</param>
+        /// <param name="limit">页大小</param>
+        /// <param name="seach">筛选参数</param>
+        /// <returns></returns>
+        public IPageCollection<EvaluationDto> Page(int page, int limit, EvaluationSeach seach)
+        {
+            return _repository.Page(page, limit, seach);
         }
     }
 }

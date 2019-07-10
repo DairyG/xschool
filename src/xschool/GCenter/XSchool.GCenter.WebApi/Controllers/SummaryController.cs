@@ -34,7 +34,7 @@ namespace XSchool.GCenter.WebApi.Controllers
             /// <summary>
             /// 员工姓名
             /// </summary>
-            public int EmployeeName { get; set; }
+            public string EmployeeName { get; set; }
             /// <summary>
             /// 日期
             /// </summary>
@@ -62,7 +62,7 @@ namespace XSchool.GCenter.WebApi.Controllers
             /// <summary>
             /// 上传时间
             /// </summary>
-            public DateTime AddTime { get; set; }
+            public string AddTime { get; set; }
 
             public string DateSummary { get; set; }
             public string ReadState { get; set; }
@@ -88,13 +88,14 @@ namespace XSchool.GCenter.WebApi.Controllers
                 model.CompanyId = item.CompanyId;
                 model.DptId = item.DptId;
                 model.EmployeeId = item.EmployeeId;
+                model.EmployeeName = item.EmployeeName;
                 model.SummaryDate = item.SummaryDate;
                 model.Finish = item.Finish;
                 model.Content = item.Content;
                 model.Plan = item.Plan;
                 model.Help = item.Help;
                 model.Description = item.Description;
-                model.AddTime = item.AddTime;
+                model.AddTime = item.AddTime.ToString();
                 model.DateSummary = item.SummaryDate + GetDescription(item.Index);
                 model.ReadState = GetDescription(item.IsRead);
                 modelList.Add(model);

@@ -19,6 +19,10 @@ namespace XSchool.GCenter.Model
         /// </summary>
         public int EmployeeId { get; set; }
         /// <summary>
+        /// 员工姓名
+        /// </summary>
+        public string EmployeeName { get; set; }
+        /// <summary>
         /// 日期
         /// </summary>
         public string SummaryDate { get; set; }

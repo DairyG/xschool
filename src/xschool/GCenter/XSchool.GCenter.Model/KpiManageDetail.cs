@@ -12,57 +12,57 @@ namespace XSchool.GCenter.Model
 
         /// <summary>
         /// 考核管理记录Id
-        /// </summary>
+        /// </summary>		
         public int KpiManageRecordId { get; set; }
 
         /// <summary>
         /// 考核项目Id
-        /// </summary>
+        /// </summary>		
         public int EvaluationId { get; set; }
 
         /// <summary>
         /// 考核项目名称
-        /// </summary>
+        /// </summary>		
         public string EvaluationName { get; set; }
 
         /// <summary>
         /// 所属分类
-        /// </summary>
+        /// </summary>		
         public string EvaluationType { get; set; }
 
         /// <summary>
         /// 权重
-        /// </summary>
+        /// </summary>		
         public int Weight { get; set; }
 
         /// <summary>
         /// 说明
-        /// </summary>
+        /// </summary>		
         public string Explain { get; set; }
 
         /// <summary>
         /// 考核时间
-        /// </summary>
+        /// </summary>		
         public string KpiDate { get; set; }
 
         /// <summary>
         /// 自评分
-        /// </summary>
+        /// </summary>		
         public decimal? SelfScore { get; set; }
 
         /// <summary>
         /// 初审分
-        /// </summary>
+        /// </summary>		
         public decimal? OneScore { get; set; }
 
         /// <summary>
         /// 终审分
-        /// </summary>
+        /// </summary>		
         public decimal? TwoScore { get; set; }
 
         /// <summary>
         /// 备注
-        /// </summary>
+        /// </summary>		
         public string Remark { get; set; }
 
         /// <summary>

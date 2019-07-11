@@ -7,3 +7,5 @@ doc/
 /xweb
 /xsui
 /src/xschool/WorkFlow/XSchool.WorkFlow.WebApi/Properties/PublishProfiles
+/src/xschool/GCenter/XSchool.GCenter.WebApi/XSchool.GCenter.WebApi.csproj.user
+/src/xschool/WorkFlow/XSchool.WorkFlow.WebApi/XSchool.WorkFlow.WebApi.csproj.user

@@ -7,6 +7,7 @@ using XSchool.Core;
 using XSchool.WorkFlow.Model;
 using XSchool.WorkFlow.Model.ViewModel;
 using XSchool.WorkFlow.Repositories;
+using static XSchool.WorkFlow.Model.Enums;
 
 namespace XSchool.WorkFlow.Businesses
 {
@@ -164,6 +165,22 @@ namespace XSchool.WorkFlow.Businesses
                 UserId = p.UserId
             }).ToList();
             return list;
+        }
+        /// <summary>
+        /// 启用或禁用流程
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="status">1禁用，2启用</param>
+        /// <returns></returns>
+        public Result EnableSubject(int Id, int status)
+        {
+            string msg = string.Empty;
+            var result = _repository.Update(s => s.Id == Id, s => new Subject { Status = (EDStatus)status });
+            if (!result)
+            {
+                msg = "操作失败。。。";
+            }
+            return new Result() { Message = msg, Succeed = result };
         }
     }
 }

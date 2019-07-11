@@ -40,5 +40,16 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         {
             return subjectTypeBusiness.GetSubjectTypeList();
         }
+
+        /// <summary>
+        /// 删除流程组别
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Result DeleteSubjectType([FromForm]int Id)
+        {
+            return subjectTypeBusiness.DeleteSubjectType( Id);
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace XSchool.WorkFlow.Model
    public  class Enums
     {
         /// <summary>
-        /// 禁启状态，[禁用，启用]
+        /// 禁启状态，[1禁用，2启用]
         /// </summary>
         public enum EDStatus
         {

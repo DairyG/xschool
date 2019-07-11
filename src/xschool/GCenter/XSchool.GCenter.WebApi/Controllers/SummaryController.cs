@@ -64,6 +64,7 @@ namespace XSchool.GCenter.WebApi.Controllers
             /// 上传时间
             /// </summary>
             public string AddTime { get; set; }
+            public SummaryIndex Index { get; set; }
 
             public string DateSummary { get; set; }
             public string ReadState { get; set; }
@@ -74,6 +75,7 @@ namespace XSchool.GCenter.WebApi.Controllers
             public int? companyId { get; set; }
             public int? dptId { get; set; }
             public SummaryType? type { get; set; }
+            public string summaryDate { get; set; }
         }
         public SummaryController(SummaryBusiness summaryBusiness)
         {
@@ -90,7 +92,13 @@ namespace XSchool.GCenter.WebApi.Controllers
             Condition<Summary> condition = new Condition<Summary>();
             if (serch.type >= 0)
             {
-                condition.And(p => p.Type == serch.type);
+                if (!string.IsNullOrWhiteSpace(serch.summaryDate))
+                {
+                    condition.And(p => p.Type == serch.type && p.SummaryDate.Contains(serch.summaryDate));
+                }
+                else { 
+                    condition.And(p => p.Type == serch.type);
+                }
             }
             if (serch.companyId > 0)
             {
@@ -112,6 +120,7 @@ namespace XSchool.GCenter.WebApi.Controllers
                 model.EmployeeName = item.EmployeeName;
                 model.SummaryDate = item.SummaryDate;
                 model.Finish = item.Finish;
+                model.Index = item.Index;
                 model.Content = item.Content;
                 model.Plan = item.Plan;
                 model.Help = item.Help;

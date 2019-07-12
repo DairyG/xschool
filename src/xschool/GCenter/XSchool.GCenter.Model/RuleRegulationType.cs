@@ -5,17 +5,30 @@ using XSchool.Core;
 
 namespace XSchool.GCenter.Model
 {
-    /// <summary>
-    /// 通知公告
-    /// </summary>
-    public class Note : IModel<int>
+    public class RuleRegulationType : IModel<int>
+    {
+        public int Id { get; set; }
+        /// <summary>
+        /// 父级Id
+        /// </summary>
+        public int ParentId { get; set; }
+        /// <summary>
+        /// 制度名称
+        /// </summary>
+        public string RuleName { get; set; }
+    }
+    public class RuleRegulation : IModel<int>
     {
         /// <summary>
         /// Id
         /// </summary>
         public int Id { get; set; }
         /// <summary>
-        /// 公告标题
+        /// TypeId
+        /// </summary>
+        public int TypeId { get; set; }
+        /// <summary>
+        /// 制度标题
         /// </summary>
         public string Title { get; set; }
         /// <summary>
@@ -31,31 +44,15 @@ namespace XSchool.GCenter.Model
         /// </summary>
         public string Content { get; set; }
         /// <summary>
-        /// 公告附件Url地址
+        /// 附件Url地址
         /// </summary>
         public string EnclosureUrl { get; set; }
-        /// <summary>
-        /// 是否强制阅读
-        /// </summary>
-        public int IsNeedRead { get; set; }
-        /// <summary>
-        /// 阅读次数
-        /// </summary>
-        public int ReadCount { get; set; }
-        /// <summary>
-        /// 排序
-        /// </summary>
-        public int Sort { get; set; }
     }
-    public class NoteSearch
+    public class RuleRegulationSearch
     {
         /// <summary>
-        /// 公告标题
+        /// 制度标题
         /// </summary>
         public string Title { get; set; }
-        /// <summary>
-        /// 是否已读
-        /// </summary>
-        public int IsRead { get; set; }
     }
 }

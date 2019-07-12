@@ -33,24 +33,6 @@ namespace XSchool.GCenter.Businesses
             {
                 return Result.Fail("数据不能为空");
             }
-            //if (model.IsSystem.Equals(IsSystem.Yes))
-            //{
-            //    return Result.Fail("数据为系统数据，无法更改！");
-            //}
-            //if (string.IsNullOrWhiteSpace(model.Name))
-            //{
-            //    return Result.Fail("该项不能为空");
-            //}
-
-            //if (GetSingle(p => p.Name == model.Name && p.Id != model.Id && p.Type == model.Type) != null)
-            //{
-            //    return Result.Fail("数据已存在，不能再次使用");
-            //}
-
-            //if (string.IsNullOrWhiteSpace(model.Memo))
-            //{
-            //    model.Memo = "";
-            //}
             return Result.Success();
         }
     }

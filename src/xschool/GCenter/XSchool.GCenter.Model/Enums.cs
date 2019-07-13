@@ -223,6 +223,11 @@ namespace XSchool.GCenter.Model
     public enum KpiPlan
     {
         /// <summary>
+        /// 不选
+        /// </summary>
+        [Description("不选")]
+        NoSel = 0,
+        /// <summary>
         /// 月度考核方案
         /// </summary>
         [Description("月度考核方案")]
@@ -442,5 +447,103 @@ namespace XSchool.GCenter.Model
         /// </summary>
         [Description("已读")]
         Yes = 2,
+    }
+    /// <summary>
+    /// 提醒时间
+    /// </summary>
+    public enum RemindTime
+    {
+        /// <summary>
+        /// 暂无
+        /// </summary>
+        [Description("暂无")]
+        NoSel = 0,
+        /// <summary>
+        /// 不提醒
+        /// </summary>
+        [Description("不提醒")]
+        Not = 1,
+        /// <summary>
+        /// 提前15分钟
+        /// </summary>
+        [Description("提前15分钟")]
+        FifteenMin = 2,
+        /// <summary>
+        /// 提前1小时
+        /// </summary>
+        [Description("提前1小时")]
+        OneHour = 3,
+        /// <summary>
+        /// 提前24小时
+        /// </summary>
+        [Description("提前24小时")]
+        OneDay = 4,
+    }
+    /// <summary>
+    /// 提醒方式
+    /// </summary>
+    public enum RemindWay
+    {
+        /// <summary>
+        /// 暂无
+        /// </summary>
+        [Description("暂无")]
+        NoSel = 0,
+        /// <summary>
+        /// 全部
+        /// </summary>
+        [Description("全部")]
+        All = 1,
+        /// <summary>
+        /// 站内消息
+        /// </summary>
+        [Description("站内消息")]
+        Site = 2,
+        /// <summary>
+        /// 手机短信
+        /// </summary>
+        [Description("手机短信")]
+        PhoneMsg = 3,
+    }
+    public enum Emergency
+    {
+        /// <summary>
+        /// 一般
+        /// </summary>
+        [Description("一般")]
+        General = 1,
+        /// <summary>
+        /// 紧急
+        /// </summary>
+        [Description("紧急")]
+        Emergency = 2,
+        /// <summary>
+        /// 重要
+        /// </summary>
+        [Description("重要")]
+        Important = 3,
+    }
+    public enum Repeat
+    {
+        /// <summary>
+        /// 不重复
+        /// </summary>
+        [Description("不重复")]
+        Not = 1,
+        /// <summary>
+        /// 按天
+        /// </summary>
+        [Description("按天")]
+        Day = 2,
+        /// <summary>
+        /// 按月
+        /// </summary>
+        [Description("按月")]
+        Month = 3,
+        /// <summary>
+        /// 按周
+        /// </summary>
+        [Description("按周")]
+        Week = 4,
     }
 }

@@ -19,12 +19,14 @@ namespace XSchool.WorkFlow.Businesses
         private readonly SubjectRepository _repository;
         private readonly SubjectRuleRepository _rulerepository;
         private readonly SubjectStepRepository _steprepository;
-        public SubjectBusiness(IServiceProvider provider, SubjectRepository repository, SubjectRuleRepository rulerepository, SubjectStepRepository steprepository)
+        private readonly SubjectTypeRepository _repositoryTypeSubject;
+        public SubjectBusiness(IServiceProvider provider, SubjectRepository repository, SubjectRuleRepository rulerepository, SubjectStepRepository steprepository, SubjectTypeRepository repositoryTypeSubject)
             : base(provider, repository)
         {
             this._repository = repository;
             this._rulerepository = rulerepository;
             this._steprepository = steprepository;
+            this._repositoryTypeSubject = repositoryTypeSubject;
         }
         /// <summary>
         /// /添加流程管理
@@ -72,6 +74,7 @@ namespace XSchool.WorkFlow.Businesses
                         IcoUrl = model.IcoUrl,
                         PassInfo = model.PassInfo,
                         SubjectName = model.SubjectName,
+                        UpdateTime = DateTime.Now,
                         SubjectTypeId = model.SubjectTypeId
                     });
                     if (!status) return new Result() { Succeed = status, Message = "参数修改失败" };
@@ -182,5 +185,43 @@ namespace XSchool.WorkFlow.Businesses
             }
             return new Result() { Message = msg, Succeed = result };
         }
+
+        /// <summary>
+        /// 获取所有流程分组及流程内容
+        /// </summary>
+        /// <returns></returns>
+        public Result GetSubject()
+        {
+            var data = (from a in _repositoryTypeSubject.Entites
+                        join b in _repository.Entites on a.Id equals b.SubjectTypeId into subjectList
+                        from c in subjectList
+                        join d in _rulerepository.Entites on c.Id equals d.SubjectId
+                        where d.BusinessType == BusinessType.Transaction && c.Status == EDStatus.Enable && c.Id == d.SubjectId
+                        && d.BusinessType == BusinessType.Transaction
+                        select new subjectTypeDto
+                        {
+                            subjectTypeId = a.Id,
+                            SubjectTypeName = a.SubjectTypeName,
+                            subjectList = subjectList.Select(q => new subjectViewDto
+                            {
+                                subjectId = q.Id,
+                                SubjectName = q.SubjectName,
+                                UpdateTime = q.UpdateTime,
+                                Remark = q.Remark,
+                                SubjectRuleList = subjectList.Select(p => new SubjectRuleDto
+                                {
+                                    CompanyId = d.CompanyId,
+                                    DepId = d.DepId,
+                                    JobDepId = d.JobDepId,
+                                    JobId = d.JobId,
+                                    SubjectStepId = d.SubjectStepId,
+                                    UserId = d.UserId,
+                                    dataType = d.dataType
+                                }).ToList()
+                            }).ToList()
+                        }).FirstOrDefault();
+            return new Result<subjectTypeDto>() { Data = data };
+        }
+
     }
 }

@@ -14,6 +14,8 @@ namespace XSchool.WorkFlow.Repositories.Extensions
             {
                 entry.ToTable("SubjectType");
                 entry.HasKey(m => m.Id);
+
+             //   entry.HasOne(m => m.SubjectObj)
             });
 
             //流程主表：可视范围，one=>many

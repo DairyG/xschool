@@ -118,5 +118,16 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         {
             return subjectBusiness.EnableSubject(Id, status);
         }
+
+
+        /// <summary>
+        /// 获取所有流程分组及流程内容
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public Result GetSubject()
+        {
+            return subjectBusiness.GetSubject();
+        }
     }
 }

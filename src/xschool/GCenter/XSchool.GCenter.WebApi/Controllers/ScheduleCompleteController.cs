@@ -30,5 +30,15 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             return _scheduleCompleteBusiness.Add(model);
         }
+        /// <summary>
+        /// 根据日程ID获取已经完成的人
+        /// </summary>
+        /// <param name="scheId"></param>
+        /// <returns></returns>
+        [HttpGet("{scheId}")]
+        public IList<ScheduleComplete> Get(int scheId)
+        {
+            return _scheduleCompleteBusiness.Get(scheId);
+        }
     }
 }

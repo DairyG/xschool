@@ -22,14 +22,15 @@ namespace XSchool.GCenter.Businesses
         {
             model.AddTime = DateTime.Now;
             //新增
-            if (model.Id <= 0)
+            return base.Exist(p=>p.ScheduleId.Equals(model.ScheduleId) && p.EmployeeId.Equals(model.EmployeeId)) ? Result.Fail("您已完成，无需重复操作") : base.Add(model);
+        }
+        public IList<ScheduleComplete> Get(int scheId)
+        {
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
             {
-                return base.Add(model);
-            }
-            else
-            {
-                return base.Update(model);
-            }
+                new KeyValuePair<string, OrderBy>("AddTime", OrderBy.Desc)
+            };
+            return base.Query(p => p.ScheduleId.Equals(scheId),p=>p, order);
         }
     }
 }

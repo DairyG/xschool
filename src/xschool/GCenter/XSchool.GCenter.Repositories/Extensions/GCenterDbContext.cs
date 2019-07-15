@@ -20,5 +20,6 @@ namespace XSchool.GCenter.Repositories.Extensions
         public DbSet<Note> Note { get; set; }
         public DbSet<Schedule> Schedule { get; set; }
         public DbSet<ScheduleComplete> ScheduleComplete { get; set; }
+        public DbSet<ScheduleReply> ScheduleReply { get; set; }
     }
 }

@@ -102,6 +102,13 @@
             <param name="model">传入的参数</param>
             <returns></returns>
         </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.ScheduleCompleteController.Get(System.Int32)">
+            <summary>
+            根据日程ID获取已经完成的人
+            </summary>
+            <param name="scheId"></param>
+            <returns></returns>
+        </member>
         <member name="M:XSchool.GCenter.WebApi.Controllers.ScheduleController.Add(XSchool.GCenter.Model.Schedule)">
             <summary>
             [添加] 日程
@@ -123,6 +130,20 @@
             <returns></returns>
         </member>
         <!-- Badly formed XML comment ignored for member "M:XSchool.GCenter.WebApi.Controllers.ScheduleController.GetDescription(System.Enum)" -->
+        <member name="M:XSchool.GCenter.WebApi.Controllers.ScheduleReplyController.Add(XSchool.GCenter.Model.ScheduleReply)">
+            <summary>
+            [添加] 日程回复
+            </summary>
+            <param name="model">传入的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.ScheduleReplyController.Get(System.Int32)">
+            <summary>
+            根据日程ID获取已经完成的人
+            </summary>
+            <param name="scheId"></param>
+            <returns></returns>
+        </member>
         <member name="P:XSchool.GCenter.WebApi.Controllers.SummaryController.SummaryModel.CompanyId">
             <summary>
             公司ID

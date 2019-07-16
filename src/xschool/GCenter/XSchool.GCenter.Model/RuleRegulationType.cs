@@ -48,11 +48,81 @@ namespace XSchool.GCenter.Model
         /// </summary>
         public string EnclosureUrl { get; set; }
     }
+    public class RuleRegulationPage
+    {
+        /// <summary>
+        /// Id
+        /// </summary>
+        public int Id { get; set; }
+        /// <summary>
+        /// TypeId
+        /// </summary>
+        public int TypeId { get; set; }
+        /// <summary>
+        /// TypeName
+        /// </summary>
+        public string TypeName { get; set; }
+        /// <summary>
+        /// 制度标题
+        /// </summary>
+        public string Title { get; set; }
+        /// <summary>
+        /// 发布人Id
+        /// </summary>
+        public int PublisherId { get; set; }
+        /// <summary>
+        /// 发布日期
+        /// </summary>
+        public DateTime CreateDate { get; set; }
+        /// <summary>
+        /// 发布内容
+        /// </summary>
+        public string Content { get; set; }
+        /// <summary>
+        /// 附件Url地址
+        /// </summary>
+        public string EnclosureUrl { get; set; }
+    }
     public class RuleRegulationSearch
     {
         /// <summary>
         /// 制度标题
         /// </summary>
         public string Title { get; set; }
+        /// <summary>
+        /// TypeId
+        /// </summary>
+        public int TypeId { get; set; }
+    }
+    /// <summary>
+    /// 阅读记录
+    /// </summary>
+    public class RuleRegulationReadRecord
+    {
+        public int Id { get; set; }
+        public int NoteId { get; set; }
+        public int IsRead { get; set; }
+        public DateTime ReadDate { get; set; }
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+    }
+    /// <summary>
+    /// 阅读范围
+    /// </summary>
+    public class RuleRegulationReadRange : IModel<int>
+    {
+        public int Id { get; set; }
+        public int RuleTypeId { get; set; }
+        public int IsRead { get; set; }
+        public DateTime ReadDate { get; set; }
+        public OrgType TypeId { get; set; }
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+        public int DptId { get; set; }
+        public string DptName { get; set; }
+        public int CompanyId { get; set; }
+        public string CompanyName { get; set; }
+        public int PositionId { get; set; }
+        public string PositionName { get; set; }
     }
 }

@@ -18,7 +18,11 @@ namespace XSchool.GCenter.Repositories.Extensions
         public DbSet<Summary> Summary { get; set; }
         public DbSet<SummaryReply> SummaryReply { get; set; }
         public DbSet<Note> Note { get; set; }
+        public DbSet<Schedule> Schedule { get; set; }
+        public DbSet<ScheduleComplete> ScheduleComplete { get; set; }
         public DbSet<RuleRegulationType> RuleRegulationType { get; set; }
         public DbSet<RuleRegulation> RuleRegulation { get; set; }
+        public DbSet<NoteReadRange> NoteReadRange { get; set; }
+        public DbSet<RuleRegulationReadRange> RuleRegulationReadRange { get; set; }
     }
 }

@@ -24,22 +24,54 @@ namespace XSchool.GCenter.WebApi.Controllers
         private readonly BasicInfoWrapper _basicInfoWrapper;
         private readonly RuleRegulationTypeBusiness _ruleRegulationTypeBusiness;
         private readonly RuleRegulationBusiness _ruleRegulationBusiness;
-        public NoteController(NoteBusinesses business, RuleRegulationTypeBusiness ruleRegulationTypeBusiness, RuleRegulationBusiness ruleRegulationBusiness, BasicInfoWrapper basicInfoWrapper)
+        private readonly NoteReadRangeBusinesses _noteReadRangeBusinesses;
+        public NoteController(NoteBusinesses business, RuleRegulationTypeBusiness ruleRegulationTypeBusiness, RuleRegulationBusiness ruleRegulationBusiness, BasicInfoWrapper basicInfoWrapper
+            , NoteReadRangeBusinesses noteReadRangeBusinesses)
         {
             this._business = business;
             this._ruleRegulationTypeBusiness = ruleRegulationTypeBusiness;
             this._ruleRegulationBusiness = ruleRegulationBusiness;
+            this._noteReadRangeBusinesses = noteReadRangeBusinesses;
             _basicInfoWrapper = basicInfoWrapper;
         }
 
         #region 通知公告管理
+        /// <summary>
+        /// 添加通知公告
+        /// </summary>
+        /// <param name="model">公告详情</param>
+        /// <param name="UserList">阅读人员列表</param>
+        /// <param name="DepList">阅读部门列表</param>
+        /// <param name="ComList">阅读公司列表</param>
+        /// <param name="PositionList">阅读职位</param>
+        /// <returns></returns>
         [HttpPost]
         [Description("添加通知公告")]
-        public Result AddNote([FromForm]Model.Note model)
+        public Result AddNote([FromForm]Model.Note model, [FromForm]List<Model.User> UserList, [FromForm]List<Model.Dep> DepList, [FromForm]List<Model.Com> ComList, [FromForm]List<Model.Position> PositionList)
         {
-            model.CreateDate = DateTime.Now;
-            model.PublisherId = 1;
-            return _business.Add(model);
+            if (model.Id == 0)
+            {
+                model.CreateDate = DateTime.Now;
+                return _business.Add(model, UserList, DepList, ComList, PositionList);
+            }
+            else
+            {
+                model.CreateDate = DateTime.Now;
+                return _business.Update(model);
+            }
+        }
+        [HttpPost]
+        [Description("查询已读/未读公告")]
+        public Result<IPageCollection<Model.NoteReadRange>> NoteReadRange([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]int IsRead, [FromForm]int NoteId)
+        {
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
+            {
+                new KeyValuePair<string, OrderBy>("Id", OrderBy.Desc)
+            };
+            var condition = new Condition<Model.NoteReadRange>();
+            condition.And(p => (p.IsRead==IsRead&&p.NoteId==NoteId));
+            var pageList = _noteReadRangeBusinesses.Page(page, limit, condition.Combine(), order);
+            return pageList;
         }
         [HttpPost]
         [Description("通知公告列表")]
@@ -50,7 +82,7 @@ namespace XSchool.GCenter.WebApi.Controllers
                 new KeyValuePair<string, OrderBy>("Id", OrderBy.Desc)
             };
             var condition = new Condition<Model.Note>();
-            condition.And(p =>search.Title==null? 1==1: p.Title == search.Title);
+            condition.And(p =>(string.IsNullOrEmpty(search.Title)? true: p.Title.Contains(search.Title)));
             var pageList= _business.Page(page, limit, condition.Combine(), order);
             return pageList;
         }
@@ -149,15 +181,9 @@ namespace XSchool.GCenter.WebApi.Controllers
         }
         [HttpPost]
         [Description("通知公告列表")]
-        public Result<IPageCollection<Model.RuleRegulation>> GetRuleRegulationPage([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]Model.RuleRegulationSearch search)
-        {
-            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
-            {
-                new KeyValuePair<string, OrderBy>("Id", OrderBy.Desc)
-            };
-            var condition = new Condition<Model.RuleRegulation>();
-            condition.And(p => search.Title == null ? 1 == 1 : p.Title == search.Title);
-            var pageList = _ruleRegulationBusiness.Page(page, limit, condition.Combine(), order);
+        public IPageCollection<Model.RuleRegulationPage> GetRuleRegulationPage([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]Model.RuleRegulationSearch search)
+        {            
+            var pageList = _ruleRegulationBusiness.GetRuleRegulationList(page, limit,search);
             return pageList;
         }
         /// <summary>
@@ -166,9 +192,13 @@ namespace XSchool.GCenter.WebApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Description("制度管理新增")]
-        public Result RuleRegulationAdd([FromForm]Model.RuleRegulation model)
+        public Result RuleRegulationAdd([FromForm]Model.RuleRegulation model, [FromForm]List<Model.User> UserList, [FromForm]List<Model.Dep> DepList, [FromForm]List<Model.Com> ComList, [FromForm]List<Model.Position> PositionList)
         {
-            return _ruleRegulationBusiness.Add(model);
+            model.CreateDate = DateTime.Now;
+            if (model.Id == 0)
+                return _ruleRegulationBusiness.Add(model, UserList, DepList, ComList, PositionList);
+            else
+                return _ruleRegulationBusiness.Update(model);
         }
         /// <summary>
         /// 获取制度修改
@@ -179,6 +209,17 @@ namespace XSchool.GCenter.WebApi.Controllers
         public Result RuleRegulationEdit([FromForm]Model.RuleRegulation model)
         {
             return _ruleRegulationBusiness.Update(model);
+        }
+        /// <summary>
+        /// 获取制度model
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Description("制度管理model")]
+        public Result RuleRegulationDetail(int id)
+        {
+            var model= _ruleRegulationBusiness.GetSingle(id);
+            return Result.Success(model);
         }
         /// <summary>
         /// 制度管理删除

@@ -28,62 +28,105 @@ namespace XSchool.GCenter.Businesses
             _tplAuditRecordRepository = tplAuditRecordRepository;
         }
 
-        public Result Add(KpiEvaluationTemplatSubmitDto modelDto)
+        /// <summary>
+        /// 验证 传入的参数值
+        /// </summary>
+        /// <param name="modelDto"></param>
+        /// <returns></returns>
+        private Result CheckTemplat(KpiEvaluationTemplatSubmitDto modelDto)
+        {
+            if (modelDto.TemplateRecord.Count == 0)
+            {
+                return Result.Fail("请选择考核对象");
+            }
+            if (modelDto.TemplateAuditRecord.Count == 0)
+            {
+                return Result.Fail("请设置审核人");
+            }
+            if (modelDto.TemplateDetail.Count == 0)
+            {
+                return Result.Fail("请设置考核内容");
+            }
+
+            return Result.Success();
+        }
+
+        public Result AddOrEdit(KpiEvaluationTemplatSubmitDto modelDto)
         {
             try
             {
+                var result = CheckTemplat(modelDto);
+                if (!result.Succeed)
+                {
+                    return result;
+                }
+
                 using (System.Transactions.TransactionScope ts = new System.Transactions.TransactionScope())
                 {
-                    if (modelDto.TemplateRecord.Count == 0)
-                    {
-                        return Result.Fail("请选择考核对象");
-                    }
-                    if (modelDto.TemplateAuditRecord.Count == 0)
-                    {
-                        return Result.Fail("请设置审核人");
-                    }
-                    if (modelDto.TemplateDetail.Count == 0)
-                    {
-                        return Result.Fail("请设置考核内容");
-                    }
+                    //保存 考核模板记录
+                    var dbTplRecord = new List<KpiTemplateRecord>();
+                    //保存 考核模板
+                    var dbTpl = new List<KpiTemplate>();
 
-                    //查询考核模板记录 是否存在
-                    List<KpiTemplateRecord> lsExistTplRecord = new List<KpiTemplateRecord>();
-                    //查询人员模板 是否存在
-                    List<KpiTemplate> lsExistTpl = new List<KpiTemplate>();
+                    var whereTplRecord = new Condition<KpiTemplateRecord>();
+                    whereTplRecord.And(p => p.KpiType == modelDto.KpiType);
+                    whereTplRecord.And(p => p.KpiId == modelDto.KpiId);
+
                     if (modelDto.KpiType == KpiType.Dept) //部门
                     {
                         var dptIds = modelDto.TemplateRecord.Select(p => p.DptId);
-
-                        lsExistTplRecord = _tplRecordRepository.Query(p => p.KpiType == modelDto.KpiType && dptIds.Contains(p.DptId)).ToList();
-                        lsExistTpl = _tplRepository.Query(p => p.KpiType == modelDto.KpiType && dptIds.Contains(p.DptId)).ToList();
+                        whereTplRecord.And(p => dptIds.Contains(p.DptId));
+                        dbTplRecord = _tplRecordRepository.Query(whereTplRecord.Combine()).ToList();
+                        dbTpl = _tplRepository.Query(p => p.KpiType == modelDto.KpiType && dptIds.Contains(p.DptId)).ToList();
                     }
                     else //人员
                     {
                         var employeeIds = modelDto.TemplateRecord.Select(p => p.EmployeeId);
-                        lsExistTplRecord = _tplRecordRepository.Query(p => p.KpiType == modelDto.KpiType && employeeIds.Contains(p.EmployeeId)).ToList();
-                        lsExistTpl = _tplRepository.Query(p => p.KpiType == modelDto.KpiType && employeeIds.Contains(p.EmployeeId)).ToList();
+                        whereTplRecord.And(p => employeeIds.Contains(p.EmployeeId));
+                        dbTplRecord = _tplRecordRepository.Query(whereTplRecord.Combine()).ToList();
+                        dbTpl = _tplRepository.Query(p => p.KpiType == modelDto.KpiType && employeeIds.Contains(p.EmployeeId)).ToList();
                     }
 
-                    //考核模板记录
-                    var addTemplateRecord = _tplRecordRepository.AddRange(modelDto.TemplateRecord);
-                    if (addTemplateRecord <= 0)
+                    var lsExistTplRecord = new List<KpiTemplateRecord>();
+                    var lsNotExistTplRecord = new List<KpiTemplateRecord>();
+
+                    var distinct = dbTplRecord.ToDictionary(p => $"{p.CompanyId}_{p.DptId}_{p.EmployeeId}_{(int)p.KpiId}_{(int)p.KpiType}");
+                    foreach (var item in modelDto.TemplateRecord)
                     {
-                        return Result.Fail("操作失败");
+                        var key = $"{item.CompanyId}_{item.DptId}_{item.EmployeeId}_{(int)item.KpiId}_{(int)item.KpiType}";
+                        if (distinct.ContainsKey(key)) //已经存在
+                        {
+                            lsExistTplRecord.Add(distinct[key]);
+                        }
+                        else
+                        {
+                            lsNotExistTplRecord.Add(item);
+                        }
                     }
+
+                    if (lsNotExistTplRecord.Count > 0)
+                    {
+                        _tplRecordRepository.AddRange(lsNotExistTplRecord);
+                    }
+
+                    //填充 不存在和存在的数据
+                    var lsTplRecord = new List<KpiTemplateRecord>();
+                    lsTplRecord.AddRange(lsNotExistTplRecord);
+                    lsTplRecord.AddRange(lsExistTplRecord);
 
                     //考核模板明细
-                    List<KpiTemplateDetail> listTplDetail = new List<KpiTemplateDetail>();
+                    var lsTplDetail = new List<KpiTemplateDetail>();
                     //考核模板审核记录
-                    List<KpiTemplateAuditRecord> listTplAuditRecord = new List<KpiTemplateAuditRecord>();
+                    var lsTplAuditRecord = new List<KpiTemplateAuditRecord>();
                     //考核模板
-                    List<KpiTemplate> listAddTpl = new List<KpiTemplate>();
-                    List<KpiTemplate> listEditTpl = new List<KpiTemplate>();
-                    foreach (var record in modelDto.TemplateRecord)
+                    var lsExistTpl = new List<KpiTemplate>();
+                    var lsNotExistTpl = new List<KpiTemplate>();
+
+                    foreach (var record in lsTplRecord)
                     {
                         foreach (var itemDetail in modelDto.TemplateDetail)
                         {
-                            listTplDetail.Add(new KpiTemplateDetail
+                            lsTplDetail.Add(new KpiTemplateDetail
                             {
                                 Id = 0,
                                 KpiTemplateRecordId = record.Id,
@@ -98,35 +141,36 @@ namespace XSchool.GCenter.Businesses
                             });
                         }
 
-                        foreach (var itemAuditRecord in modelDto.TemplateAuditRecord)
+                        foreach (var itemAudit in modelDto.TemplateAuditRecord)
                         {
-                            listTplAuditRecord.Add(new KpiTemplateAuditRecord
+                            lsTplAuditRecord.Add(new KpiTemplateAuditRecord
                             {
                                 Id = 0,
                                 KpiTemplateRecordId = record.Id,
-                                Steps = itemAuditRecord.Steps,
-                                CompanyId = itemAuditRecord.CompanyId,
-                                CompanyName = itemAuditRecord.CompanyName,
-                                DptId = itemAuditRecord.DptId,
-                                DptName = itemAuditRecord.DptName,
-                                JobId = itemAuditRecord.JobId,
-                                JobName = itemAuditRecord.JobName
+                                Steps = itemAudit.Steps,
+                                CompanyId = itemAudit.CompanyId,
+                                CompanyName = itemAudit.CompanyName,
+                                DptId = itemAudit.DptId,
+                                DptName = itemAudit.DptName,
+                                JobId = itemAudit.JobId,
+                                JobName = itemAudit.JobName
                             });
                         }
 
                         #region 考核模板
-                        KpiTemplate modelExistTpl = null;
+
+                        KpiTemplate modelTpl = null;
                         if (modelDto.KpiType == KpiType.Dept) //部门
                         {
-                            modelExistTpl = lsExistTpl.FirstOrDefault(p => p.CompanyId == record.CompanyId && p.DptId == record.DptId);
+                            modelTpl = dbTpl.FirstOrDefault(p => p.CompanyId == record.CompanyId && p.DptId == record.DptId);
                         }
                         else //人员
                         {
-                            modelExistTpl = lsExistTpl.FirstOrDefault(p => p.CompanyId == record.CompanyId && p.DptId == record.DptId && p.EmployeeId == record.EmployeeId);
+                            modelTpl = dbTpl.FirstOrDefault(p => p.CompanyId == record.CompanyId && p.DptId == record.DptId && p.EmployeeId == record.EmployeeId);
                         }
-                        if (modelExistTpl == null)
+                        if (modelTpl == null)
                         {
-                            listAddTpl.Add(new KpiTemplate()
+                            lsNotExistTpl.Add(new KpiTemplate()
                             {
                                 Id = 0,
                                 KpiType = KpiType.User,
@@ -144,22 +188,32 @@ namespace XSchool.GCenter.Businesses
                         }
                         else
                         {
-                            modelExistTpl.Monthly = modelDto.KpiId == KpiPlan.Monthly ? record.Id : modelExistTpl.Monthly;
-                            modelExistTpl.Quarter = modelDto.KpiId == KpiPlan.Quarter ? record.Id : modelExistTpl.Quarter;
-                            modelExistTpl.HalfYear = modelDto.KpiId == KpiPlan.HalfYear ? record.Id : modelExistTpl.HalfYear;
-                            modelExistTpl.Annual = modelDto.KpiId == KpiPlan.Annual ? record.Id : modelExistTpl.Annual;
-                            listEditTpl.Add(modelExistTpl);
+                            modelTpl.Monthly = modelDto.KpiId == KpiPlan.Monthly ? record.Id : modelTpl.Monthly;
+                            modelTpl.Quarter = modelDto.KpiId == KpiPlan.Quarter ? record.Id : modelTpl.Quarter;
+                            modelTpl.HalfYear = modelDto.KpiId == KpiPlan.HalfYear ? record.Id : modelTpl.HalfYear;
+                            modelTpl.Annual = modelDto.KpiId == KpiPlan.Annual ? record.Id : modelTpl.Annual;
+                            lsExistTpl.Add(modelTpl);
                         }
 
                         #endregion
                     }
 
-                    _tplDetailRepository.AddRange(listTplDetail);
-                    _tplAuditRecordRepository.AddRange(listTplAuditRecord);
-                    _tplRepository.AddRange(listAddTpl);
-                    if (listEditTpl.Count > 0)
+                    if (lsExistTplRecord.Count > 0)
                     {
-                        _tplRepository.UpdateRange(listEditTpl);
+                        var templateRecordIds = lsExistTplRecord.Select(p => p.Id);
+                        _tplDetailRepository.Delete(p => templateRecordIds.Contains(p.KpiTemplateRecordId));
+                        _tplAuditRecordRepository.Delete(p => templateRecordIds.Contains(p.KpiTemplateRecordId));
+                    }
+
+                    _tplDetailRepository.AddRange(lsTplDetail);
+                    _tplAuditRecordRepository.AddRange(lsTplAuditRecord);
+                    if (lsNotExistTpl.Count > 0)
+                    {
+                        _tplRepository.AddRange(lsNotExistTpl);
+                    }
+                    if (lsExistTpl.Count > 0)
+                    {
+                        _tplRepository.UpdateRange(lsExistTpl);
                     }
 
                     ts.Complete();
@@ -171,149 +225,5 @@ namespace XSchool.GCenter.Businesses
                 return Result.Fail("添加失败：" + ex.Message);
             }
         }
-
-        public Result Edit(KpiEvaluationTemplatSubmitDto modelDto)
-        {
-            try
-            {
-                using (System.Transactions.TransactionScope ts = new System.Transactions.TransactionScope())
-                {
-                    if (modelDto.TemplateRecord.Count == 0)
-                    {
-                        return Result.Fail("请选择考核对象");
-                    }
-                    if (modelDto.TemplateAuditRecord.Count == 0)
-                    {
-                        return Result.Fail("请设置审核人");
-                    }
-                    if (modelDto.TemplateDetail.Count == 0)
-                    {
-                        return Result.Fail("请设置考核内容");
-                    }
-
-                    var kpiTemplateRecordIds = modelDto.TemplateRecord.Select(p => p.Id);
-
-                    //查询考核模板记录 是否存在
-                    List<KpiTemplateRecord> lsExistTplRecord = new List<KpiTemplateRecord>();
-                    //查询人员模板 是否存在
-                    List<KpiTemplate> lsExistTpl = new List<KpiTemplate>();
-                    if (modelDto.KpiType == KpiType.Dept) //部门
-                    {
-                        var dptIds = modelDto.TemplateRecord.Select(p => p.DptId);
-
-                        lsExistTpl = _tplRepository.Query(p => p.KpiType == modelDto.KpiType && dptIds.Contains(p.DptId)).ToList();
-                    }
-                    else //人员
-                    {
-                        var employeeIds = modelDto.TemplateRecord.Select(p => p.EmployeeId);
-                        lsExistTpl = _tplRepository.Query(p => p.KpiType == modelDto.KpiType && employeeIds.Contains(p.EmployeeId)).ToList();
-                    }
-
-                    //考核模板明细
-                    List<KpiTemplateDetail> listTplDetail = new List<KpiTemplateDetail>();
-                    //考核模板审核记录
-                    List<KpiTemplateAuditRecord> listTplAuditRecord = new List<KpiTemplateAuditRecord>();
-                    //考核模板
-                    List<KpiTemplate> listAddTpl = new List<KpiTemplate>();
-                    List<KpiTemplate> listEditTpl = new List<KpiTemplate>();
-                    foreach (var record in modelDto.TemplateRecord)
-                    {
-                        foreach (var itemDetail in modelDto.TemplateDetail)
-                        {
-                            listTplDetail.Add(new KpiTemplateDetail
-                            {
-                                Id = 0,
-                                KpiTemplateRecordId = record.Id,
-                                CompanyId = record.CompanyId,
-                                DptId = record.DptId,
-                                EmployeeId = record.EmployeeId,
-                                EvaluationId = itemDetail.EvaluationId,
-                                EvaluationName = itemDetail.EvaluationName,
-                                EvaluationType = itemDetail.EvaluationType,
-                                Weight = itemDetail.Weight,
-                                Explain = itemDetail.Explain
-                            });
-                        }
-
-                        foreach (var itemAuditRecord in modelDto.TemplateAuditRecord)
-                        {
-                            listTplAuditRecord.Add(new KpiTemplateAuditRecord
-                            {
-                                Id = 0,
-                                KpiTemplateRecordId = record.Id,
-                                Steps = itemAuditRecord.Steps,
-                                CompanyId = itemAuditRecord.CompanyId,
-                                CompanyName = itemAuditRecord.CompanyName,
-                                DptId = itemAuditRecord.DptId,
-                                DptName = itemAuditRecord.DptName,
-                                JobId = itemAuditRecord.JobId,
-                                JobName = itemAuditRecord.JobName
-                            });
-                        }
-
-                        #region 考核模板
-                        KpiTemplate modelExistTpl = null;
-                        if (modelDto.KpiType == KpiType.Dept) //部门
-                        {
-                            modelExistTpl = lsExistTpl.FirstOrDefault(p => p.CompanyId == record.CompanyId && p.DptId == record.DptId);
-                        }
-                        else //人员
-                        {
-                            modelExistTpl = lsExistTpl.FirstOrDefault(p => p.CompanyId == record.CompanyId && p.DptId == record.DptId && p.EmployeeId == record.EmployeeId);
-                        }
-                        if (modelExistTpl == null)
-                        {
-                            listAddTpl.Add(new KpiTemplate()
-                            {
-                                Id = 0,
-                                KpiType = KpiType.User,
-                                CompanyId = record.CompanyId,
-                                CompanyName = record.CompanyName,
-                                DptId = record.DptId,
-                                DptName = record.DptName,
-                                EmployeeId = record.EmployeeId,
-                                UserName = record.UserName,
-                                Monthly = modelDto.KpiId == KpiPlan.Monthly ? record.Id : 0,
-                                Quarter = modelDto.KpiId == KpiPlan.Quarter ? record.Id : 0,
-                                HalfYear = modelDto.KpiId == KpiPlan.HalfYear ? record.Id : 0,
-                                Annual = modelDto.KpiId == KpiPlan.Annual ? record.Id : 0,
-                            });
-                        }
-                        else
-                        {
-                            modelExistTpl.Monthly = modelDto.KpiId == KpiPlan.Monthly ? record.Id : modelExistTpl.Monthly;
-                            modelExistTpl.Quarter = modelDto.KpiId == KpiPlan.Quarter ? record.Id : modelExistTpl.Quarter;
-                            modelExistTpl.HalfYear = modelDto.KpiId == KpiPlan.HalfYear ? record.Id : modelExistTpl.HalfYear;
-                            modelExistTpl.Annual = modelDto.KpiId == KpiPlan.Annual ? record.Id : modelExistTpl.Annual;
-                            listEditTpl.Add(modelExistTpl);
-                        }
-
-                        #endregion
-                    }
-
-                    _tplDetailRepository.Delete(p => kpiTemplateRecordIds.Contains(p.KpiTemplateRecordId));
-                    _tplAuditRecordRepository.Delete(p => kpiTemplateRecordIds.Contains(p.KpiTemplateRecordId));
-
-                    _tplDetailRepository.AddRange(listTplDetail);
-                    _tplAuditRecordRepository.AddRange(listTplAuditRecord);
-                    if (listAddTpl.Count > 0)
-                    {
-                        _tplRepository.AddRange(listAddTpl);
-                    }
-                    if (listEditTpl.Count > 0)
-                    {
-                        _tplRepository.UpdateRange(listEditTpl);
-                    }
-
-                    ts.Complete();
-                    return Result.Success();
-                }
-            }
-            catch (Exception ex)
-            {
-                return Result.Fail("添加失败：" + ex.Message);
-            }
-        }
-
     }
 }

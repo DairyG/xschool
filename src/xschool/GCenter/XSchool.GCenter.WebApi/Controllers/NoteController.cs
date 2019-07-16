@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using XSchool.Core;
 using XSchool.GCenter.Businesses;
 using XSchool.GCenter.Businesses.Wrappers;
+using XSchool.Helpers;
 using XSchool.Query.Pageing;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -44,8 +45,8 @@ namespace XSchool.GCenter.WebApi.Controllers
                 new KeyValuePair<string, OrderBy>("Sort", OrderBy.Asc)
             };
             var condition = new Condition<Model.Note>();
-            condition.And(p =>search==null? 1==1: p.Title == search);
-            return _business.Page(page, limit, condition.Combine(),order);
+            condition.And(p => search == null ? 1 == 1 : p.Title == search);
+            return _business.Page(page, limit, condition.Combine(), order);
         }
         [HttpGet]
         [Description("添加通知公告")]

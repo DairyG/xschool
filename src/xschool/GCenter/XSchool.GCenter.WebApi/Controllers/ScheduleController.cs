@@ -118,7 +118,7 @@ namespace XSchool.GCenter.WebApi.Controllers
                 IList<ScheduleComplete> cmp = _scheduleCompleteBusiness.Get(item.Id);
                 //执行人集合
                 string exestring = item.Executors.Substring(0, 1);
-                exestring = exestring.Substring(exestring.Length-1, 1);
+                exestring = exestring.Substring(exestring.Length - 1, 1);
                 string[] exes = exestring.Split(",");
                 //如果完成数等于执行人数
                 if (cmp.Count >= exes.Length)
@@ -155,10 +155,20 @@ namespace XSchool.GCenter.WebApi.Controllers
             {
                 return finishList;
             }
-            else if(empty == "Doing"){
+            else if (empty == "Doing") {
                 return ingList;
             }
             return newList;
+        }
+        /// <summary>
+        /// 删除日程
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public Result Delete(int id)
+        {
+            return _scheduleBusiness.Delete(id);
         }
         /// <summary>
         /// 获取枚举的描述

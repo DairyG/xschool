@@ -8,6 +8,7 @@ using XSchool.GCenter.Businesses;
 using XSchool.GCenter.Businesses.Wrappers;
 using XSchool.GCenter.Model;
 using XSchool.GCenter.Model.ViewModel;
+using XSchool.Helpers;
 using XSchool.Query.Pageing;
 
 
@@ -55,7 +56,7 @@ namespace XSchool.GCenter.WebApi.Controllers
             };
             var condition = new Condition<WorkerInFieldSetting>();
             condition.And(p => p.Type.Equals(Enum.Parse(typeof(BasicInfoType), search)));
-            return _business.Page(page, limit, condition.Combine(),order);
+            return _business.Page(page, limit, condition.Combine(), order);
         }
 
         [HttpPost]

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using XSchool.Core;
 using XSchool.GCenter.Businesses;
 using XSchool.GCenter.Model;
+using XSchool.Helpers;
 using XSchool.Query.Pageing;
 
 namespace XSchool.GCenter.WebApi.Controllers
@@ -96,7 +97,8 @@ namespace XSchool.GCenter.WebApi.Controllers
                 {
                     condition.And(p => p.Type == serch.type && p.SummaryDate.Contains(serch.summaryDate));
                 }
-                else { 
+                else
+                {
                     condition.And(p => p.Type == serch.type);
                 }
             }

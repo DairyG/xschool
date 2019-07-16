@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using XSchool.Core;
 using XSchool.GCenter.Businesses;
 using XSchool.GCenter.Model;
+using XSchool.Helpers;
 using XSchool.Query.Pageing;
 
 namespace XSchool.GCenter.WebApi.Controllers

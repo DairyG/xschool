@@ -7,6 +7,7 @@ using XSchool.Core;
 using XSchool.GCenter.Businesses;
 using XSchool.GCenter.Model;
 using XSchool.GCenter.Model.ViewModel;
+using XSchool.Helpers;
 using XSchool.Query.Pageing;
 
 namespace XSchool.GCenter.WebApi.Controllers
@@ -22,8 +23,6 @@ namespace XSchool.GCenter.WebApi.Controllers
         private readonly KpiTemplateRecordBusiness _tplRecordBusiness;
         private readonly KpiTemplateDetailBusiness _tplDetailBusiness;
         private readonly KpiTemplateAuditRecordBusiness _tplAuditRecordBusiness;
-
-
 
         private readonly KpiManageRecordBusiness _magRecordBusiness;
         public KpiEvaluationController(KpiTemplateBusiness tplBusiness, KpiTemplateRecordBusiness tplRecordBusiness, KpiTemplateDetailBusiness tplDetailBusiness, KpiTemplateAuditRecordBusiness tplAuditRecordBusiness,
@@ -45,14 +44,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         [HttpPost]
         public Result EditTemplat([FromForm]KpiEvaluationTemplatSubmitDto modelDto)
         {
-            if (modelDto.Mode == OperationMode.Add)
-            {
-                return _tplRecordBusiness.Add(modelDto);
-            }
-            else
-            {
-                return _tplRecordBusiness.Edit(modelDto);
-            }
+            return _tplRecordBusiness.AddOrEdit(modelDto);
         }
 
         /// <summary>

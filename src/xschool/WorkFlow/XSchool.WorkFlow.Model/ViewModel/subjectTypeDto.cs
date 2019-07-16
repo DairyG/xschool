@@ -12,7 +12,7 @@ namespace XSchool.WorkFlow.Model.ViewModel
         /// <summary>
         /// 流程组别id
         /// </summary>
-        public int subjectTypeId{get;set;}
+        public int Id{get;set;}
         /// <summary>
         /// 业务组别名称
         /// </summary>
@@ -23,6 +23,10 @@ namespace XSchool.WorkFlow.Model.ViewModel
     }
     public class subjectViewDto
     {
+        /// <summary>
+        /// 流程组别id
+        /// </summary>
+        public int subjectTypeId { get; set; }
         /// <summary>
         /// 流程id
         /// </summary>

@@ -162,10 +162,15 @@ namespace XSchool.WorkFlow.Businesses
             var list = subjectRulesList.Select(p => new SubjectRuleDto
             {
                 CompanyId = p.CompanyId,
+                 CompanyName=p.CompanyName,
                 DepId = p.DepId,
+                DepName=p.DepName,
                 JobDepId = p.JobDepId,
+                JobDepName=p.JobDepName,
                 JobId = p.JobId,
-                UserId = p.UserId
+                JobName=p.JobName,
+                UserId = p.UserId,
+                 UserName=p.UserName
             }).ToList();
             return list;
         }
@@ -194,13 +199,11 @@ namespace XSchool.WorkFlow.Businesses
         {
             var data = (from a in _repositoryTypeSubject.Entites
                         join b in _repository.Entites on a.Id equals b.SubjectTypeId into subjectList
-                        from c in subjectList
-                        join d in _rulerepository.Entites on c.Id equals d.SubjectId
-                        where d.BusinessType == BusinessType.Transaction && c.Status == EDStatus.Enable && c.Id == d.SubjectId
-                        && d.BusinessType == BusinessType.Transaction
+                        from c in subjectList.DefaultIfEmpty()
+                        join d in _rulerepository.Entites on c.Id equals d.SubjectId into rangeList 
                         select new subjectTypeDto
                         {
-                            subjectTypeId = a.Id,
+                            Id = a.Id,
                             SubjectTypeName = a.SubjectTypeName,
                             subjectList = subjectList.Select(q => new subjectViewDto
                             {
@@ -208,19 +211,25 @@ namespace XSchool.WorkFlow.Businesses
                                 SubjectName = q.SubjectName,
                                 UpdateTime = q.UpdateTime,
                                 Remark = q.Remark,
-                                SubjectRuleList = subjectList.Select(p => new SubjectRuleDto
+                                SubjectRuleList = rangeList.Where(s=>s.BusinessType==BusinessType.Transaction).Select(p => new SubjectRuleDto
                                 {
-                                    CompanyId = d.CompanyId,
-                                    DepId = d.DepId,
-                                    JobDepId = d.JobDepId,
-                                    JobId = d.JobId,
-                                    SubjectStepId = d.SubjectStepId,
-                                    UserId = d.UserId,
-                                    dataType = d.dataType
+                                    CompanyId = p.CompanyId,
+                                     CompanyName=p.CompanyName,
+                                    DepId = p.DepId,
+                                     DepName=p.DepName,
+                                    JobDepId = p.JobDepId,
+                                     JobDepName=p.JobDepName,
+                                    JobId = p.JobId,
+                                    JobName=p.JobName,
+                                    SubjectStepId = p.SubjectStepId,
+                                    UserId = p.UserId,
+                                     UserName=p.UserName,
+                                    dataType = p.dataType
                                 }).ToList()
                             }).ToList()
-                        }).FirstOrDefault();
-            return new Result<subjectTypeDto>() { Data = data };
+                        });
+            var dataresult = data.ToList();
+            return new Result<List<subjectTypeDto>>() { Data = dataresult, Succeed=true };
         }
 
     }

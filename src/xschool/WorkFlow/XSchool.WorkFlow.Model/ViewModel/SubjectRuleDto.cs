@@ -54,5 +54,26 @@ namespace XSchool.WorkFlow.Model.ViewModel
         /// 部门岗位id
         /// </summary>		
         public int JobId { get; set; }
+
+        /// <summary>
+        /// 公司名称
+        /// </summary>
+        public string CompanyName { get; set; }
+        /// <summary>
+        /// 部门名称
+        /// </summary>
+        public string DepName { get; set; }
+        /// <summary>
+        /// 人员名称
+        /// </summary>
+        public string UserName { get; set; }
+        /// <summary>
+        /// 职位名称
+        /// </summary>
+        public string JobDepName { get; set; }
+        /// <summary>
+        ///  部门岗位名称
+        /// </summary>
+        public string JobName { get; set; }
     }
 }

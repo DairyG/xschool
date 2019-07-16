@@ -67,6 +67,10 @@ namespace XSchool.GCenter.Businesses
         {
             return base.GetSingle(p => p.Id.Equals(id));
         }
+        public Result Delete(int id)
+        {
+            return base.Delete(id);
+        }
         public Result Check(Schedule model)
         {
             if (string.IsNullOrWhiteSpace(model.Executors))

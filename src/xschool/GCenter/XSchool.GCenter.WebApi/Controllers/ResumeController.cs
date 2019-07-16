@@ -35,7 +35,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         public object Get([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]Search search)
         {
             var condition = new Condition<Resume>();
-            if(!string.IsNullOrWhiteSpace(search.Name) && !string.IsNullOrWhiteSpace(search.Phone))
+            if (!string.IsNullOrWhiteSpace(search.Name) && !string.IsNullOrWhiteSpace(search.Phone))
             {
                 if (search.State != 0)
                 {
@@ -72,7 +72,7 @@ namespace XSchool.GCenter.WebApi.Controllers
             {
                 if (search.State != 0)
                 {
-                    condition.And(p => p.Status == ResumeStatus.Effective && p.InterviewStatus ==(InterviewStatus)search.State);
+                    condition.And(p => p.Status == ResumeStatus.Effective && p.InterviewStatus == (InterviewStatus)search.State);
                 }
                 else
                 {
@@ -154,6 +154,6 @@ namespace XSchool.GCenter.WebApi.Controllers
             return _resumeBusiness.UpdateInterviewStatus(model, id, state);
         }
 
-        
+
     }
 }

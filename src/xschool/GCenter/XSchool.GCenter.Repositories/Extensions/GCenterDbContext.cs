@@ -18,8 +18,16 @@ namespace XSchool.GCenter.Repositories.Extensions
         public DbSet<Summary> Summary { get; set; }
         public DbSet<SummaryReply> SummaryReply { get; set; }
         public DbSet<Note> Note { get; set; }
+<<<<<<< Updated upstream
         public DbSet<Schedule> Schedule { get; set; }
         public DbSet<ScheduleComplete> ScheduleComplete { get; set; }
         public DbSet<ScheduleReply> ScheduleReply { get; set; }
+=======
+        public DbSet<KpiManageAuditRecord> KpiManageAuditRecord { get; set; }
+        public DbSet<KpiManageRecord> KpiManageRecord { get; set; }
+        public DbSet<KpiManageDetail> KpiManageDetail { get; set; }
+        public DbSet<KpiManageAuditDetail> KpiManageAuditDetail { get; set; }
+        public DbSet<KpiManageTemplate> KpiManageTemplate { get; set; }
+>>>>>>> Stashed changes
     }
 }

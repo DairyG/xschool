@@ -41,9 +41,9 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
             {
-                new KeyValuePair<string, OrderBy>("ID", OrderBy.Desc)
+                new KeyValuePair<string, OrderBy>("Id", OrderBy.Desc)
             };
-            return _trainingBusinesses.Query(p => p.PersonId == personId,p=>p, order).ToList();
+            return _trainingBusinesses.Query(p => p.PersonId == personId, p => p, order).ToList();
         }
 
     }

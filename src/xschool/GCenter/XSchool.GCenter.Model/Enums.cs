@@ -3,6 +3,24 @@
 namespace XSchool.GCenter.Model
 {
     /// <summary>
+    /// 操作方式
+    /// </summary>
+    public enum OperationMode
+    {
+        /// <summary>
+        /// 添加
+        /// </summary>
+        [Description("添加")]
+        Add = 1,
+
+        /// <summary>
+        /// 修改
+        /// </summary>
+        [Description("修改")]
+        Edit = 1,
+    }
+
+    /// <summary>
     /// 常用状态，[有效，无效]
     /// </summary>
     public enum NomalStatus

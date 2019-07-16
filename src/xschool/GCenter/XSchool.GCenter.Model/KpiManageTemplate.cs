@@ -4,26 +4,16 @@ using XSchool.Core;
 namespace XSchool.GCenter.Model
 {
     /// <summary>
-    /// 考核管理审核明细
+    /// 考核管理模板
     /// </summary>
-    public class KpiManageAuditDetail : IModel<int>
+    public class KpiManageTemplate : IModel<int>
     {
         public int Id { get; set; }
 
         /// <summary>
-        /// 考核管理记录Id
-        /// </summary>		
-        public int KpiManageRecordId { get; set; }
-
-        /// <summary>
-        /// 当前步骤
-        /// </summary>		
-        public KpiSteps Steps { get; set; }
-
-        /// <summary>
-        /// 评价
-        /// </summary>		
-        public string Evaluation { get; set; }
+		/// 考核类型，1-部门，2-人员
+		/// </summary>		
+		public KpiType KpiType { get; set; }
 
         /// <summary>
         /// 公司Id
@@ -56,10 +46,28 @@ namespace XSchool.GCenter.Model
         public string UserName { get; set; }
 
         /// <summary>
-        /// 添加时间
+        /// 年份
         /// </summary>		
-        public DateTime? AddDate { get; set; }
+        public int Year { get; set; }
 
+        /// <summary>
+        /// 月度，注：保存的是 考核管理记录Id
+        /// </summary>		
+        public int Monthly { get; set; }
+
+        /// <summary>
+        /// 年度，注：保存的是 考核管理记录Id
+        /// </summary>		
+        public int Annual { get; set; }
+
+        /// <summary>
+        /// 上半年，注：保存的是 考核管理记录Id
+        /// </summary>		
+        public int HalfYear { get; set; }
+
+        /// <summary>
+        /// 季度，注：保存的是 考核管理记录Id
+        /// </summary>		
+        public int Quarter { get; set; }
     }
 }
-

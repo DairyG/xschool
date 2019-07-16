@@ -39,6 +39,30 @@ namespace XSchool.GCenter.Businesses
             };
             return base.Query(p => p.Id > 0,p=>p,order);
         }
+        public IList<Schedule> Get(int eid, string catalog)
+        {
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
+            {
+                new KeyValuePair<string, OrderBy>("AddTime", OrderBy.Desc)
+            };
+            IList<Schedule> list = new List<Schedule>();
+            switch (catalog)
+            {
+                case "All":
+                    list = base.Query(p => p.Executors.Contains("," + eid.ToString() + ",") || p.EmployeeId.Equals(eid) || p.Scribbles.Contains(eid.ToString()), p => p, order);
+                    break;
+                case "Executors":
+                    list = base.Query(p => p.Executors.Contains("," + eid.ToString() + ","), p => p, order);
+                    break;
+                case "EmployeeId":
+                    list = base.Query(p => p.EmployeeId.Equals(eid), p => p, order);
+                    break;
+                case "Scribbles":
+                    list = base.Query(p => p.Scribbles.Contains(eid.ToString()), p => p, order);
+                    break;
+            }
+            return list;    
+        }
         public Schedule GetSingle(int id)
         {
             return base.GetSingle(p => p.Id.Equals(id));

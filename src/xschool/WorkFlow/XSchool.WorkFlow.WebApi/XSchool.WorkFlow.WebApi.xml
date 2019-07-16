@@ -39,6 +39,12 @@
             <param name="status">1禁用，2启用</param>
             <returns></returns>
         </member>
+        <member name="M:XSchool.WorkFlow.WebApi.Controllers.SubjectController.GetSubject">
+            <summary>
+            获取所有流程分组及流程内容
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:XSchool.WorkFlow.WebApi.Controllers.SubjectTypeController.AddOrEdit(XSchool.WorkFlow.Model.SubjectType)">
             <summary>
             添加或编辑流程组别

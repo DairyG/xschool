@@ -19,12 +19,14 @@ namespace XSchool.WorkFlow.Businesses
         private readonly SubjectRepository _repository;
         private readonly SubjectRuleRepository _rulerepository;
         private readonly SubjectStepRepository _steprepository;
-        public SubjectBusiness(IServiceProvider provider, SubjectRepository repository, SubjectRuleRepository rulerepository, SubjectStepRepository steprepository)
+        private readonly SubjectTypeRepository _repositoryTypeSubject;
+        public SubjectBusiness(IServiceProvider provider, SubjectRepository repository, SubjectRuleRepository rulerepository, SubjectStepRepository steprepository, SubjectTypeRepository repositoryTypeSubject)
             : base(provider, repository)
         {
             this._repository = repository;
             this._rulerepository = rulerepository;
             this._steprepository = steprepository;
+            this._repositoryTypeSubject = repositoryTypeSubject;
         }
         /// <summary>
         /// /添加流程管理
@@ -72,6 +74,7 @@ namespace XSchool.WorkFlow.Businesses
                         IcoUrl = model.IcoUrl,
                         PassInfo = model.PassInfo,
                         SubjectName = model.SubjectName,
+                        UpdateTime = DateTime.Now,
                         SubjectTypeId = model.SubjectTypeId
                     });
                     if (!status) return new Result() { Succeed = status, Message = "参数修改失败" };
@@ -159,10 +162,15 @@ namespace XSchool.WorkFlow.Businesses
             var list = subjectRulesList.Select(p => new SubjectRuleDto
             {
                 CompanyId = p.CompanyId,
+                 CompanyName=p.CompanyName,
                 DepId = p.DepId,
+                DepName=p.DepName,
                 JobDepId = p.JobDepId,
+                JobDepName=p.JobDepName,
                 JobId = p.JobId,
-                UserId = p.UserId
+                JobName=p.JobName,
+                UserId = p.UserId,
+                 UserName=p.UserName
             }).ToList();
             return list;
         }
@@ -182,5 +190,47 @@ namespace XSchool.WorkFlow.Businesses
             }
             return new Result() { Message = msg, Succeed = result };
         }
+
+        /// <summary>
+        /// 获取所有流程分组及流程内容
+        /// </summary>
+        /// <returns></returns>
+        public Result GetSubject()
+        {
+            var data = (from a in _repositoryTypeSubject.Entites
+                        join b in _repository.Entites on a.Id equals b.SubjectTypeId into subjectList
+                        from c in subjectList.DefaultIfEmpty()
+                        join d in _rulerepository.Entites on c.Id equals d.SubjectId into rangeList 
+                        select new subjectTypeDto
+                        {
+                            Id = a.Id,
+                            SubjectTypeName = a.SubjectTypeName,
+                            subjectList = subjectList.Select(q => new subjectViewDto
+                            {
+                                subjectId = q.Id,
+                                SubjectName = q.SubjectName,
+                                UpdateTime = q.UpdateTime,
+                                Remark = q.Remark,
+                                SubjectRuleList = rangeList.Where(s=>s.BusinessType==BusinessType.Transaction).Select(p => new SubjectRuleDto
+                                {
+                                    CompanyId = p.CompanyId,
+                                     CompanyName=p.CompanyName,
+                                    DepId = p.DepId,
+                                     DepName=p.DepName,
+                                    JobDepId = p.JobDepId,
+                                     JobDepName=p.JobDepName,
+                                    JobId = p.JobId,
+                                    JobName=p.JobName,
+                                    SubjectStepId = p.SubjectStepId,
+                                    UserId = p.UserId,
+                                     UserName=p.UserName,
+                                    dataType = p.dataType
+                                }).ToList()
+                            }).ToList()
+                        });
+            var dataresult = data.ToList();
+            return new Result<List<subjectTypeDto>>() { Data = dataresult, Succeed=true };
+        }
+
     }
 }

@@ -92,5 +92,8 @@ namespace XSchool.WorkFlow.Businesses
             if (!status) msg = "删除失败。。。";
             return new Result() { Message = msg, Succeed = status };
         }
+
+     
+
     }
 }

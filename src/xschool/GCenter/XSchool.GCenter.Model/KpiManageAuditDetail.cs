@@ -16,11 +16,6 @@ namespace XSchool.GCenter.Model
         public int KpiManageRecordId { get; set; }
 
         /// <summary>
-        /// 考核对象类型，1-部门负责人，2-人员
-        /// </summary>		
-        public KpiObjectType ObjectType { get; set; }
-
-        /// <summary>
         /// 当前步骤
         /// </summary>		
         public KpiSteps Steps { get; set; }

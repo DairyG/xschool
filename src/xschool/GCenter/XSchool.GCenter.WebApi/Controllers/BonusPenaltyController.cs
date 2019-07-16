@@ -8,6 +8,7 @@ using XSchool.GCenter.Businesses;
 using XSchool.GCenter.Businesses.Wrappers;
 using XSchool.GCenter.Model;
 using XSchool.GCenter.Model.ViewModel;
+using XSchool.Helpers;
 using XSchool.Query.Pageing;
 
 namespace XSchool.GCenter.WebApi.Controllers
@@ -53,7 +54,7 @@ namespace XSchool.GCenter.WebApi.Controllers
             };
             var condition = new Condition<BonusPenaltySetting>();
             condition.And(p => p.Id > 0);
-            return _business.Page(page, limit, condition.Combine(),order);
+            return _business.Page(page, limit, condition.Combine(), order);
         }
 
         [HttpPost]

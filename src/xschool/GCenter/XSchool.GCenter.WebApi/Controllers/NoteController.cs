@@ -5,11 +5,13 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using XSchool.Core;
 using XSchool.GCenter.Businesses;
 using XSchool.GCenter.Businesses.Wrappers;
+using XSchool.Helpers;
 using XSchool.Query.Pageing;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -82,10 +84,8 @@ namespace XSchool.GCenter.WebApi.Controllers
                 new KeyValuePair<string, OrderBy>("Id", OrderBy.Desc)
             };
             var condition = new Condition<Model.Note>();
-            condition.And(p =>(string.IsNullOrEmpty(search.Title)? true: p.Title.Contains(search.Title)));
             var pageList= _business.Page(page, limit, condition.Combine(), order);
-            return pageList;
-        }
+            return pageList;        }
         [HttpGet]
         [Description("查询某个通知公告")]
         public Result<Model.Note> GetSigleNote(int id)

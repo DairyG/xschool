@@ -18,17 +18,12 @@ namespace XSchool.GCenter.Model
         /// <summary>
         /// 所属考核方案Id
         /// </summary>		
-        public int KpiId { get; set; }
+        public KpiPlan KpiId { get; set; }
 
         /// <summary>
         /// 所属考核方案
         /// </summary>		
         public string KpiName { get; set; }
-
-        /// <summary>
-        /// 考核对象类型，1-部门负责人，2-人员
-        /// </summary>		
-        public KpiObjectType ObjectType { get; set; }
 
         /// <summary>
         /// 公司Id
@@ -61,19 +56,19 @@ namespace XSchool.GCenter.Model
         public string UserName { get; set; }
 
         /// <summary>
+        /// 年份
+        /// </summary>		
+        public int Year { get; set; }
+
+        /// <summary>
         /// 考核时间
         /// </summary>		
         public string KpiDate { get; set; }
 
         /// <summary>
-        /// 考核分数
-        /// </summary>		
-        public decimal? Score { get; set; }
-
-        /// <summary>
         /// 当前步骤，[0-自评，1-初审，2-终审，-1-完成]
         /// </summary>		
-        public KpiSteps Steps { get; set; }
+        public KpiSteps Steps { get; set; } = KpiSteps.Zero;
 
         /// <summary>
         /// 当前步骤操作人Id
@@ -97,7 +92,7 @@ namespace XSchool.GCenter.Model
 
         /// <summary>
         /// 状态，0-自评，1-审批中，2-完成，-1-无效
-        /// </summary>
+        /// </summary>		
         public KpiStatus Status { get; set; } = KpiStatus.Zero;
 
     }

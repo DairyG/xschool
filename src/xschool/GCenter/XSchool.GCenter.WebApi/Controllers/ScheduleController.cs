@@ -16,17 +16,35 @@ namespace XSchool.GCenter.WebApi.Controllers
     public class ScheduleController : ApiBaseController
     {
         private readonly ScheduleBusiness _scheduleBusiness;
-        public ScheduleController(ScheduleBusiness scheduleBusiness)
+        private readonly ScheduleCompleteBusiness _scheduleCompleteBusiness;
+        public ScheduleController(ScheduleBusiness scheduleBusiness, ScheduleCompleteBusiness scheduleCompleteBusiness)
         {
             _scheduleBusiness = scheduleBusiness;
+            _scheduleCompleteBusiness = scheduleCompleteBusiness;
         }
         public class ScheduleModel
         {
             public Schedule Sche { get; set; }
+            /// <summary>
+            /// 考核计划
+            /// </summary>
             public string Plan { get; set; }
+            /// <summary>
+            /// 提醒时间名称
+            /// </summary>
             public string RemindTimeName { get; set; }
+            /// <summary>
+            /// 提醒方式名称
+            /// </summary>
             public string RemindWayName { get; set; }
+            /// <summary>
+            /// 紧急程度名称
+            /// </summary>
             public string EmergencyName { get; set; }
+            /// <summary>
+            /// 完成情况
+            /// </summary>
+            public string Completion { get; set; }
         }
         /// <summary>
         /// [添加] 日程
@@ -65,7 +83,94 @@ namespace XSchool.GCenter.WebApi.Controllers
             newmodel.EmergencyName = GetDescription(model.Emergency);
             return newmodel;
         }
-
+        /// <summary>
+        /// 根据条件查询日程
+        /// </summary>
+        /// <param name="eid">人员ID</param>
+        /// <param name="catalog">要查询的目录（All,Executors,EmployeeId,Scribbles）</param>
+        /// <returns></returns>
+        [HttpPost]
+        public IList<ScheduleModel> Get([FromForm]int eid, [FromForm]string catalog)
+        {
+            catalog = string.IsNullOrWhiteSpace(catalog) ? "All" : catalog;
+            string empty = catalog;
+            if (catalog == "Finish" || catalog == "Doing")
+            {
+                catalog = "All";
+            }
+            //先根据条件获取所有日程
+            IList<Schedule> list = _scheduleBusiness.Get(eid, catalog);
+            //封装新集合
+            IList<ScheduleModel> newList = new List<ScheduleModel>();
+            //已完成的集合
+            IList<ScheduleModel> finishList = new List<ScheduleModel>();
+            //未完成的集合
+            IList<ScheduleModel> ingList = new List<ScheduleModel>();
+            foreach (Schedule item in list)
+            {
+                ScheduleModel sm = new ScheduleModel();
+                sm.Sche = item;
+                sm.Plan = GetDescription(item.KpiPlan);
+                sm.RemindTimeName = GetDescription(item.RemindTime);
+                sm.RemindWayName = GetDescription(item.RemindWay);
+                sm.EmergencyName = GetDescription(item.Emergency);
+                //完成了的集合
+                IList<ScheduleComplete> cmp = _scheduleCompleteBusiness.Get(item.Id);
+                //执行人集合
+                string exestring = item.Executors.Substring(0, 1);
+                exestring = exestring.Substring(exestring.Length - 1, 1);
+                string[] exes = exestring.Split(",");
+                //如果完成数等于执行人数
+                if (cmp.Count >= exes.Length)
+                {
+                    sm.Completion = exes.Length + "/" + exes.Length + "完成";
+                    finishList.Add(sm);
+                }
+                else
+                {
+                    bool me = false;
+                    //判断我是否完成（根据eid）
+                    foreach (ScheduleComplete sc in cmp)
+                    {
+                        if (sc.EmployeeId.Equals(eid))
+                        {
+                            me = true;
+                        }
+                    }
+                    //如果我完成了，统计总共完成数
+                    if (me)
+                    {
+                        sm.Completion = cmp.Count + "/" + exes.Length + "完成";
+                    }
+                    //如果我未完成，显示
+                    else
+                    {
+                        sm.Completion = "我未完成";
+                    }
+                    ingList.Add(sm);
+                }
+                newList.Add(sm);
+            }
+            if (empty == "Finish")
+            {
+                return finishList;
+            }
+            else if (empty == "Doing") {
+                return ingList;
+            }
+            return newList;
+        }
+        /// <summary>
+        /// 删除日程
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public Result Delete(int id)
+        {
+            return _scheduleBusiness.Delete(id);
+        }
+        /// <summary>
         /// 获取枚举的描述
         /// </summary>
         /// <param name="en">枚举</param>

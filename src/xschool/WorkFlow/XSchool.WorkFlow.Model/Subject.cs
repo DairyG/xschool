@@ -53,6 +53,11 @@ namespace XSchool.WorkFlow.Model
         /// 创建时间
         /// </summary>
         public DateTime CreateTime { get; set; }
+        
+        /// <summary>
+        /// 最近修改时间
+        /// </summary>
+        public DateTime UpdateTime { get; set; }
 
         /// <summary>
         /// 公司Id
@@ -63,6 +68,11 @@ namespace XSchool.WorkFlow.Model
         /// 启用状态（枚举）
         /// </summary>
         public EDStatus Status { get; set; }
+
+        /// <summary>
+        /// 流程组别
+        /// </summary>
+        public SubjectType SubjectType { get; set; }
         /// <summary>
         /// 流程节点集合
         /// </summary>

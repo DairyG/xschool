@@ -17,7 +17,7 @@ namespace XSchool.GCenter.Model
         /// 修改
         /// </summary>
         [Description("修改")]
-        Edit = 1,
+        Edit = 2,
     }
 
     /// <summary>
@@ -276,22 +276,6 @@ namespace XSchool.GCenter.Model
         /// </summary>
         [Description("部门")]
         Dept = 1,
-        /// <summary>
-        /// 人员
-        /// </summary>
-        [Description("人员")]
-        User = 2,
-    }
-    /// <summary>
-    /// [绩效考核] 考核对象类型，[部门负责人，人员]
-    /// </summary>
-    public enum KpiObjectType
-    {
-        /// <summary>
-        /// 部门
-        /// </summary>
-        [Description("部门负责人")]
-        DeptHead = 1,
         /// <summary>
         /// 人员
         /// </summary>

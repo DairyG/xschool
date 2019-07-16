@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Linq.Expressions;
 
@@ -67,6 +68,37 @@ namespace XSchool.GCenter.WebApi.Controllers
     [ApiController]
     public class ApiBaseController : ControllerBase
     {
+        protected Token UToken
+        {
+            get
+            {
+                return this.HttpContext.Items["TOKEN_USER"] as Token;
+            }
+        }
+    }
+
+    public class XFilterFilterAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            var identity = context.HttpContext.User.Identity as System.Security.Claims.ClaimsIdentity;
+            if (identity.IsAuthenticated)
+            {
+                var token = new Token();
+                token.Id = Convert.ToInt32(identity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier));
+                token.UserName = identity.Name;
+                context.HttpContext.Items["TOKEN_USER"] = token;
+
+            }
+            base.OnActionExecuting(context);
+        }
+    }
+
+    public class Token
+    {
+        public int Id { get; set; }
+
+        public string UserName { get; set; }
 
     }
 }

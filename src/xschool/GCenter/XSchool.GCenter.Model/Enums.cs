@@ -548,4 +548,84 @@ namespace XSchool.GCenter.Model
         [Description("按周")]
         Week = 4,
     }
+    public enum ContractType
+    {
+        /// <summary>
+        /// 收款合同
+        /// </summary>
+        [Description("收款合同")]
+        Rece = 1,
+        /// <summary>
+        /// 付款合同
+        /// </summary>
+        [Description("付款合同")]
+        Pay = 2,
+        /// <summary>
+        /// 事务合同
+        /// </summary>
+        [Description("事务合同")]
+        Affair = 3
+    }
+
+    public enum PayNum
+    {
+        /// <summary>
+        /// 单次付款
+        /// </summary>
+        [Description("单次付款")]
+        Single = 1,
+        /// <summary>
+        /// 多次付款
+        /// </summary>
+        [Description("多次付款")]
+        Many = 2
+    }
+
+    public enum IsInvoice
+    {
+        /// <summary>
+        /// 开票
+        /// </summary>
+        [Description("开票")]
+        Yes = 1,
+        /// <summary>
+        /// 不开票
+        /// </summary>
+        [Description("不开票")]
+        No = 0
+    }
+
+    public enum InvoiceToType
+    {
+        /// <summary>
+        /// 个人
+        /// </summary>
+        [Description("个人")]
+        Person = 1,
+        /// <summary>
+        /// 企业
+        /// </summary>
+        [Description("企业")]
+        Company = 2
+    }
+
+    public enum InvoiceType
+    {
+        /// <summary>
+        /// 企业增值税普通发票
+        /// </summary>
+        [Description("企业增值税普通发票")]
+        Normal = 1,
+        /// <summary>
+        /// 企增值税专用发票业
+        /// </summary>
+        [Description("增值税专用发票")]
+        Given = 2,
+        /// <summary>
+        /// 组织（非企业）增值税普通发票
+        /// </summary>
+        [Description("组织（非企业）增值税普通发票")]
+        PersonNormal = 2
+        
+    }
 }

@@ -21,6 +21,7 @@ namespace XSchool.GCenter.Repositories.Extensions
 
         public DbSet<Schedule> Schedule { get; set; }
         public DbSet<ScheduleComplete> ScheduleComplete { get; set; }
+        public DbSet<Contract> Contract { get; set; }
         public DbSet<ScheduleReply> ScheduleReply { get; set; }
 
         public DbSet<KpiTemplate> KpiTemplate { get; set; }

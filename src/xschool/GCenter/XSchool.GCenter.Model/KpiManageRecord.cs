@@ -6,7 +6,7 @@ namespace XSchool.GCenter.Model
     /// <summary>
     /// 考核管理记录
     /// </summary>
-    public class KpiManageRecord : IModel<int>
+    public partial class KpiManageRecord : IModel<int>
     {
         public int Id { get; set; }
 

@@ -8,6 +8,7 @@ using XSchool.GCenter.Businesses;
 using XSchool.GCenter.Businesses.Wrappers;
 using XSchool.GCenter.Model;
 using XSchool.GCenter.Model.ViewModel;
+using XSchool.Helpers;
 using XSchool.Query.Pageing;
 
 namespace XSchool.GCenter.WebApi.Controllers
@@ -46,7 +47,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         }
         [HttpPost]
         [Description("获取基础数据列表")]
-        public Result<IPageCollection<WorkerInFieldSetting>> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit,[FromForm]string search)
+        public Result<IPageCollection<WorkerInFieldSetting>> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]string search)
         {
             List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
             {
@@ -61,7 +62,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         [Description("删除基础数据")]
         public Result Delete([FromForm]WorkerInFieldSetting workerInField)
         {
-            workerInField.WorkinStatus  = EDStatus.Disable;
+            workerInField.WorkinStatus = EDStatus.Disable;
             return _business.Update(workerInField);
         }
 

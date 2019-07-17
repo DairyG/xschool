@@ -21,6 +21,12 @@ namespace XSchool.GCenter.Repositories.Extensions
 
         public DbSet<Schedule> Schedule { get; set; }
         public DbSet<ScheduleComplete> ScheduleComplete { get; set; }
+
+        public DbSet<RuleRegulationType> RuleRegulationType { get; set; }
+        public DbSet<RuleRegulation> RuleRegulation { get; set; }
+        public DbSet<NoteReadRange> NoteReadRange { get; set; }
+        public DbSet<RuleRegulationReadRange> RuleRegulationReadRange { get; set; }
+        public DbSet<Contract> Contract { get; set; }
         public DbSet<ScheduleReply> ScheduleReply { get; set; }
 
         public DbSet<KpiTemplate> KpiTemplate { get; set; }
@@ -32,7 +38,5 @@ namespace XSchool.GCenter.Repositories.Extensions
         public DbSet<KpiManageRecord> KpiManageRecord { get; set; }
         public DbSet<KpiManageDetail> KpiManageDetail { get; set; }
         public DbSet<KpiManageAuditDetail> KpiManageAuditDetail { get; set; }
-        public DbSet<KpiManageTemplate> KpiManageTemplate { get; set; }
-
-    }
+        public DbSet<KpiManageTemplate> KpiManageTemplate { get; set; }    }
 }

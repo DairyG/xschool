@@ -6,19 +6,53 @@ using XSchool.Businesses;
 using XSchool.Core;
 using XSchool.GCenter.Model;
 using XSchool.GCenter.Repositories;
+using XSchool.Query.Pageing;
 
 namespace XSchool.GCenter.Businesses
 {
-    public class NoteBusinesses : Business<Model.Note>
+    public class RuleRegulationTypeBusiness : Business<Model.RuleRegulationType>
     {
-        private readonly NoteRepository _repository;
-        private readonly NoteReadRangeRepository _readrepository;
-        public NoteBusinesses(IServiceProvider provider, NoteRepository repository, NoteReadRangeRepository readrepository) : base(provider, repository)
+        private readonly RuleRegulationTypeRepository _repository;
+        public RuleRegulationTypeBusiness(IServiceProvider provider, RuleRegulationTypeRepository repository) : base(provider, repository)
         {
             this._repository = repository;
-            this._readrepository = readrepository;
         }
-        public Result Add(Model.Note model, List<Model.User> userList,List<Model.Dep> DepList,List<Model.Com> ComList,List<Model.Position> PositionList)
+        public override Result Add(Model.RuleRegulationType model)
+        {
+            var res = CheckData(model);
+            if (!res.Succeed)
+            {
+                return res;
+            }
+            if (model.Id != 0)
+            {
+                return Result.Fail("添加操作主键编号必须为零");
+            }
+            return base.Add(model);
+        }
+        private Result CheckData(Model.RuleRegulationType model)
+        {
+            if (model == null)
+            {
+                return Result.Fail("数据不能为空");
+            }
+            return Result.Success();
+        }
+    }
+    public class RuleRegulationBusiness : Business<Model.RuleRegulation>
+    {
+        private readonly RuleRegulationRepository _repository;
+        private readonly RuleRegulationReadRangeRepository _readRangeRepository;
+        public RuleRegulationBusiness(IServiceProvider provider, RuleRegulationRepository repository, RuleRegulationReadRangeRepository readRangeRepository) : base(provider, repository)
+        {
+            this._repository = repository;
+            this._readRangeRepository = readRangeRepository;
+        }
+        public IPageCollection<Model.RuleRegulationPage> GetRuleRegulationList(int page, int limit, Model.RuleRegulationSearch search)
+        {
+            return _repository.GetRuleRegulationList(page, limit, search);
+        }
+        public Result Add(Model.RuleRegulation model, List<Model.User> userList, List<Model.Dep> DepList, List<Model.Com> ComList, List<Model.Position> PositionList)
         {
             using (TransactionScope tr = new TransactionScope())
             {
@@ -29,11 +63,11 @@ namespace XSchool.GCenter.Businesses
                     base.Add(model);
                     if (userList != null)
                     {
-                        List<Model.NoteReadRange> readModelList = new List<Model.NoteReadRange>();
+                        List<Model.RuleRegulationReadRange> readModelList = new List<Model.RuleRegulationReadRange>();
                         for (var i = 0; i < userList.Count; i++)
                         {
-                            var readModel = new Model.NoteReadRange();
-                            readModel.NoteId = model.Id;
+                            var readModel = new Model.RuleRegulationReadRange();
+                            readModel.RuleTypeId = model.Id;
                             readModel.ReadDate = DateTime.Now;
                             readModel.IsRead = 0;
                             readModel.TypeId = OrgType.User;
@@ -45,15 +79,15 @@ namespace XSchool.GCenter.Businesses
                             readModel.CompanyName = userList[i].company_name;
                             readModelList.Add(readModel);
                         }
-                        _readrepository.AddRange(readModelList);
+                        _readRangeRepository.AddRange(readModelList);
                     }
                     if (DepList != null)
                     {
-                        List<Model.NoteReadRange> readModelList = new List<Model.NoteReadRange>();
+                        List<Model.RuleRegulationReadRange> readModelList = new List<Model.RuleRegulationReadRange>();
                         for (var i = 0; i < DepList.Count; i++)
                         {
-                            var readModel = new Model.NoteReadRange();
-                            readModel.NoteId = model.Id;
+                            var readModel = new Model.RuleRegulationReadRange();
+                            readModel.RuleTypeId = model.Id;
                             readModel.ReadDate = DateTime.Now;
                             readModel.IsRead = 0;
                             readModel.TypeId = OrgType.Dep;
@@ -63,15 +97,15 @@ namespace XSchool.GCenter.Businesses
                             readModel.CompanyName = DepList[i].company_name;
                             readModelList.Add(readModel);
                         }
-                        _readrepository.AddRange(readModelList);
+                        _readRangeRepository.AddRange(readModelList);
                     }
                     if (ComList != null)
                     {
-                        List<Model.NoteReadRange> readModelList = new List<Model.NoteReadRange>();
+                        List<Model.RuleRegulationReadRange> readModelList = new List<Model.RuleRegulationReadRange>();
                         for (var i = 0; i < ComList.Count; i++)
                         {
-                            var readModel = new Model.NoteReadRange();
-                            readModel.NoteId = model.Id;
+                            var readModel = new Model.RuleRegulationReadRange();
+                            readModel.RuleTypeId = model.Id;
                             readModel.ReadDate = DateTime.Now;
                             readModel.IsRead = 0;
                             readModel.TypeId = OrgType.Com;
@@ -79,15 +113,15 @@ namespace XSchool.GCenter.Businesses
                             readModel.CompanyName = ComList[i].name;
                             readModelList.Add(readModel);
                         }
-                        _readrepository.AddRange(readModelList);
+                        _readRangeRepository.AddRange(readModelList);
                     }
                     if (PositionList != null)
                     {
-                        List<Model.NoteReadRange> readModelList = new List<Model.NoteReadRange>();
+                        List<Model.RuleRegulationReadRange> readModelList = new List<Model.RuleRegulationReadRange>();
                         for (var i = 0; i < PositionList.Count; i++)
                         {
-                            var readModel = new Model.NoteReadRange();
-                            readModel.NoteId = model.Id;
+                            var readModel = new Model.RuleRegulationReadRange();
+                            readModel.RuleTypeId = model.Id;
                             readModel.ReadDate = DateTime.Now;
                             readModel.IsRead = 0;
                             readModel.TypeId = OrgType.Position;
@@ -97,7 +131,7 @@ namespace XSchool.GCenter.Businesses
                             readModel.PositionName = PositionList[i].name;
                             readModelList.Add(readModel);
                         }
-                        _readrepository.AddRange(readModelList);
+                        _readRangeRepository.AddRange(readModelList);
                     }
                     tr.Complete();
                     result.Code = "00";
@@ -112,7 +146,7 @@ namespace XSchool.GCenter.Businesses
                 return result;
             }
         }
-        private Result CheckData(Model.Note model)
+        private Result CheckData(Model.RuleRegulation model)
         {
             if (model == null)
             {
@@ -121,12 +155,12 @@ namespace XSchool.GCenter.Businesses
             return Result.Success();
         }
     }
-    public class NoteReadRangeBusinesses : Business<Model.NoteReadRange>
+    public class RuleRegulationReadRangeBusiness : Business<Model.RuleRegulationReadRange>
     {
-        private readonly NoteReadRangeRepository _readrepository;
-        public NoteReadRangeBusinesses(IServiceProvider provider, NoteReadRangeRepository readrepository) : base(provider, readrepository)
+        private readonly RuleRegulationReadRangeRepository _repository;
+        public RuleRegulationReadRangeBusiness(IServiceProvider provider, RuleRegulationReadRangeRepository repository) : base(provider, repository)
         {
-            this._readrepository = readrepository;
+            this._repository = repository;
         }
     }
-}
+    }

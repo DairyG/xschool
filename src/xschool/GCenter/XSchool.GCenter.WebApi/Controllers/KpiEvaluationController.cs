@@ -59,6 +59,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             var condition = new Condition<KpiTemplate>();
             condition.And(p => p.CompanyId == search.CompanyId);
+            condition.And(p => p.KpiType == search.KpiType);
             if (search.DptId != null && search.DptId > 0)
             {
                 condition.And(p => p.DptId == search.DptId);
@@ -94,6 +95,10 @@ namespace XSchool.GCenter.WebApi.Controllers
         /// </summary>
         public class Search
         {
+            /// <summary>
+            /// 考核类型
+            /// </summary>
+            public KpiType KpiType { get; set; }
             /// <summary>
             /// 公司Id
             /// </summary>

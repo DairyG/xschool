@@ -173,7 +173,7 @@ namespace XSchool.GCenter.Businesses
                             lsNotExistTpl.Add(new KpiTemplate()
                             {
                                 Id = 0,
-                                KpiType = KpiType.User,
+                                KpiType = record.KpiType,
                                 CompanyId = record.CompanyId,
                                 CompanyName = record.CompanyName,
                                 DptId = record.DptId,

@@ -8,11 +8,6 @@ namespace XSchool.GCenter.Model.ViewModel
     public class KpiEvaluationTemplatSubmitDto
     {
         /// <summary>
-        /// 操作模式
-        /// </summary>
-        public OperationMode Mode { get; set; }
-
-        /// <summary>
         /// 考核类型
         /// </summary>		
         public KpiType KpiType { get; set; }
@@ -21,11 +16,6 @@ namespace XSchool.GCenter.Model.ViewModel
         /// 所属考核方案Id
         /// </summary>		
         public KpiPlan KpiId { get; set; }
-
-        /// <summary>
-        /// 考核模板记录Id
-        /// </summary>
-        public int? Id { get; set; }
 
         /// <summary>
         /// 考核模板记录

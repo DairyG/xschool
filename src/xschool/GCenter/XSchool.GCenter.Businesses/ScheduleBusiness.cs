@@ -37,7 +37,7 @@ namespace XSchool.GCenter.Businesses
             {
                 new KeyValuePair<string, OrderBy>("AddTime", OrderBy.Desc)
             };
-            return base.Query(p => p.Id > 0,p=>p,order);
+            return base.Query(p => p.Id > 0, p => p, order);
         }
         public IList<Schedule> Get(int eid, string catalog)
         {
@@ -61,7 +61,22 @@ namespace XSchool.GCenter.Businesses
                     list = base.Query(p => p.Scribbles.Contains(eid.ToString()), p => p, order);
                     break;
             }
-            return list;    
+            return list;
+        }
+        /// <summary>
+        /// 根据日期查询日程（写总结处使用）
+        /// </summary>
+        /// <param name="eid">人员ID</param>
+        /// <param name="date">日期</param>
+        /// <returns></returns>
+        public Schedule GetByDate(int eid, string date)
+        {
+            IList<Schedule> list = base.Query(p => p.Executors.Contains("," + eid.ToString() + ",") && p.BeginTime.ToString("yyyy-MM-dd") == date);
+            if (list.Count > 0)
+            {
+                return list[0];
+            }
+            return null;
         }
         public Schedule GetSingle(int id)
         {
@@ -70,6 +85,10 @@ namespace XSchool.GCenter.Businesses
         public Result Delete(int id)
         {
             return base.Delete(id);
+        }
+        public int UpdatePid(int id)
+        {
+            return _scheduleRepository.UpdatePid(id);
         }
         public Result Check(Schedule model)
         {

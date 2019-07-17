@@ -8,6 +8,10 @@ namespace XSchool.GCenter.Model
     {
         public int Id { get; set; }
         /// <summary>
+        /// 重复的模板ID
+        /// </summary>
+        public int Pid { get; set; }
+        /// <summary>
         /// 执行人（用,隔开）
         /// </summary>
         public string Executors { get; set; }

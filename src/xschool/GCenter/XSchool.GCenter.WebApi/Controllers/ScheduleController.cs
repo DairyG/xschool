@@ -65,7 +65,16 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             return _scheduleBusiness.Get();
         }
-
+        /// <summary>
+        /// 根据ID修改Pid
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public int UpdatePid(int id)
+        {
+            return _scheduleBusiness.UpdatePid(id);
+        }
         /// <summary>
         /// 根据ID获取任务
         /// </summary>
@@ -82,6 +91,32 @@ namespace XSchool.GCenter.WebApi.Controllers
             newmodel.RemindWayName = GetDescription(model.RemindWay);
             newmodel.EmergencyName = GetDescription(model.Emergency);
             return newmodel;
+        }
+        #region 处理重复
+        private void DoRepeat(Schedule model)
+        {
+            if (model != null)
+            {
+                //开始处理重复
+                if (model.Repeat == Repeat.Day)
+                {
+                    //按天重复
+                    //查询是否有相同的数据
+
+                }
+            }
+        }
+        #endregion
+        /// <summary>
+        /// 根据日期查询日程（写总结处使用）
+        /// </summary>
+        /// <param name="eid">人员ID</param>
+        /// <param name="date">日期</param>
+        /// <returns></returns>
+        [HttpPost]
+        public Schedule GetByDate([FromForm] int eid, [FromForm]string date)
+        {
+            return _scheduleBusiness.GetByDate(eid,date);
         }
         /// <summary>
         /// 根据条件查询日程

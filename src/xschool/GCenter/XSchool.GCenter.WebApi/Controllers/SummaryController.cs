@@ -190,7 +190,19 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             return _summaryBusiness.UpdateRead(id);
         }
-
+        /// <summary>
+        /// 根据日期查询总结（写总结处使用（导入））
+        /// </summary>
+        /// <param name="eid">人员ID</param>
+        /// <param name="date">日期</param>
+        /// <param name="index">SummaryIndex(枚举)</param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Summary GetByDate([FromForm]int eid, [FromForm]string date, [FromForm]SummaryType type, [FromForm]SummaryIndex index = 0)
+        {
+            return _summaryBusiness.GetByDate(eid, date, type, index);
+        }
         /// 获取枚举的描述
         /// </summary>
         /// <param name="en">枚举</param>

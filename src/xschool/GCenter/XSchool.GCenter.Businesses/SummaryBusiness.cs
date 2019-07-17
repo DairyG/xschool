@@ -78,6 +78,32 @@ namespace XSchool.GCenter.Businesses
             return base.Update(model);
         }
 
+        /// <summary>
+        /// 根据日期查询总结（写总结处使用（导入））
+        /// </summary>
+        /// <param name="eid">人员ID</param>
+        /// <param name="date">日期</param>
+        /// <param name="index">SummaryIndex(枚举)</param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public Summary GetByDate(int eid, string date, SummaryType type, SummaryIndex index = 0)
+        {
+            IList<Summary> list = new List<Summary>();
+            if (index > 0)
+            {
+                list = base.Query(p => p.EmployeeId.Equals(eid) && p.SummaryDate == date && p.Type.Equals(type) && p.Index == (index - 1));
+            }
+            else
+            {
+                list = base.Query(p => p.EmployeeId.Equals(eid) && p.SummaryDate == date && p.Type == type);
+            }
+            if (list.Count > 0)
+            {
+                return list[0];
+            }
+            return null;
+        }
+
         public int UpdateRead(int id)
         {
             return _summaryRepository.UpdateRead(id);

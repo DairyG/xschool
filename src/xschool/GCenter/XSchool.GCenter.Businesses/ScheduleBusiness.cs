@@ -63,6 +63,21 @@ namespace XSchool.GCenter.Businesses
             }
             return list;    
         }
+        /// <summary>
+        /// 根据日期查询日程（写总结处使用）
+        /// </summary>
+        /// <param name="eid">人员ID</param>
+        /// <param name="date">日期</param>
+        /// <returns></returns>
+        public Schedule GetByDate(int eid, string date)
+        {            
+            IList<Schedule> list = base.Query(p => p.Executors.Contains("," + eid.ToString() + ",") && p.BeginTime.ToString("yyyy-MM-dd") == date);
+            if (list.Count > 0)
+            {
+                return list[0];
+            }
+            return null;
+        }
         public Schedule GetSingle(int id)
         {
             return base.GetSingle(p => p.Id.Equals(id));

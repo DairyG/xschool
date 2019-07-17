@@ -84,6 +84,17 @@ namespace XSchool.GCenter.WebApi.Controllers
             return newmodel;
         }
         /// <summary>
+        /// 根据日期查询日程（写总结处使用）
+        /// </summary>
+        /// <param name="eid">人员ID</param>
+        /// <param name="date">日期</param>
+        /// <returns></returns>
+        [HttpPost]
+        public Schedule GetByDate([FromForm] int eid, [FromForm]string date)
+        {
+            return _scheduleBusiness.GetByDate(eid,date);
+        }
+        /// <summary>
         /// 根据条件查询日程
         /// </summary>
         /// <param name="eid">人员ID</param>

@@ -7,6 +7,7 @@ using System.Security.Claims;
 
 namespace XSchool.GCenter.WebApi.Controllers
 {
+    [XFilterFilter]
     [ApiController]
     public class ApiBaseController : ControllerBase
     {
@@ -70,6 +71,6 @@ namespace XSchool.GCenter.WebApi.Controllers
         public string Mobile { get; set; }
 
         public string IdCard { get; set; }
-
     }
+
 }

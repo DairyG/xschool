@@ -45,39 +45,40 @@ namespace XSchool.GCenter.WebApi.Controllers
             return _business.GetSingle(Id);
         }
 
-        //[HttpPost]
-        //[Description("获取合同列表")]
-        //public Result<IPageCollection<Contract>> Get([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]String search)
-        //{
-        //    List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
-        //    {
-        //        new KeyValuePair<string, OrderBy>("Id", OrderBy.Asc)
-        //    };
-        //    var condition = new Condition<Contract>();
-        //    Search ser = new Search();
-        //    ser = JsonConvert.DeserializeObject<Search>(search);
+        [HttpPost]
+        [Description("获取合同列表")]
+        public object Get([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]String search)
+        {
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
+            {
+                new KeyValuePair<string, OrderBy>("Id", OrderBy.Asc)
+            };
+            var condition = new Condition<Contract>();
+            Search ser = new Search();
+            ser = JsonConvert.DeserializeObject<Search>(search);
 
-        //    if (!string.IsNullOrWhiteSpace(ser.Type.ToString())) {
-        //        condition.And(p => p.Type == Convert.ToInt32(ser.Type));
-        //    }
-        //    if (!string.IsNullOrWhiteSpace(ser.No))
-        //    {
-        //        condition.And(p => p.No.Contains(ser.No));
-        //    }
-        //    return _business.Page(page, limit, condition.Combine(),p => new
-        //    {
-        //        p.Id,
-        //        p.Type,
-        //        p.No,
-        //        p.RelationNo,
-        //        p.Title,
-        //        p.StartTime,
-        //        p.EndTime,
-        //        p.Amount,
-        //        p.PayNum,
-        //        p.PayItems
-        //    }, order);
-        //}
+            if (!string.IsNullOrWhiteSpace(ser.Type.ToString()))
+            {
+                condition.And(p => p.Type == Convert.ToInt32(ser.Type));
+            }
+            if (!string.IsNullOrWhiteSpace(ser.No))
+            {
+                condition.And(p => p.No.Contains(ser.No));
+            }
+            return _business.Page(page, limit, condition.Combine(), p => new
+            {
+                p.Id,
+                p.Type,
+                p.No,
+                p.RelationNo,
+                p.Title,
+                p.StartTime,
+                p.EndTime,
+                p.Amount,
+                p.PayNum,
+                p.PayItems
+            }, order);
+        }
 
         [HttpPost]
         [Description("删除合同")]

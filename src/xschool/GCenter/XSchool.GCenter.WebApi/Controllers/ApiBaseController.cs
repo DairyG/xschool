@@ -1,78 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
-using System.Linq.Expressions;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace XSchool.GCenter.WebApi.Controllers
 {
-    //internal class ParameterReplacer : ExpressionVisitor
-    //{
-    //    private readonly ParameterExpression _parameter;
-
-    //    protected override Expression VisitParameter(ParameterExpression node)
-    //    {
-    //        return base.VisitParameter(_parameter);
-    //    }
-
-    //    internal ParameterReplacer(ParameterExpression parameter)
-    //    {
-    //        _parameter = parameter;
-    //    }
-    //}
-
-    //public class Condition<T>
-    //{
-    //    public Expression Node { get; private set; }
-
-    //    public Condition<T> And(Expression<Func<T, bool>> where)
-    //    {
-    //        if (Node == null)
-    //        {
-    //            Node = where.Body;
-    //        }
-    //        else
-    //        {
-    //            Node = Expression.AndAlso(Node, where.Body);
-    //        }
-
-    //        return this;
-    //    }
-
-    //    public Condition<T> Or(Expression<Func<T, bool>> where)
-    //    {
-    //        if (Node == null)
-    //        {
-    //            Node = where.Body;
-    //        }
-    //        else
-    //        {
-    //            Node = Expression.OrElse(Node, where.Body);
-    //        }
-
-    //        return this;
-    //    }
-
-    //    public Expression<Func<T, bool>> Combine()
-    //    {
-    //        if (this.Node != null)
-    //        {
-    //            var p = Expression.Parameter(typeof(T), "p");
-    //            //this.Node = (BinaryExpression)new ParameterReplacer(p).Visit(this.Node);
-    //            this.Node = new ParameterReplacer(p).Visit(this.Node);
-    //            return Expression.Lambda<Func<T, bool>>(this.Node, p);
-    //        }
-    //        return null;
-    //    }
-    //}
-
     [ApiController]
     public class ApiBaseController : ControllerBase
     {
-        protected Token UToken
+        protected TokenUser UToken
         {
             get
             {
-                return this.HttpContext.Items["TOKEN_USER"] as Token;
+                return this.HttpContext.Items["TOKEN_USER"] as TokenUser;
             }
         }
     }
@@ -81,24 +23,53 @@ namespace XSchool.GCenter.WebApi.Controllers
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            var identity = context.HttpContext.User.Identity as System.Security.Claims.ClaimsIdentity;
-            if (identity.IsAuthenticated)
+            var authorizaToken = context.HttpContext.Request.Headers["Authorization"].ToString();
+            if (!string.IsNullOrWhiteSpace(authorizaToken))
             {
-                var token = new Token();
-                token.Id = Convert.ToInt32(identity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier));
-                token.UserName = identity.Name;
-                context.HttpContext.Items["TOKEN_USER"] = token;
+                authorizaToken = authorizaToken.Replace("Bearer ", string.Empty);
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var jwt = tokenHandler.ReadJwtToken(authorizaToken);
+                var identity = context.HttpContext.User.Identity as ClaimsIdentity;
 
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier,jwt.Payload[ClaimTypes.NameIdentifier].ToString()),
+                    new Claim(ClaimTypes.Name,jwt.Payload[ClaimTypes.Name].ToString()),
+                    new Claim(ClaimTypes.MobilePhone,jwt.Payload[ClaimTypes.MobilePhone].ToString())
+                };
+
+                foreach (var claim in claims)
+                {
+                    identity.TryRemoveClaim(claim);
+                    identity.AddClaim(claim);
+                }
+
+                TokenUser user = new TokenUser
+                {
+                    Id = Convert.ToInt32(jwt.Payload[ClaimTypes.NameIdentifier]),
+                    UserName = jwt.Payload[ClaimTypes.Name].ToString(),
+                    DisplayName = jwt.Payload["displayName"].ToString(),
+                    IdCard = jwt.Payload["idcard"].ToString(),
+                    Mobile = jwt.Payload[ClaimTypes.MobilePhone].ToString()
+                };
+
+                context.HttpContext.Items["TOKEN_USER"] = user;
             }
             base.OnActionExecuting(context);
         }
     }
 
-    public class Token
+    public class TokenUser
     {
         public int Id { get; set; }
 
         public string UserName { get; set; }
+
+        public string DisplayName { get; set; }
+
+        public string Mobile { get; set; }
+
+        public string IdCard { get; set; }
 
     }
 }

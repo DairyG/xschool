@@ -5,9 +5,9 @@ using XSchool.GCenter.Repositories;
 
 namespace XSchool.GCenter.Businesses
 {
-    public class KpiTemplateDetailBusiness : Business<KpiTemplateDetail>
+    public class KpiTemplateBusiness : Business<KpiTemplate>
     {
-        public KpiTemplateDetailBusiness(IServiceProvider provider, KpiTemplateDetailRepository repository) : base(provider, repository) { }
+        public KpiTemplateBusiness(IServiceProvider provider, KpiTemplateRepository repository) : base(provider, repository) { }
 
     }
 }

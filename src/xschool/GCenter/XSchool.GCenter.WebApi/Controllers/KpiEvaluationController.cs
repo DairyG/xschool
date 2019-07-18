@@ -22,8 +22,6 @@ namespace XSchool.GCenter.WebApi.Controllers
     {
         private readonly KpiTemplateBusiness _tplBusiness;
         private readonly KpiTemplateRecordBusiness _tplRecordBusiness;
-        private readonly KpiTemplateDetailBusiness _tplDetailBusiness;
-        private readonly KpiTemplateAuditRecordBusiness _tplAuditRecordBusiness;
 
         private readonly KpiManageTotalBusiness _magTotalBusiness;
         private readonly KpiManageRecordBusiness _magRecordBusiness;
@@ -32,15 +30,13 @@ namespace XSchool.GCenter.WebApi.Controllers
 
         private readonly KpiEvaluationWrappers _wrappers;
         public KpiEvaluationController(
-            KpiTemplateBusiness tplBusiness, KpiTemplateRecordBusiness tplRecordBusiness, KpiTemplateDetailBusiness tplDetailBusiness, KpiTemplateAuditRecordBusiness tplAuditRecordBusiness,
+            KpiTemplateBusiness tplBusiness, KpiTemplateRecordBusiness tplRecordBusiness,
             KpiManageTotalBusiness magTotalBusiness, KpiManageRecordBusiness magRecordBusiness, KpiManageDetailBusiness magDetailBusiness, KpiManageAuditDetailBusiness magAuditDetailBusiness,
             KpiEvaluationWrappers wrappers
             )
         {
             _tplBusiness = tplBusiness;
             _tplRecordBusiness = tplRecordBusiness;
-            _tplDetailBusiness = tplDetailBusiness;
-            _tplAuditRecordBusiness = tplAuditRecordBusiness;
 
             _magTotalBusiness = magTotalBusiness;
             _magRecordBusiness = magRecordBusiness;
@@ -89,19 +85,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         [HttpGet("{id}")]
         public KpiTemplateRecord GetTemplatRecord(int id)
         {
-            var model = _tplRecordBusiness.GetSingle(p => p.Id == id);
-            if (model != null)
-            {
-                List<KeyValuePair<string, OrderBy>> orderDetail = new List<KeyValuePair<string, OrderBy>>() {
-                    new KeyValuePair<string, OrderBy>("Id", OrderBy.Desc)
-                };
-                List<KeyValuePair<string, OrderBy>> orderAudit = new List<KeyValuePair<string, OrderBy>>() {
-                    new KeyValuePair<string, OrderBy>("Steps", OrderBy.Asc)
-                };
-                model.TemplateDetail = _tplDetailBusiness.Query(p => p.KpiTemplateRecordId == id, p => p, orderDetail);
-                model.TemplateAuditRecord = _tplAuditRecordBusiness.Query(p => p.KpiTemplateRecordId == id, p => p, orderAudit);
-            }
-            return model;
+            return _tplRecordBusiness.GetSingle(p => p.Id == id);
         }
 
 
@@ -126,30 +110,30 @@ namespace XSchool.GCenter.WebApi.Controllers
             return _magTotalBusiness.Page(page, limit, condition.Combine());
         }
 
-        /// <summary>
-        /// [详情] 考核管理
-        /// </summary>
-        /// <param name="modelDto"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public KpiManageRecord GetManageRecord([FromForm]KpiEvaluationManageQueryDto modelDto)
-        {
-            _wrappers.GeneratedSingleByManage(modelDto);
+        ///// <summary>
+        ///// [详情] 考核管理
+        ///// </summary>
+        ///// <param name="modelDto"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //public KpiManageRecord GetManageRecord([FromForm]KpiEvaluationManageQueryDto modelDto)
+        //{
+        //    _wrappers.GeneratedSingleByManage(modelDto);
 
-            var model = _magRecordBusiness.GetSingle(p => p.KpiType == modelDto.KpiType && p.KpiId == modelDto.KpiId && p.CompanyId == modelDto.CompanyId && p.DptId == modelDto.DptId && p.Year == modelDto.Year && p.KpiDate == modelDto.KpiDate);
-            if (model != null)
-            {
-                List<KeyValuePair<string, OrderBy>> orderDetail = new List<KeyValuePair<string, OrderBy>>() {
-                    new KeyValuePair<string, OrderBy>("Id", OrderBy.Desc)
-                };
-                List<KeyValuePair<string, OrderBy>> orderAudit = new List<KeyValuePair<string, OrderBy>>() {
-                    new KeyValuePair<string, OrderBy>("Steps", OrderBy.Asc)
-                };
-                model.ManageDetail = _magDetailBusiness.Query(p => p.KpiManageRecordId == model.Id, p => p, orderDetail);
-                model.ManageAuditDetail = _magAuditDetailBusiness.Query(p => p.KpiManageRecordId == model.Id, p => p, orderAudit);
-            }
-            return model;
-        }
+        //    var model = _magRecordBusiness.GetSingle(p => p.KpiType == modelDto.KpiType && p.KpiId == modelDto.KpiId && p.CompanyId == modelDto.CompanyId && p.DptId == modelDto.DptId && p.Year == modelDto.Year && p.KpiDate == modelDto.KpiDate);
+        //    if (model != null)
+        //    {
+        //        List<KeyValuePair<string, OrderBy>> orderDetail = new List<KeyValuePair<string, OrderBy>>() {
+        //            new KeyValuePair<string, OrderBy>("Id", OrderBy.Desc)
+        //        };
+        //        List<KeyValuePair<string, OrderBy>> orderAudit = new List<KeyValuePair<string, OrderBy>>() {
+        //            new KeyValuePair<string, OrderBy>("Steps", OrderBy.Asc)
+        //        };
+        //        model.ManageDetail = _magDetailBusiness.Query(p => p.KpiManageRecordId == model.Id, p => p, orderDetail);
+        //        model.ManageAuditDetail = _magAuditDetailBusiness.Query(p => p.KpiManageRecordId == model.Id, p => p, orderAudit);
+        //    }
+        //    return model;
+        //}
 
         /// <summary>
         /// 筛选条件

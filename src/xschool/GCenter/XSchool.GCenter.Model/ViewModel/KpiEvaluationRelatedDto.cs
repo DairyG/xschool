@@ -22,14 +22,6 @@ namespace XSchool.GCenter.Model.ViewModel
         /// 考核模板记录
         /// </summary>
         public List<KpiTemplateRecord> TemplateRecord { get; set; } = new List<KpiTemplateRecord>();
-        /// <summary>
-        /// 考核模板明细
-        /// </summary>
-        public List<KpiTemplateDetail> TemplateDetail { get; set; } = new List<KpiTemplateDetail>();
-        /// <summary>
-        /// 考核模板审核记录
-        /// </summary>
-        public List<KpiTemplateAuditRecord> TemplateAuditRecord { get; set; } = new List<KpiTemplateAuditRecord>();
     }
 
     /// <summary>

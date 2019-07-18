@@ -14,6 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\XSchool.Businesses\XSchool.Businesses.csproj" />
     <ProjectReference Include="..\..\XSchool.Helpers\XSchool.Helpers.csproj" />
     <ProjectReference Include="..\XSchool.GCenter.Model\XSchool.GCenter.Model.csproj" />

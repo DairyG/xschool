@@ -30,8 +30,6 @@ namespace XSchool.GCenter.Repositories.Extensions
         public DbSet<ScheduleReply> ScheduleReply { get; set; }
 
         public DbSet<KpiTemplate> KpiTemplate { get; set; }
-        public DbSet<KpiTemplateAuditRecord> KpiTemplateAuditRecord { get; set; }
-        public DbSet<KpiTemplateDetail> KpiTemplateDetail { get; set; }
         public DbSet<KpiTemplateRecord> KpiTemplateRecord { get; set; }
 
         public DbSet<KpiManageTotal> KpiManageTotal { get; set; }

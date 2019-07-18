@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using XSchool.Core;
 
 namespace XSchool.GCenter.Model
@@ -55,14 +53,13 @@ namespace XSchool.GCenter.Model
         public string UserName { get; set; }
 
         /// <summary>
-        /// 考核模板明细
-        /// </summary>
-        [NotMapped]
-        public IList<KpiTemplateDetail> TemplateDetail { get; set; } = new List<KpiTemplateDetail>();
+        /// 考核内容
+        /// </summary>		
+        public string Contents { get; set; }
+
         /// <summary>
-        /// 考核模板审核记录
-        /// </summary>
-        [NotMapped]
-        public IList<KpiTemplateAuditRecord> TemplateAuditRecord { get; set; } = new List<KpiTemplateAuditRecord>();
+        /// 审核人
+        /// </summary>		
+        public string Audits { get; set; }
     }
 }

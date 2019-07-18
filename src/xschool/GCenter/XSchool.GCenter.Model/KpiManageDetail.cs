@@ -68,27 +68,17 @@ namespace XSchool.GCenter.Model
         /// <summary>
         /// 自评分
         /// </summary>		
-        public decimal SelfScore { get; set; } = 0;
+        public decimal? SelfScore { get; set; }
 
         /// <summary>
         /// 初审分
         /// </summary>		
-        public decimal OneScore { get; set; } = 0;
+        public decimal? OneScore { get; set; }
 
         /// <summary>
         /// 终审分
         /// </summary>		
-        public decimal TwoScore { get; set; } = 0;
-
-        /// <summary>
-        /// 备注
-        /// </summary>		
-        public string Remark { get; set; }
-
-        /// <summary>
-        /// 状态
-        /// </summary>		
-        public NomalStatus Status { get; set; } = NomalStatus.Valid;
+        public decimal? TwoScore { get; set; }
 
     }
 }

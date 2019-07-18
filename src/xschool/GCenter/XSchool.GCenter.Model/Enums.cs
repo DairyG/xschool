@@ -283,7 +283,7 @@ namespace XSchool.GCenter.Model
         User = 2,
     }
     /// <summary>
-    /// [绩效考核] 考核步骤，[自评，初审，终审，完成]
+    /// [绩效考核] 考核步骤，[10=自评，11=初审，12=终审，1=完成]
     /// </summary>
     public enum KpiSteps
     {
@@ -291,48 +291,58 @@ namespace XSchool.GCenter.Model
         /// 自评
         /// </summary>
         [Description("自评")]
-        Zero = 0,
+        Zero = 10,
         /// <summary>
         /// 初审
         /// </summary>
         [Description("初审")]
-        One = 1,
+        One = 11,
         /// <summary>
         /// 终审
         /// </summary>
         [Description("终审")]
-        Two = 2,
+        Two = 12,
         /// <summary>
         /// 完成
         /// </summary>
         [Description("完成")]
-        Complete = -1,
+        Complete = 1,
     }
     /// <summary>
-    /// [绩效考核] 考核步骤，[自评，审批中，完成，无效]
+    /// [绩效考核] 状态，[-2=未开始，0=初始，10=自评，11=审批中，1=完成，-1=无效]
     /// </summary>
     public enum KpiStatus
     {
         /// <summary>
+        /// 未开始
+        /// </summary>
+        [Description("未开始")]
+        NotStarted = -1,
+        /// <summary>
+        /// 初始
+        /// </summary>
+        [Description("初始")]
+        Init = 0,
+        /// <summary>
         /// 自评
         /// </summary>
         [Description("自评")]
-        Zero = 0,
+        Zero = 10,
         /// <summary>
         /// 审批中
         /// </summary>
         [Description("审批中")]
-        Audit = 1,
+        Audit = 11,
         /// <summary>
         /// 完成
         /// </summary>
         [Description("完成")]
-        Two = 2,
+        Complete = 1,
         /// <summary>
         /// 无效
         /// </summary>
         [Description("无效")]
-        Invalid = -1,
+        Invalid = -2,
     }
 
     /// <summary>
@@ -626,6 +636,6 @@ namespace XSchool.GCenter.Model
         /// </summary>
         [Description("组织（非企业）增值税普通发票")]
         PersonNormal = 2
-        
+
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using XSchool.Core;
 
 namespace XSchool.GCenter.Model
@@ -9,6 +11,11 @@ namespace XSchool.GCenter.Model
     public partial class KpiManageRecord : IModel<int>
     {
         public int Id { get; set; }
+
+        // <summary>
+        /// 考核模板记录Id
+        /// </summary>		
+        public int KpiTemplateRecordId { get; set; }
 
         /// <summary>
         /// 考核类型，1-部门，2-人员
@@ -66,19 +73,39 @@ namespace XSchool.GCenter.Model
         public string KpiDate { get; set; }
 
         /// <summary>
-        /// 当前步骤，[0-自评，1-初审，2-终审，-1-完成]
+        /// 当前步骤，[10=自评，11=初审，12=终审，1=完成]
         /// </summary>		
-        public KpiSteps Steps { get; set; } = KpiSteps.Zero;
+        public KpiSteps Steps { get; set; }
+
+        /// <summary>
+        /// 当前步骤操作人公司Id
+        /// </summary>		
+        public int? StepsCompanyId { get; set; }
+
+        /// <summary>
+        /// 当前步骤操作人公司名称
+        /// </summary>		
+        public string StepsCompanyName { get; set; }
+
+        /// <summary>
+        /// 当前步骤操作人部门Id
+        /// </summary>		
+        public int? StepsDptId { get; set; }
+
+        /// <summary>
+        /// 当前步骤操作人部门名称
+        /// </summary>		
+        public string StepsDptName { get; set; }
 
         /// <summary>
         /// 当前步骤操作人Id
         /// </summary>		
-        public int? StepsAuditId { get; set; }
+        public int? StepsEmployeeId { get; set; }
 
         /// <summary>
         /// 当前步骤操作人姓名
         /// </summary>		
-        public string StepsAuditName { get; set; }
+        public string StepsUserName { get; set; }
 
         /// <summary>
         /// 添加时间
@@ -91,10 +118,20 @@ namespace XSchool.GCenter.Model
         public DateTime? CompleteDate { get; set; }
 
         /// <summary>
-        /// 状态，0-自评，1-审批中，2-完成，-1-无效
+        /// 状态，[10=自评，11=审批中，1=完成，-1=无效]
         /// </summary>		
-        public KpiStatus Status { get; set; } = KpiStatus.Zero;
+        public KpiStatus Status { get; set; }
 
+        /// <summary>
+        /// 考核管理明细
+        /// </summary>
+        [NotMapped]
+        public IList<KpiManageDetail> ManageDetail { get; set; } = new List<KpiManageDetail>();
+        /// <summary>
+        /// 考核管理审核明细
+        /// </summary>
+        [NotMapped]
+        public IList<KpiManageAuditDetail> ManageAuditDetail { get; set; } = new List<KpiManageAuditDetail>();
     }
 }
 

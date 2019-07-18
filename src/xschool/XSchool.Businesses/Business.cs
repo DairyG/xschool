@@ -78,6 +78,12 @@ namespace XSchool.Businesses
             return Result.Success(model.Id);
         }
 
+        public virtual Result UpdateRange(IEnumerable<TModel> models)
+        {
+            this.Repository.UpdateRange(models);
+            return Result.Success();
+        }
+
 
         public virtual TModel GetSingle(TKey key)
         {

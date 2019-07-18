@@ -73,30 +73,30 @@ namespace XSchool.Helpers
         }
 
         /// <summary>
-        /// 获取改时间所在的季度
+        /// 获取该时间所在的季度
         /// </summary>
         /// <param name="target"></param>
         /// <returns>2018Q1</returns>
-        public static string GetQuarterName(DateTime target)
+        public static int GetQurater(DateTime target)
         {
             int month = target.Month;
             if (month == 1 || month == 2 || month == 3)
             {
-                return "第一季度";
+                return 1;
             }
             else if (month == 4 || month == 5 || month == 6)
             {
-                return "第二季度";
+                return 2;
             }
             else if (month == 7 || month == 8 || month == 9)
             {
-                return "第三季度";
+                return 3;
             }
             else if (month == 10 || month == 11 || month == 12)
             {
-                return "第四季度";
+                return 4;
             }
-            return string.Empty;
+            return 0;
         }
     }
 }

@@ -11,9 +11,9 @@ namespace XSchool.GCenter.Model
         public int Id { get; set; }
 
         /// <summary>
-        /// 考核管理记录Id
-        /// </summary>		
-        public int KpiManageRecordId { get; set; }
+		/// 考核管理记录Id
+		/// </summary>		
+		public int KpiManageRecordId { get; set; }
 
         /// <summary>
         /// 当前步骤

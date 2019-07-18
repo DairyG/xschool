@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace XSchool.GCenter.Model.ViewModel
 {
@@ -32,17 +33,12 @@ namespace XSchool.GCenter.Model.ViewModel
     }
 
     /// <summary>
-    /// 考核模板 提交
+    /// 考核记录 查询
     /// </summary>
-    public class KpiEvaluationSubmitDto
+    public class KpiEvaluationManageQueryDto
     {
         /// <summary>
-        /// 操作模式
-        /// </summary>
-        public OperationMode Mode { get; set; }
-
-        /// <summary>
-        /// 所属考核方案Id
+        /// 考核类型
         /// </summary>		
         public KpiType KpiType { get; set; }
 
@@ -52,18 +48,29 @@ namespace XSchool.GCenter.Model.ViewModel
         public KpiPlan KpiId { get; set; }
 
         /// <summary>
-        /// 考核管理记录
+        /// 年份
         /// </summary>
+        public int Year { get; set; } = DateTime.Now.Year;
 
-        public List<KpiManageRecord> ManageRecord { get; set; } = new List<KpiManageRecord>();
         /// <summary>
-        /// 考核管理明细
+        /// 考核时间
         /// </summary>
-        public List<KpiManageDetail> ManageDetail { get; set; } = new List<KpiManageDetail>();
+        public string KpiDate { get; set; }
+
         /// <summary>
-        /// 考核管理审核记录
-        /// </summary>
-        public List<KpiManageAuditRecord> ManageAuditRecord { get; set; } = new List<KpiManageAuditRecord>();
+        /// 公司Id
+        /// </summary>		
+        public int CompanyId { get; set; }
+
+        /// <summary>
+        /// 部门Id
+        /// </summary>		
+        public int DptId { get; set; }
+
+        /// <summary>
+        /// 人员Id
+        /// </summary>		
+        public int EmployeeId { get; set; }
     }
 
 }

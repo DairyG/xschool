@@ -538,15 +538,15 @@ namespace XSchool.GCenter.Model
         [Description("按天")]
         Day = 2,
         /// <summary>
-        /// 按月
-        /// </summary>
-        [Description("按月")]
-        Month = 3,
-        /// <summary>
         /// 按周
         /// </summary>
         [Description("按周")]
-        Week = 4,
+        Week = 3,
+        /// <summary>
+        /// 按月
+        /// </summary>
+        [Description("按月")]
+        Month = 4,
     }
     public enum ContractType
     {

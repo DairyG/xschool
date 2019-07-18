@@ -122,5 +122,142 @@ namespace XSchool.GCenter.Businesses
             }
             return Result.Success();
         }
+        #region 处理重复
+        public void DoRepeat(Schedule model)
+        {
+            if (model != null)
+            {
+                //开始处理重复
+                if (model.Repeat == Repeat.Day)
+                {
+                    //按天重复
+                    //查询是否有相同的数据
+                    DateTime bTime = model.BeginTime.AddDays(1);
+                    DateTime eTime = model.EndTime.AddDays(1);
+
+                    bool has = base.Exist(p => p.Pid == model.Pid && p.BeginTime == bTime && p.EndTime == eTime);
+                    int tim = DateTime.Compare(bTime, Convert.ToDateTime(model.RepeatEndTime));
+                    //无重复，并且重复日程的开始时间小于或等于重复结束时间
+                    if (!has && tim <= 0)
+                    {
+                        Schedule newModel = new Schedule() {
+                            Id = 0,
+                            Pid = model.Pid,
+                            Executors = model.Executors,
+                            ExecutorsJson = model.ExecutorsJson,
+                            Scribbles = model.Scribbles,
+                            ScribblesJson = model.ScribblesJson,
+                            KpiPlan = model.KpiPlan,
+                            KpiId = model.KpiId,
+                            BeginTime = bTime,
+                            EndTime = eTime,
+                            RemindTime = model.RemindTime,
+                            RemindWay = model.RemindWay,
+                            Emergency = model.Emergency,
+                            Repeat = model.Repeat,
+                            RepeatEndTime = model.RepeatEndTime,
+                            Title = model.Title,
+                            CompanyId = model.CompanyId,
+                            DptId = model.DptId,
+                            EmployeeId = model.EmployeeId,
+                            EmployeeName = model.EmployeeName,
+                            Content = model.Content,
+                            FileUrl = model.FileUrl,
+                            AddTime = DateTime.Now,
+                            AllDay = model.AllDay
+                        };
+                        //无下一条重复（添加）
+                        base.Add(newModel);
+                    }
+                }
+                else if (model.Repeat == Repeat.Week)
+                {
+                    //按周重复
+                    //查询是否有相同的数据
+                    DateTime bTime = model.BeginTime.AddDays(7);
+                    DateTime eTime = model.EndTime.AddDays(7);
+
+                    bool has = base.Exist(p => p.Pid == model.Pid && p.BeginTime == bTime && p.EndTime == eTime);
+                    int tim = DateTime.Compare(bTime, Convert.ToDateTime(model.RepeatEndTime));
+                    //无重复，并且重复日程的开始时间小于或等于重复结束时间
+                    if (!has && tim <= 0)
+                    {
+                        Schedule newModel = new Schedule()
+                        {
+                            Id = 0,
+                            Pid = model.Pid,
+                            Executors = model.Executors,
+                            ExecutorsJson = model.ExecutorsJson,
+                            Scribbles = model.Scribbles,
+                            ScribblesJson = model.ScribblesJson,
+                            KpiPlan = model.KpiPlan,
+                            KpiId = model.KpiId,
+                            BeginTime = bTime,
+                            EndTime = eTime,
+                            RemindTime = model.RemindTime,
+                            RemindWay = model.RemindWay,
+                            Emergency = model.Emergency,
+                            Repeat = model.Repeat,
+                            RepeatEndTime = model.RepeatEndTime,
+                            Title = model.Title,
+                            CompanyId = model.CompanyId,
+                            DptId = model.DptId,
+                            EmployeeId = model.EmployeeId,
+                            EmployeeName = model.EmployeeName,
+                            Content = model.Content,
+                            FileUrl = model.FileUrl,
+                            AddTime = DateTime.Now,
+                            AllDay = model.AllDay
+                        };
+                        //无下一条重复（添加）
+                        base.Add(newModel);
+                    }
+                }
+                else if (model.Repeat == Repeat.Month)
+                {
+                    //按月重复
+                    //查询是否有相同的数据
+                    DateTime bTime = model.BeginTime.AddMonths(1);
+                    DateTime eTime = model.EndTime.AddMonths(1);
+
+                    bool has = base.Exist(p => p.Pid == model.Pid && p.BeginTime == bTime && p.EndTime == eTime);
+                    int tim = DateTime.Compare(bTime, Convert.ToDateTime(model.RepeatEndTime));
+                    //无重复，并且重复日程的开始时间小于或等于重复结束时间
+                    if (!has && tim <= 0)
+                    {
+                        Schedule newModel = new Schedule()
+                        {
+                            Id = 0,
+                            Pid = model.Pid,
+                            Executors = model.Executors,
+                            ExecutorsJson = model.ExecutorsJson,
+                            Scribbles = model.Scribbles,
+                            ScribblesJson = model.ScribblesJson,
+                            KpiPlan = model.KpiPlan,
+                            KpiId = model.KpiId,
+                            BeginTime = bTime,
+                            EndTime = eTime,
+                            RemindTime = model.RemindTime,
+                            RemindWay = model.RemindWay,
+                            Emergency = model.Emergency,
+                            Repeat = model.Repeat,
+                            RepeatEndTime = model.RepeatEndTime,
+                            Title = model.Title,
+                            CompanyId = model.CompanyId,
+                            DptId = model.DptId,
+                            EmployeeId = model.EmployeeId,
+                            EmployeeName = model.EmployeeName,
+                            Content = model.Content,
+                            FileUrl = model.FileUrl,
+                            AddTime = DateTime.Now,
+                            AllDay = model.AllDay
+                        };
+                        //无下一条重复（添加）
+                        base.Add(newModel);
+                    }
+                }
+            }
+        }
+        #endregion
     }
 }

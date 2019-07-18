@@ -90,21 +90,13 @@ namespace XSchool.GCenter.WebApi.Controllers
             newmodel.RemindTimeName = GetDescription(model.RemindTime);
             newmodel.RemindWayName = GetDescription(model.RemindWay);
             newmodel.EmergencyName = GetDescription(model.Emergency);
+            DoRepeat(model);
             return newmodel;
         }
         #region 处理重复
         private void DoRepeat(Schedule model)
         {
-            if (model != null)
-            {
-                //开始处理重复
-                if (model.Repeat == Repeat.Day)
-                {
-                    //按天重复
-                    //查询是否有相同的数据
-
-                }
-            }
+            _scheduleBusiness.DoRepeat(model);
         }
         #endregion
         /// <summary>

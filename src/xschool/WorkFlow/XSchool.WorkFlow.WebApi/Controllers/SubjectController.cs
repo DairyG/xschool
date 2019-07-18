@@ -55,7 +55,7 @@ namespace XSchool.WorkFlow.WebApi.Controllers
             model.Status = EDStatus.Enable;
             model.CreateTime = DateTime.Now;
             model.CompanyId = 0;//当前登陆人公司id
-
+            model.UpdateTime = DateTime.Now;
             return subjectBusiness.Add(model);
         }
 

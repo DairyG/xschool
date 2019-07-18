@@ -162,15 +162,15 @@ namespace XSchool.WorkFlow.Businesses
             var list = subjectRulesList.Select(p => new SubjectRuleDto
             {
                 CompanyId = p.CompanyId,
-                 CompanyName=p.CompanyName,
+                CompanyName = p.CompanyName,
                 DepId = p.DepId,
-                DepName=p.DepName,
+                DepName = p.DepName,
                 JobDepId = p.JobDepId,
-                JobDepName=p.JobDepName,
+                JobDepName = p.JobDepName,
                 JobId = p.JobId,
-                JobName=p.JobName,
+                JobName = p.JobName,
                 UserId = p.UserId,
-                 UserName=p.UserName
+                UserName = p.UserName
             }).ToList();
             return list;
         }
@@ -197,39 +197,47 @@ namespace XSchool.WorkFlow.Businesses
         /// <returns></returns>
         public Result GetSubject()
         {
-            var data = (from a in _repositoryTypeSubject.Entites
-                        join b in _repository.Entites on a.Id equals b.SubjectTypeId into subjectList
-                        from c in subjectList.DefaultIfEmpty()
-                        join d in _rulerepository.Entites on c.Id equals d.SubjectId into rangeList 
-                        select new subjectTypeDto
-                        {
-                            Id = a.Id,
-                            SubjectTypeName = a.SubjectTypeName,
-                            subjectList = subjectList.Select(q => new subjectViewDto
-                            {
-                                subjectId = q.Id,
-                                SubjectName = q.SubjectName,
-                                UpdateTime = q.UpdateTime,
-                                Remark = q.Remark,
-                                SubjectRuleList = rangeList.Where(s=>s.BusinessType==BusinessType.Transaction).Select(p => new SubjectRuleDto
-                                {
-                                    CompanyId = p.CompanyId,
-                                     CompanyName=p.CompanyName,
-                                    DepId = p.DepId,
-                                     DepName=p.DepName,
-                                    JobDepId = p.JobDepId,
-                                     JobDepName=p.JobDepName,
-                                    JobId = p.JobId,
-                                    JobName=p.JobName,
-                                    SubjectStepId = p.SubjectStepId,
-                                    UserId = p.UserId,
-                                     UserName=p.UserName,
-                                    dataType = p.dataType
-                                }).ToList()
-                            }).ToList()
-                        });
-            var dataresult = data.ToList();
-            return new Result<List<subjectTypeDto>>() { Data = dataresult, Succeed=true };
+            var dataSubject = (from a in _repositoryTypeSubject.Entites
+                               join b in _repository.Entites on a.Id equals b.SubjectTypeId into subjectList
+                               select new subjectTypeDto
+                               {
+                                   Id = a.Id,
+                                   SubjectTypeName = a.SubjectTypeName,
+                                   subjectList = subjectList.Select(q => new subjectViewDto
+                                   {
+                                       subjectId = q.Id,
+                                       SubjectName = q.SubjectName,
+                                       UpdateTime = q.UpdateTime,
+                                       Remark = q.Remark
+                                   }).ToList()
+                               }).ToList();
+            foreach (subjectTypeDto itemParets in dataSubject)
+            {
+                if (itemParets.subjectList.Count == 0) continue;
+                foreach (subjectViewDto item in itemParets.subjectList)
+                {
+                    item.SubjectRuleList = _rulerepository.Entites.Where(s => s.BusinessType == BusinessType.Transaction && s.SubjectId == item.subjectId).Select(p => new
+                  SubjectRuleDto
+                    {
+                        CompanyId = p.CompanyId,
+                        CompanyName = p.CompanyName,
+                        DepId = p.DepId,
+                        DepName = p.DepName,
+                        JobDepId = p.JobDepId,
+                        JobDepName = p.JobDepName,
+                        JobId = p.JobId,
+                        JobName = p.JobName,
+                        SubjectStepId = p.SubjectStepId,
+                        UserId = p.UserId,
+                        UserName = p.UserName,
+                        dataType = p.dataType
+                    }).ToList();
+                }
+
+            }
+
+            var dataresult = dataSubject;
+            return new Result<List<subjectTypeDto>>() { Data = dataresult, Succeed = true };
         }
 
     }

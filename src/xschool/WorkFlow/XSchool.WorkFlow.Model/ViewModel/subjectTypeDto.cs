@@ -43,7 +43,7 @@ namespace XSchool.WorkFlow.Model.ViewModel
         /// <summary>
         /// 修改时间
         /// </summary>
-        public DateTime UpdateTime { get; set; }
+        public DateTime? UpdateTime { get; set; }
 
         /// <summary>
         /// 备注说明

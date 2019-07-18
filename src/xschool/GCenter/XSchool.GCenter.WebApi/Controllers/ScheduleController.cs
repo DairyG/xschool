@@ -144,8 +144,8 @@ namespace XSchool.GCenter.WebApi.Controllers
                 //完成了的集合
                 IList<ScheduleComplete> cmp = _scheduleCompleteBusiness.Get(item.Id);
                 //执行人集合
-                string exestring = item.Executors.Substring(0, 1);
-                exestring = exestring.Substring(exestring.Length - 1, 1);
+                string exestring = item.Executors.Substring(1);
+                exestring = exestring.Substring(0,exestring.Length - 1);
                 string[] exes = exestring.Split(",");
                 //如果完成数等于执行人数
                 if (cmp.Count >= exes.Length)
@@ -155,13 +155,23 @@ namespace XSchool.GCenter.WebApi.Controllers
                 }
                 else
                 {
-                    bool me = false;
-                    //判断我是否完成（根据eid）
-                    foreach (ScheduleComplete sc in cmp)
+                    bool me = true;
+                    //判断是否该我完成(如果需要我完成，默认为未完成)
+                    foreach (string e in exes)
                     {
-                        if (sc.EmployeeId.Equals(eid))
+                        if (e == eid.ToString())
                         {
-                            me = true;
+                            me = false;
+                        }
+                    }
+                    //判断我是否完成（该我去完成）
+                    if (!me) {
+                        foreach (ScheduleComplete sc in cmp)
+                        {
+                            if (sc.EmployeeId.Equals(eid))
+                            {
+                                me = true;
+                            }
                         }
                     }
                     //如果我完成了，统计总共完成数

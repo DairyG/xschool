@@ -309,7 +309,7 @@ namespace XSchool.GCenter.Model
         Complete = 1,
     }
     /// <summary>
-    /// [绩效考核] 状态，[-2=未开始，0=初始，10=自评，11=审批中，1=完成，-1=无效]
+    /// [绩效考核] 状态，[0=未开始，10=考核，11=审批中，1=完成，-1=无效]
     /// </summary>
     public enum KpiStatus
     {
@@ -317,17 +317,12 @@ namespace XSchool.GCenter.Model
         /// 未开始
         /// </summary>
         [Description("未开始")]
-        NotStarted = -1,
+        NotStarted = 0,
         /// <summary>
-        /// 初始
+        /// 考核
         /// </summary>
-        [Description("初始")]
-        Init = 0,
-        /// <summary>
-        /// 自评
-        /// </summary>
-        [Description("自评")]
-        Zero = 10,
+        [Description("考核")]
+        Assess = 10,
         /// <summary>
         /// 审批中
         /// </summary>
@@ -342,7 +337,7 @@ namespace XSchool.GCenter.Model
         /// 无效
         /// </summary>
         [Description("无效")]
-        Invalid = -2,
+        Invalid = -1,
     }
 
     /// <summary>

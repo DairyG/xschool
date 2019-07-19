@@ -118,7 +118,7 @@ namespace XSchool.GCenter.Model
         public DateTime? CompleteDate { get; set; }
 
         /// <summary>
-        /// 状态，[10=自评，11=审批中，1=完成，-1=无效]
+        /// 状态，[10=考核，11=审批中，1=完成，-1=无效]
         /// </summary>		
         public KpiStatus Status { get; set; }
 
@@ -131,7 +131,7 @@ namespace XSchool.GCenter.Model
         /// 考核管理审核明细
         /// </summary>
         [NotMapped]
-        public IList<KpiManageAuditDetail> ManageAuditDetail { get; set; } = new List<KpiManageAuditDetail>();
+        public IList<KpiManageAuditRecord> ManageAuditRecord { get; set; } = new List<KpiManageAuditRecord>();
     }
 }
 

@@ -25,7 +25,7 @@ namespace XSchool.GCenter.Model.ViewModel
     }
 
     /// <summary>
-    /// 考核记录 查询
+    /// 考核管理 查询
     /// </summary>
     public class KpiEvaluationManageQueryDto
     {
@@ -63,6 +63,27 @@ namespace XSchool.GCenter.Model.ViewModel
         /// 人员Id
         /// </summary>		
         public int EmployeeId { get; set; }
+    }
+
+    /// <summary>
+    /// 考核管理 提交
+    /// </summary>
+    public class KpiEvaluationManageSubmitDto
+    {
+        /// <summary>
+        /// 评价
+        /// </summary>
+        public string Evaluation { get; set; }
+
+        /// <summary>
+        /// 考核管理记录
+        /// </summary>
+        public KpiManageRecord ManageRecord { get; set; }
+
+        /// <summary>
+        /// 考核管理明细
+        /// </summary>
+        public List<KpiManageDetail> ManageDetails { get; set; }
     }
 
 }

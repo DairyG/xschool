@@ -53,14 +53,14 @@ namespace XSchool.GCenter.Businesses.Wrappers
         private readonly KpiManageTotalBusiness _magTotalBusiness;
         private readonly KpiManageRecordBusiness _magRecordBusiness;
         private readonly KpiManageDetailBusiness _magDetailBusiness;
-        private readonly KpiManageAuditDetailBusiness _magAuditDetailBusiness;
+        private readonly KpiManageAuditRecordBusiness _magAuditRecordBusiness;
         public KpiEvaluationWrappers(
             KpiTemplateBusiness tplBusiness,
             KpiTemplateRecordBusiness tplRecordBusiness,
             KpiManageTotalBusiness magTotalBusiness,
             KpiManageRecordBusiness magRecordBusiness,
             KpiManageDetailBusiness magDetailBusiness,
-            KpiManageAuditDetailBusiness magAuditDetailBusiness
+            KpiManageAuditRecordBusiness magAuditRecordBusiness
             )
         {
             _tplRecordBusiness = tplRecordBusiness;
@@ -69,7 +69,7 @@ namespace XSchool.GCenter.Businesses.Wrappers
             _magTotalBusiness = magTotalBusiness;
             _magRecordBusiness = magRecordBusiness;
             _magDetailBusiness = magDetailBusiness;
-            _magAuditDetailBusiness = magAuditDetailBusiness;
+            _magAuditRecordBusiness = magAuditRecordBusiness;
         }
 
         /// <summary>
@@ -110,7 +110,6 @@ namespace XSchool.GCenter.Businesses.Wrappers
             try
             {
                 var dtNow = DateTime.Now;
-                var currTime = 0;
                 var result = CheckTemplat(modelDto);
                 if (!result.Succeed)
                 {
@@ -179,7 +178,7 @@ namespace XSchool.GCenter.Businesses.Wrappers
                     var lsExistTpl = new List<KpiTemplate>();
                     var lsNotExistTpl = new List<KpiTemplate>();
 
-                    foreach (var record in lsTplRecord)
+                    foreach (var tplRecord in lsTplRecord)
                     {
                         //考核模板
                         KpiTemplate modelTpl = null;
@@ -187,11 +186,11 @@ namespace XSchool.GCenter.Businesses.Wrappers
                         {
                             if (modelDto.KpiType == KpiType.Dept) //部门
                             {
-                                modelTpl = dbTpl.FirstOrDefault(p => p.CompanyId == record.CompanyId && p.DptId == record.DptId);
+                                modelTpl = dbTpl.FirstOrDefault(p => p.CompanyId == tplRecord.CompanyId && p.DptId == tplRecord.DptId);
                             }
                             else //人员
                             {
-                                modelTpl = dbTpl.FirstOrDefault(p => p.CompanyId == record.CompanyId && p.DptId == record.DptId && p.EmployeeId == record.EmployeeId);
+                                modelTpl = dbTpl.FirstOrDefault(p => p.CompanyId == tplRecord.CompanyId && p.DptId == tplRecord.DptId && p.EmployeeId == tplRecord.EmployeeId);
                             }
                         }
                         if (modelTpl == null)
@@ -199,25 +198,25 @@ namespace XSchool.GCenter.Businesses.Wrappers
                             lsNotExistTpl.Add(new KpiTemplate()
                             {
                                 Id = 0,
-                                KpiType = record.KpiType,
-                                CompanyId = record.CompanyId,
-                                CompanyName = record.CompanyName,
-                                DptId = record.DptId,
-                                DptName = record.DptName,
-                                EmployeeId = record.EmployeeId,
-                                UserName = record.UserName,
-                                Monthly = modelDto.KpiId == KpiPlan.Monthly ? record.Id : 0,
-                                Quarter = modelDto.KpiId == KpiPlan.Quarter ? record.Id : 0,
-                                HalfYear = modelDto.KpiId == KpiPlan.HalfYear ? record.Id : 0,
-                                Annual = modelDto.KpiId == KpiPlan.Annual ? record.Id : 0,
+                                KpiType = tplRecord.KpiType,
+                                CompanyId = tplRecord.CompanyId,
+                                CompanyName = tplRecord.CompanyName,
+                                DptId = tplRecord.DptId,
+                                DptName = tplRecord.DptName,
+                                EmployeeId = tplRecord.EmployeeId,
+                                UserName = tplRecord.UserName,
+                                Monthly = modelDto.KpiId == KpiPlan.Monthly ? tplRecord.Id : 0,
+                                Quarter = modelDto.KpiId == KpiPlan.Quarter ? tplRecord.Id : 0,
+                                HalfYear = modelDto.KpiId == KpiPlan.HalfYear ? tplRecord.Id : 0,
+                                Annual = modelDto.KpiId == KpiPlan.Annual ? tplRecord.Id : 0,
                             });
                         }
                         else
                         {
-                            modelTpl.Monthly = modelDto.KpiId == KpiPlan.Monthly ? record.Id : modelTpl.Monthly;
-                            modelTpl.Quarter = modelDto.KpiId == KpiPlan.Quarter ? record.Id : modelTpl.Quarter;
-                            modelTpl.HalfYear = modelDto.KpiId == KpiPlan.HalfYear ? record.Id : modelTpl.HalfYear;
-                            modelTpl.Annual = modelDto.KpiId == KpiPlan.Annual ? record.Id : modelTpl.Annual;
+                            modelTpl.Monthly = modelDto.KpiId == KpiPlan.Monthly ? tplRecord.Id : modelTpl.Monthly;
+                            modelTpl.Quarter = modelDto.KpiId == KpiPlan.Quarter ? tplRecord.Id : modelTpl.Quarter;
+                            modelTpl.HalfYear = modelDto.KpiId == KpiPlan.HalfYear ? tplRecord.Id : modelTpl.HalfYear;
+                            modelTpl.Annual = modelDto.KpiId == KpiPlan.Annual ? tplRecord.Id : modelTpl.Annual;
                             lsExistTpl.Add(modelTpl);
                         }
                     }
@@ -249,147 +248,334 @@ namespace XSchool.GCenter.Businesses.Wrappers
             }
         }
 
-        ///// <summary>
-        ///// [生成] 考核记录
-        ///// </summary>
-        ///// <param name="kpiId">考核方案</param>
-        ///// <returns></returns>
-        //public Result GeneratedManage(KpiPlan kpiId)
-        //{
-        //    try
-        //    {
-        //        var dtNow = DateTime.Now;
-        //        var currTime = 0;
 
-        //        switch (kpiId)
-        //        {
-        //            case KpiPlan.Monthly:
-        //                currTime = dtNow.Month;
-        //                break;
-        //            case KpiPlan.Quarter:
-        //                currTime = TimeHelper.GetQurater(dtNow);
-        //                break;
-        //            case KpiPlan.HalfYear:
-        //                currTime = dtNow.Month < 7 ? 1 : 2;
-        //                break;
-        //            case KpiPlan.Annual:
-        //                currTime = 1;
-        //                break;
-        //        }
-        //        var kpiDate = currTime.ToString();
+        /// <summary>
+        /// [考核提交] 考核管理
+        /// </summary>
+        /// <param name="modelDto"></param>
+        /// <returns></returns>
+        public Result EditManage(KpiEvaluationManageSubmitDto modelDto)
+        {
+            try
+            {
+                using (TransactionScope ts = new TransactionScope())
+                {
+                    var dtNow = DateTime.Now;
+                    if (modelDto.ManageRecord == null || modelDto.ManageDetails.Count <= 0)
+                    {
+                        return Result.Fail("传入参数错误");
+                    }
+                    var fromMagRecord = modelDto.ManageRecord;
+                    //考核管理记录
+                    var modelMagRecord = _magRecordBusiness.GetSingle(p => p.Id == fromMagRecord.Id);
+                    if (modelMagRecord == null)
+                    {
+                        return Result.Fail("未查询到相关记录");
+                    }
+                    if (modelMagRecord.Status != KpiStatus.Assess && modelMagRecord.Status != KpiStatus.Audit)
+                    {
+                        return Result.Fail("该记录已被处理，请勿重复操作");
+                    }
+                    if (modelMagRecord.StepsCompanyId != fromMagRecord.StepsCompanyId || modelMagRecord.StepsDptId != fromMagRecord.StepsDptId || modelMagRecord.StepsEmployeeId != fromMagRecord.StepsEmployeeId)
+                    {
+                        return Result.Fail("请勿处理非本人处理的数据");
+                    }
 
-        //        using (TransactionScope ts = new TransactionScope())
-        //        {
-        //            var dbMagRecordCount = 0;
-        //            //查询 有哪些人不需要生成
-        //            if (modelDto.KpiType == KpiType.Dept) //部门
-        //            {
-        //                dbMagRecordCount = _magRecordBusiness.Count(p => p.KpiType == modelDto.KpiType && p.KpiId == modelDto.KpiId && p.CompanyId == modelDto.CompanyId && p.DptId == modelDto.DptId && p.Year == modelDto.Year && p.KpiDate == kpiDate);
-        //            }
-        //            else //人员
-        //            {
-        //                dbMagRecordCount = _magRecordBusiness.Count(p => p.KpiType == modelDto.KpiType && p.KpiId == modelDto.KpiId && p.CompanyId == modelDto.CompanyId && p.DptId == modelDto.DptId && p.EmployeeId == modelDto.EmployeeId && p.Year == modelDto.Year && p.KpiDate == kpiDate);
-        //            }
-        //            if (dbMagRecordCount > 0)
-        //            {
-        //                return Result.Fail("数据已生成", "201");
-        //            }
+                    //考核管理统计
+                    var modelMagTotal = _magTotalBusiness.GetSingle(p => p.KpiType == fromMagRecord.KpiType && p.KpiId == fromMagRecord.KpiId && p.CompanyId == fromMagRecord.CompanyId && p.DptId == fromMagRecord.DptId && p.EmployeeId == fromMagRecord.EmployeeId);
+                    if (modelMagTotal == null)
+                    {
+                        return Result.Fail("未查询到相关记录：total");
+                    }
 
-        //            //获取 考核模板记录
-        //            KpiTemplateRecord dbTplRecord = null;
-        //            //获取 考核管理统计
-        //            KpiManageTotal dbMagTotal = null;
-        //            if (modelDto.KpiType == KpiType.Dept) //部门
-        //            {
-        //                dbTplRecord = _tplRecordBusiness.GetSingle(p => p.KpiType == modelDto.KpiType && p.KpiId == modelDto.KpiId && p.CompanyId == modelDto.CompanyId && p.DptId == modelDto.DptId);
-        //                dbMagTotal = _magTotalBusiness.GetSingle(p => p.KpiType == modelDto.KpiType && p.KpiId == modelDto.KpiId && p.CompanyId == modelDto.CompanyId && p.DptId == modelDto.DptId && p.Year == modelDto.Year);
-        //            }
-        //            else //人员
-        //            {
-        //                dbTplRecord = _tplRecordBusiness.GetSingle(p => p.KpiType == modelDto.KpiType && p.KpiId == modelDto.KpiId && p.CompanyId == modelDto.CompanyId && p.DptId == modelDto.DptId && p.EmployeeId == modelDto.EmployeeId);
-        //                dbMagTotal = _magTotalBusiness.GetSingle(p => p.KpiType == modelDto.KpiType && p.KpiId == modelDto.KpiId && p.CompanyId == modelDto.CompanyId && p.DptId == modelDto.DptId && p.EmployeeId == modelDto.EmployeeId && p.Year == modelDto.Year);
-        //            }
+                    //考核管理明细
+                    var lsMagDetail = new List<KpiManageDetail>();
+                    decimal selfScore = 0, oneScore = 0, twoScore = 0;
+                    foreach (var item in modelDto.ManageDetails)
+                    {
+                        if (fromMagRecord.Steps == KpiSteps.Zero && item.SelfScore > item.Weight)
+                        {
+                            return Result.Fail($"[{item.EvaluationName}]项的自评分不能大于权重(分值)");
+                        }
+                        if (fromMagRecord.Steps == KpiSteps.One && item.OneScore > item.Weight)
+                        {
+                            return Result.Fail($"[{item.EvaluationName}]项的初审分不能大于权重(分值)");
+                        }
+                        if (fromMagRecord.Steps == KpiSteps.Two && item.TwoScore > item.Weight)
+                        {
+                            return Result.Fail($"[{item.EvaluationName}]项的终审分不能大于权重(分值)");
+                        }
+                        selfScore = item.SelfScore.Value;
+                        oneScore += item.OneScore.Value;
+                        twoScore += item.TwoScore.Value;
+                    }
 
-        //            if (dbTplRecord == null || dbMagTotal == null)
-        //            {
-        //                return Result.Fail("未获取到对应的记录");
-        //            }
+                    modelMagRecord.StepsCompanyId = fromMagRecord.StepsCompanyId;
+                    modelMagRecord.StepsCompanyName = fromMagRecord.StepsCompanyName;
+                    modelMagRecord.StepsDptId = fromMagRecord.StepsDptId;
+                    modelMagRecord.StepsDptName = fromMagRecord.StepsDptName;
+                    modelMagRecord.StepsEmployeeId = fromMagRecord.StepsEmployeeId;
+                    modelMagRecord.StepsUserName = fromMagRecord.StepsUserName;
 
-        //            //获取 考核模板明细
-        //            var lsTplDetail = _tplDetailBusiness.Query(p => p.KpiTemplateRecordId == dbTplRecord.Id).OrderBy(p => p.Id);
+                    var kpiTime = int.Parse(modelMagRecord.KpiDate);
 
-        //            //考核管理统计
-        //            for (int i = 0; i < 12; i++)
-        //            {
-        //                if ((i + 1) == currTime)
-        //                {
-        //                    DynaimcHelper.DynamicFileds[i].Status.SetValue(dbMagTotal, KpiStatus.Zero);
-        //                }
-        //            }
+                    //自评
+                    if (fromMagRecord.Steps == KpiSteps.Zero)
+                    {
+                        modelMagRecord.Steps = KpiSteps.One;
+                        modelMagRecord.Status = KpiStatus.Audit;
+                        for (int i = 0; i < 12; i++)
+                        {
+                            if ((i + 1) == kpiTime)
+                            {
+                                DynaimcHelper.DynamicFileds[i].Score.SetValue(modelMagTotal, selfScore);
+                                DynaimcHelper.DynamicFileds[i].Status.SetValue(modelMagTotal, KpiStatus.Audit);
+                            }
+                        }
+                    }
+                    //初审
+                    if (fromMagRecord.Steps == KpiSteps.One)
+                    {
+                        modelMagRecord.Steps = KpiSteps.Two;
+                        modelMagRecord.Status = KpiStatus.Audit;
+                        for (int i = 0; i < 12; i++)
+                        {
+                            if ((i + 1) == kpiTime)
+                            {
+                                DynaimcHelper.DynamicFileds[i].Score.SetValue(modelMagTotal, selfScore + oneScore);
+                                DynaimcHelper.DynamicFileds[i].Status.SetValue(modelMagTotal, KpiStatus.Audit);
+                            }
+                        }
+                    }
+                    //终审
+                    if (fromMagRecord.Steps == KpiSteps.Two)
+                    {
+                        DynaimcHelper.DynamicFileds[i].Score.SetValue(modelMagTotal, selfScore + oneScore + twoScore);
+                        modelMagRecord.Steps = KpiSteps.Complete;
+                        modelMagRecord.Status = KpiStatus.Complete;
+                        modelMagRecord.CompleteDate = dtNow;
+                        for (int i = 0; i < 12; i++)
+                        {
+                            if ((i + 1) == kpiTime)
+                            {
+                                DynaimcHelper.DynamicFileds[i].Status.SetValue(modelMagTotal, KpiStatus.Complete);
+                            }
+                        }
+                    }
 
-        //            //考核管理记录
-        //            var modelMagRecord = new KpiManageRecord()
-        //            {
-        //                Id = 0,
-        //                KpiTemplateRecordId = dbTplRecord.Id,
-        //                KpiType = dbTplRecord.KpiType,
-        //                KpiId = dbTplRecord.KpiId,
-        //                KpiName = dbTplRecord.KpiName,
-        //                CompanyId = dbTplRecord.CompanyId,
-        //                CompanyName = dbTplRecord.CompanyName,
-        //                DptId = dbTplRecord.DptId,
-        //                DptName = dbTplRecord.DptName,
-        //                EmployeeId = dbTplRecord.EmployeeId,
-        //                UserName = dbTplRecord.UserName,
-        //                Year = modelDto.Year,
-        //                KpiDate = kpiDate,
-        //                Steps = KpiSteps.Zero,
-        //                StepsCompanyId = dbTplRecord.CompanyId,
-        //                StepsCompanyName = dbTplRecord.CompanyName,
-        //                StepsDptId = dbTplRecord.DptId,
-        //                StepsDptName = dbTplRecord.DptName,
-        //                StepsEmployeeId = dbTplRecord.EmployeeId,
-        //                StepsUserName = dbTplRecord.UserName,
-        //                AddDate = dtNow,
-        //                Status = KpiStatus.Zero
-        //            };
-        //            _magRecordBusiness.Add(modelMagRecord);
+                    //考核管理审核记录
+                    var modelMageAuditRecord = new KpiManageAuditRecord()
+                    {
+                        Id = 0,
+                        KpiManageRecordId = modelMagRecord.Id,
+                        Steps = fromMagRecord.Steps,
+                        Evaluation = modelDto.Evaluation,
+                        CompanyId = fromMagRecord.StepsCompanyId.Value,
+                        CompanyName = fromMagRecord.StepsCompanyName,
+                        DptId = fromMagRecord.StepsDptId.Value,
+                        DptName = fromMagRecord.StepsDptName,
+                        EmployeeId = fromMagRecord.StepsEmployeeId.Value,
+                        UserName = fromMagRecord.StepsUserName,
+                        AddDate = dtNow
+                    };
 
-        //            //考核管理明细
-        //            var lsMagDetail = new List<KpiManageDetail>();
-        //            foreach (var tplDetail in lsTplDetail)
-        //            {
-        //                lsMagDetail.Add(new KpiManageDetail()
-        //                {
-        //                    Id = 0,
-        //                    KpiManageRecordId = modelMagRecord.Id,
-        //                    CompanyId = modelMagRecord.CompanyId,
-        //                    DptId = modelMagRecord.DptId,
-        //                    EmployeeId = modelMagRecord.EmployeeId,
-        //                    EvaluationId = tplDetail.EvaluationId,
-        //                    EvaluationName = tplDetail.EvaluationName,
-        //                    EvaluationType = tplDetail.EvaluationType,
-        //                    Weight = tplDetail.Weight,
-        //                    Explain = tplDetail.Explain,
-        //                    Year = modelMagRecord.Year,
-        //                    KpiDate = modelMagRecord.KpiDate,
-        //                    SelfScore = 0,
-        //                    OneScore = 0,
-        //                    TwoScore = 0,
-        //                });
-        //            }
-        //            _magDetailBusiness.AddRange(lsMagDetail);
-        //            _magTotalBusiness.Update(dbMagTotal);
+                    _magTotalBusiness.Update(modelMagTotal);
+                    _magRecordBusiness.Update(modelMagRecord);
+                    _magDetailBusiness.UpdateRange(modelDto.ManageDetails);
+                    _magAuditRecordBusiness.Add(modelMageAuditRecord);
 
-        //            ts.Complete();
-        //            return Result.Success();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Result.Fail("添加失败：" + ex.Message);
-        //    }
-        //}
+                    ts.Complete();
+                    return Result.Success();
+                }
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail("操作失败：" + ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// [生成] 考核记录
+        /// </summary>
+        /// <param name="kpiId">考核方案</param>
+        /// <returns></returns>
+        public Result GeneratedManage(KpiPlan kpiId)
+        {
+            try
+            {
+                var dtNow = DateTime.Now;
+                var currTime = 0;
+                var currYear = dtNow.Year;
+
+                switch (kpiId)
+                {
+                    case KpiPlan.Monthly:
+                        currTime = dtNow.Month;
+                        break;
+                    case KpiPlan.Quarter:
+                        currTime = TimeHelper.GetQurater(dtNow);
+                        break;
+                    case KpiPlan.HalfYear:
+                        currTime = dtNow.Month < 7 ? 1 : 2;
+                        break;
+                    case KpiPlan.Annual:
+                        currTime = 1;
+                        break;
+                }
+                var kpiDate = currTime.ToString();
+
+                using (TransactionScope ts = new TransactionScope())
+                {
+                    var dbTplRecord = _tplRecordBusiness.QueryByGenerated(kpiId, currYear, kpiDate);
+                    if (dbTplRecord.Count <= 0)
+                    {
+                        return Result.Fail("没有需要生成的数据", "201");
+                    }
+
+                    //考核管理统计
+                    var dbMagTotal = _magTotalBusiness.Query(p => p.KpiId == kpiId && p.Year == currYear);
+
+                    //考核管理统计
+                    var lsNotExistMagTotal = new List<KpiManageTotal>();
+                    var lsExistMagTotal = new List<KpiManageTotal>();
+                    //考核管理记录
+                    var lsNotExistMagRecord = new List<KpiManageRecord>();
+                    //考核管理明细
+                    var lsNotExistMagDetail = new List<KpiManageDetail>();
+                    foreach (var tplRecord in dbTplRecord)
+                    {
+                        #region 考核管理统计
+                        KpiManageTotal modelMagTotal = null;
+                        if (dbMagTotal.Count > 0)
+                        {
+                            modelMagTotal = dbMagTotal.FirstOrDefault(p => p.KpiType == tplRecord.KpiType && p.CompanyId == tplRecord.CompanyId && p.DptId == tplRecord.DptId && p.EmployeeId == tplRecord.EmployeeId);
+                        }
+                        if (modelMagTotal == null)
+                        {
+                            modelMagTotal = new KpiManageTotal()
+                            {
+                                Id = 0,
+                                KpiType = tplRecord.KpiType,
+                                KpiId = tplRecord.KpiId,
+                                KpiName = tplRecord.KpiName,
+                                CompanyId = tplRecord.CompanyId,
+                                CompanyName = tplRecord.CompanyName,
+                                DptId = tplRecord.DptId,
+                                DptName = tplRecord.DptName,
+                                EmployeeId = tplRecord.EmployeeId,
+                                UserName = tplRecord.UserName,
+                                Year = currYear
+                            };
+                            for (int i = 0; i < 12; i++)
+                            {
+                                DynaimcHelper.DynamicFileds[i].Score.SetValue(modelMagTotal, (decimal)0);
+                                if ((i + 1) < currTime)
+                                {
+                                    DynaimcHelper.DynamicFileds[i].Status.SetValue(modelMagTotal, KpiStatus.Invalid);
+                                }
+                                else if ((i + 1) == currTime)
+                                {
+                                    DynaimcHelper.DynamicFileds[i].Status.SetValue(modelMagTotal, KpiStatus.Assess);
+                                }
+                                else
+                                {
+                                    DynaimcHelper.DynamicFileds[i].Status.SetValue(modelMagTotal, KpiStatus.NotStarted);
+                                }
+                            }
+                            lsNotExistMagTotal.Add(modelMagTotal);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < 12; i++)
+                            {
+                                if ((i + 1) == currTime)
+                                {
+                                    DynaimcHelper.DynamicFileds[i].Status.SetValue(modelMagTotal, KpiStatus.Assess);
+                                }
+                            }
+                            lsExistMagTotal.Add(modelMagTotal);
+                        }
+                        #endregion
+
+                        lsNotExistMagRecord.Add(new KpiManageRecord()
+                        {
+                            Id = 0,
+                            KpiTemplateRecordId = tplRecord.Id,
+                            KpiType = tplRecord.KpiType,
+                            KpiId = tplRecord.KpiId,
+                            KpiName = tplRecord.KpiName,
+                            CompanyId = tplRecord.CompanyId,
+                            CompanyName = tplRecord.CompanyName,
+                            DptId = tplRecord.DptId,
+                            DptName = tplRecord.DptName,
+                            EmployeeId = tplRecord.EmployeeId,
+                            UserName = tplRecord.UserName,
+                            Year = currYear,
+                            KpiDate = kpiDate,
+                            Steps = KpiSteps.Zero,
+                            StepsCompanyId = tplRecord.CompanyId,
+                            StepsCompanyName = tplRecord.CompanyName,
+                            StepsDptId = tplRecord.DptId,
+                            StepsDptName = tplRecord.DptName,
+                            StepsEmployeeId = tplRecord.EmployeeId,
+                            StepsUserName = tplRecord.UserName,
+                            AddDate = dtNow,
+                            Status = KpiStatus.Assess
+                        });
+                    }
+
+                    _magRecordBusiness.AddRange(lsNotExistMagRecord);
+
+                    foreach (var magTecord in lsNotExistMagRecord)
+                    {
+                        var modelTplRecord = dbTplRecord.FirstOrDefault(p => p.Id == magTecord.KpiTemplateRecordId);
+                        if (modelTplRecord != null)
+                        {
+                            var lsTplContents = JsonConvert.DeserializeObject<List<KpiTemplateContentsDto>>(modelTplRecord.Contents).OrderBy(p => p.EvaluationId);
+                            foreach (var tplContent in lsTplContents)
+                            {
+                                lsNotExistMagDetail.Add(new KpiManageDetail
+                                {
+                                    Id = 0,
+                                    KpiManageRecordId = magTecord.Id,
+                                    CompanyId = magTecord.CompanyId,
+                                    DptId = magTecord.DptId,
+                                    EmployeeId = magTecord.EmployeeId,
+                                    EvaluationId = tplContent.EvaluationId,
+                                    EvaluationName = tplContent.EvaluationName,
+                                    EvaluationType = tplContent.EvaluationType,
+                                    Weight = tplContent.Weight,
+                                    Explain = tplContent.Explain,
+                                    Year = magTecord.Year,
+                                    KpiDate = magTecord.KpiDate,
+                                    SelfScore = 0,
+                                    OneScore = 0,
+                                    TwoScore = 0
+                                });
+                            }
+                        }
+                    }
+                    if (lsNotExistMagDetail.Count > 0)
+                    {
+                        _magDetailBusiness.AddRange(lsNotExistMagDetail);
+                    }
+
+                    _magTotalBusiness.AddRange(lsNotExistMagTotal);
+                    if (lsExistMagTotal.Count > 0)
+                    {
+                        _magTotalBusiness.UpdateRange(lsExistMagTotal);
+                    }
+
+                    ts.Complete();
+                    return Result.Success();
+                }
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail("失败：" + ex.Message);
+            }
+        }
 
     }
 }

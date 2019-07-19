@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <None Remove="BankInfo.cs~RFe8010f0.TMP" />
+    <None Remove="Enums.cs~RF1ae2f13.TMP" />
   </ItemGroup>
 
   <ItemGroup>

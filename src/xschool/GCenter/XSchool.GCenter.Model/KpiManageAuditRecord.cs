@@ -4,9 +4,9 @@ using XSchool.Core;
 namespace XSchool.GCenter.Model
 {
     /// <summary>
-    /// 考核管理审核明细
+    /// 考核管理审核记录
     /// </summary>
-    public class KpiManageAuditDetail : IModel<int>
+    public class KpiManageAuditRecord : IModel<int>
     {
         public int Id { get; set; }
 

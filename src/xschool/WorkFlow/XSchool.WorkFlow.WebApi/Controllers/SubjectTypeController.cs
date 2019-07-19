@@ -29,6 +29,7 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         public Result AddOrEdit([FromForm]SubjectType model)
         {
             model.Status = EDStatus.Enable;
+            model.IsDelete = false;
             return subjectTypeBusiness.AddOrEdit(model);
         }
         /// <summary>

@@ -28,6 +28,11 @@ namespace XSchool.WorkFlow.Model
         public int CompanyId { get; set; }
 
         /// <summary>
+        /// 是否可以删除 false可以删除，true不能删除
+        /// </summary>
+        public bool IsDelete { get; set; }
+        
+        /// <summary>
         /// 流程表
         /// </summary>
         public ICollection<Subject> SubjectList { get; set; }

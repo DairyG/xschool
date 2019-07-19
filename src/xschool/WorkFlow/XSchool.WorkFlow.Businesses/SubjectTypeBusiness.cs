@@ -75,12 +75,15 @@ namespace XSchool.WorkFlow.Businesses
         {
             string msg = string.Empty;
             bool status = false;
+            var obj = _repository.GetSingle(s => s.IsDelete);
+                if(obj.Id==Id) return new Result() { Message = "【其他】选项不能删除！", Succeed = status };
+
             var list = _repositorySubject.Query(s => s.SubjectTypeId == Id);
             using (TransactionScope tsCope = new TransactionScope())
             {
                 if (list != null && list.Count > 0)
                 {
-                    status = _repositorySubject.Update(s => s.SubjectTypeId == Id, s => new Subject { SubjectTypeId = 0, Status = EDStatus.Disable });
+                    status = _repositorySubject.Update(s => s.SubjectTypeId == Id, s => new Subject { SubjectTypeId = obj.Id });
                 }
                 else {
                     status = true;

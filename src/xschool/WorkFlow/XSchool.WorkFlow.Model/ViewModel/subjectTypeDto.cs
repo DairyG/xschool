@@ -17,6 +17,10 @@ namespace XSchool.WorkFlow.Model.ViewModel
         /// 业务组别名称
         /// </summary>
         public string SubjectTypeName { get; set; }
+        /// <summary>
+        /// 是否可以删除 false可以删除，true不能删除
+        /// </summary>
+        public bool IsDelete { get; set; }
 
         public List<subjectViewDto> subjectList { get; set; }
 

@@ -65,6 +65,8 @@ namespace XSchool.GCenter.WebApi.Controllers
             {
                 condition.And(p => p.No.Contains(ser.No));
             }
+            //根据当前用户的部门筛选
+            //----
             return _business.Page(page, limit, condition.Combine(), p => new
             {
                 p.Id,
@@ -82,9 +84,9 @@ namespace XSchool.GCenter.WebApi.Controllers
 
         [HttpPost]
         [Description("删除合同")]
-        public Result Delete([FromForm]Contract id)
+        public Result Delete([FromForm]int id)
         {
-            return _business.Update(id);
+            return _business.Delete(id);
         }
 
 

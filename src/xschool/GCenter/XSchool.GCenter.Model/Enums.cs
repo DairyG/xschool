@@ -635,7 +635,7 @@ namespace XSchool.GCenter.Model
         /// 组织（非企业）增值税普通发票
         /// </summary>
         [Description("组织（非企业）增值税普通发票")]
-        PersonNormal = 2
-
+        PersonNormal = 3
+        
     }
 }

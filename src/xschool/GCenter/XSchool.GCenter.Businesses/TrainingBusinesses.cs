@@ -13,7 +13,7 @@ namespace XSchool.GCenter.Businesses
 
         private Result Check(Training model)
         {
-            if (model.PersonId <= 0)
+            if (model.EmployeeId <= 0)
             {
                 return Result.Fail("请先填写人员信息");
             }

@@ -16,7 +16,7 @@ namespace XSchool.GCenter.Model
         /// <summary>
         /// 员工Id
         /// </summary>
-        public int PersonId { get; set; }
+        public int EmployeeId { get; set; }
 
         /// <summary>
         /// 培训课程

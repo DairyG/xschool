@@ -350,7 +350,6 @@ namespace XSchool.GCenter.Businesses.Wrappers
                     //终审
                     if (fromMagRecord.Steps == KpiSteps.Two)
                     {
-                        DynaimcHelper.DynamicFileds[i].Score.SetValue(modelMagTotal, selfScore + oneScore + twoScore);
                         modelMagRecord.Steps = KpiSteps.Complete;
                         modelMagRecord.Status = KpiStatus.Complete;
                         modelMagRecord.CompleteDate = dtNow;
@@ -358,6 +357,7 @@ namespace XSchool.GCenter.Businesses.Wrappers
                         {
                             if ((i + 1) == kpiTime)
                             {
+                                DynaimcHelper.DynamicFileds[i].Score.SetValue(modelMagTotal, selfScore + oneScore);
                                 DynaimcHelper.DynamicFileds[i].Status.SetValue(modelMagTotal, KpiStatus.Complete);
                             }
                         }

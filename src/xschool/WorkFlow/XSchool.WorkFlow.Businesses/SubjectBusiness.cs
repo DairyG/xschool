@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,7 +40,6 @@ namespace XSchool.WorkFlow.Businesses
             {
                 return new Result() { Succeed = false, Message = "参数错误!" };
             }
-
             string msg = string.Empty;
             bool status = false;
             try
@@ -50,7 +50,8 @@ namespace XSchool.WorkFlow.Businesses
             {
                 msg = ex.Message.ToString();
             }
-            return new Result() { Succeed = status, Message = msg };
+            var dataResult = new Result() { Succeed = status, Message = msg };
+            return dataResult;
         }
         /// <summary>
         /// 修改流程管理
@@ -79,7 +80,7 @@ namespace XSchool.WorkFlow.Businesses
                     });
                     if (!status) return new Result() { Succeed = status, Message = "参数修改失败" };
                     //根据流程id删除对应可视范围
-                    status = _rulerepository.Delete(s => s.SubjectId == model.Id) > 0 ? true : false;
+                    status = _rulerepository.Delete(s => s.SubjectId == model.Id&&s.BusinessType==BusinessType.Transaction) > 0 ? true : false;
                     if (!status) return new Result() { Succeed = status, Message = "参数修改失败" };
                     //根据节点id删除对应节点人员表
                     var stepList = _steprepository.Query(s => s.SubjectId == model.Id);
@@ -129,6 +130,7 @@ namespace XSchool.WorkFlow.Businesses
                              FormAttribute = a.FormAttribute,
                              IcoUrl = a.IcoUrl,
                              Id = a.Id,
+                             Remark=a.Remark,
                              PassInfo = a.PassInfo,
                              SubjectName = a.SubjectName,
                              SubjectTypeId = a.SubjectTypeId,
@@ -170,6 +172,7 @@ namespace XSchool.WorkFlow.Businesses
                 JobId = p.JobId,
                 JobName = p.JobName,
                 UserId = p.UserId,
+                dataType = p.dataType,
                 UserName = p.UserName
             }).ToList();
             return list;
@@ -192,25 +195,13 @@ namespace XSchool.WorkFlow.Businesses
         }
 
         /// <summary>
-        /// 获取所有流程分组及流程内容
+        /// 获取流程分组及流程内容
         /// </summary>
+        /// <param name="enableStatus">默认0查询所有，1查询启用的</param>
         /// <returns></returns>
         public Result GetSubject()
         {
-            var dataSubject = (from a in _repositoryTypeSubject.Entites
-                               join b in _repository.Entites on a.Id equals b.SubjectTypeId into subjectList
-                               select new subjectTypeDto
-                               {
-                                   Id = a.Id,
-                                   SubjectTypeName = a.SubjectTypeName,
-                                   subjectList = subjectList.Select(q => new subjectViewDto
-                                   {
-                                       subjectId = q.Id,
-                                       SubjectName = q.SubjectName,
-                                       UpdateTime = q.UpdateTime,
-                                       Remark = q.Remark
-                                   }).ToList()
-                               }).ToList();
+            var dataSubject = GetSubjectData(0);
             foreach (subjectTypeDto itemParets in dataSubject)
             {
                 if (itemParets.subjectList.Count == 0) continue;
@@ -240,5 +231,90 @@ namespace XSchool.WorkFlow.Businesses
             return new Result<List<subjectTypeDto>>() { Data = dataresult, Succeed = true };
         }
 
+        /// <summary>
+        /// 默认0查询所有，1查询启用的
+        /// </summary>
+        /// <param name="enableStatus"></param>
+        /// <returns></returns>
+        public List<subjectTypeDto> GetSubjectData(int enableStatus)
+        {
+            List<subjectTypeDto> empData = null;
+            if (enableStatus == 1)
+            {
+                empData=(from a in _repositoryTypeSubject.Entites
+                 join b in _repository.Entites on a.Id equals b.SubjectTypeId into subjectList
+                 select new subjectTypeDto
+                 {
+                     Id = a.Id,
+                     SubjectTypeName = a.SubjectTypeName,
+                     subjectList = subjectList.Where(s=>s.Status==EDStatus.Enable).Select(q => new subjectViewDto
+                     {
+                         subjectId = q.Id,
+                         SubjectName = q.SubjectName,
+                         UpdateTime = q.UpdateTime,
+                         Remark = q.Remark
+                     }).ToList()
+                 }).ToList();
+            }
+            else
+            {
+                empData = (from a in _repositoryTypeSubject.Entites
+                           join b in _repository.Entites on a.Id equals b.SubjectTypeId into subjectList
+                           select new subjectTypeDto
+                           {
+                               Id = a.Id,
+                               SubjectTypeName = a.SubjectTypeName,
+                               subjectList = subjectList.Select(q => new subjectViewDto
+                               {
+                                   subjectId = q.Id,
+                                   SubjectName = q.SubjectName,
+                                   UpdateTime = q.UpdateTime,
+                                   Remark = q.Remark
+                               }).ToList()
+                           }).ToList();
+            }
+            return empData;
+        }
+
+        /// <summary>
+        /// 获取所有启用的流程分组及流程内容(发起审批)
+        /// </summary>
+        /// <returns></returns>
+        public Result GetEnableSubject()
+        {
+            var dataSubject = GetSubjectData(1);
+            return new Result<List<subjectTypeDto>>() { Data = dataSubject, Succeed = true };
+        }
+
+        /// <summary>
+        /// 修改流程可见范围
+        /// </summary>
+        /// <returns></returns>
+        public Result UpdateSubjectRange(SubjectRangeDto model)
+        {
+            string msg = string.Empty;
+            bool status = false;
+            try
+            {
+                using (System.Transactions.TransactionScope ts = new System.Transactions.TransactionScope())
+                {
+                    status =_rulerepository.Delete(s => s.SubjectId == model.SubjectId)>0?true:false;
+                    if (status)
+                    {
+                        model.SubjectRuleRangeList.ForEach(s => s.SubjectId = model.SubjectId);
+                        List<SubjectRule> rangeList = Mapper.Map<List<SubjectRule>>(model.SubjectRuleRangeList);
+                        status=_rulerepository.AddRange(rangeList) > 0 ? true : false;
+                    }
+
+                    ts.Complete();//提交事务
+                }
+
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message.ToString();
+            }
+            return new Result() { Succeed = status, Message = msg };
+        }
     }
 }

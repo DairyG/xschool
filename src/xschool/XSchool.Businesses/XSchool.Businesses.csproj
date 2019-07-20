@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\XSchool.Core\XSchool.Core.csproj" />
+    <ProjectReference Include="..\XSchool.Helpers\XSchool.Helpers.csproj" />
     <ProjectReference Include="..\XSchool.Repositories\XSchool.Repositories.csproj" />
   </ItemGroup>
 

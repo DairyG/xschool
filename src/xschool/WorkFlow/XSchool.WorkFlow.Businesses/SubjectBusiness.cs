@@ -148,6 +148,7 @@ namespace XSchool.WorkFlow.Businesses
                                      DepId = s.DepId,
                                      JobDepId = s.JobDepId,
                                      JobId = s.JobId,
+                                     dataType = s.dataType,
                                      UserId = s.UserId
                                  }).ToList()
                              }).OrderBy(s => s.PassNo).ToList()

@@ -30,10 +30,10 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         /// 根据流程Id获取内容
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        public Result GetWorkFlowForm(int SubjectId)
+        [HttpGet("{subjectId}")]
+        public Result GetWorkFlowForm(int subjectId)
         {
-            return workflowMainBusiness.GetWorkFlowForm(SubjectId);
+            return workflowMainBusiness.GetWorkFlowForm(subjectId);
         }
 
 

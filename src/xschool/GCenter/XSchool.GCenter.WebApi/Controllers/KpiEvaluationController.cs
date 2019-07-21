@@ -94,6 +94,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         /// </summary>
         /// <param name="kpiId">考核方案</param>
         /// <returns></returns>
+        [HttpGet]
         public Result GeneratedManage(KpiPlan kpiId)
         {
             return _wrappers.GeneratedManage(kpiId);

@@ -4,7 +4,7 @@
         <name>XSchool.WorkFlow.WebApi</name>
     </assembly>
     <members>
-        <!-- 对于成员“T:XSchool.WorkFlow.WebApi.AutoMapper.AutoMapperHelper”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:XSchool.WorkFlow.WebApi.AutoMapper.AutoMapperHelper" -->
         <member name="M:XSchool.WorkFlow.WebApi.AutoMapper.AutoMapperHelper.Start">
             <summary>
             注入AutoMapper
@@ -41,7 +41,19 @@
         </member>
         <member name="M:XSchool.WorkFlow.WebApi.Controllers.SubjectController.GetSubject">
             <summary>
-            获取所有流程分组及流程内容
+            获取所有流程分组及流程内容(流程模板)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.WorkFlow.WebApi.Controllers.SubjectController.GetEnableSubject">
+            <summary>
+            获取所有启用的流程分组及流程内容(发起审批)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.WorkFlow.WebApi.Controllers.SubjectController.UpdateSubjectRange(XSchool.WorkFlow.Model.ViewModel.SubjectRangeDto)">
+            <summary>
+            修改流程可见范围
             </summary>
             <returns></returns>
         </member>
@@ -58,11 +70,34 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:XSchool.WorkFlow.WebApi.Controllers.SubjectTypeController.GetFlowTypeList">
+            <summary>
+            获取所有流程类别
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:XSchool.WorkFlow.WebApi.Controllers.SubjectTypeController.DeleteSubjectType(System.Int32)">
             <summary>
             删除流程组别
             </summary>
             <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XSchool.WorkFlow.WebApi.Controllers.WorkflowMainController">
+            <summary>
+            流程节点
+            </summary>
+        </member>
+        <member name="M:XSchool.WorkFlow.WebApi.Controllers.WorkflowMainController.GetWorkFlowForm(System.Int32)">
+            <summary>
+            根据流程Id获取内容
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.WorkFlow.WebApi.Controllers.WorkflowMainController.CreateWork(XSchool.WorkFlow.Model.ViewModel.WorkFlowMainFormDto)">
+            <summary>
+             发起审批
+            </summary>
             <returns></returns>
         </member>
     </members>

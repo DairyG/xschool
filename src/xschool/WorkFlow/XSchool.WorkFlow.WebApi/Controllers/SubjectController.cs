@@ -15,7 +15,7 @@ namespace XSchool.WorkFlow.WebApi.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
-    public class SubjectController : Controller
+    public class SubjectController : ApiBaseController
     {
         private readonly SubjectBusiness subjectBusiness;
         public SubjectController(SubjectBusiness _subjectBusiness)
@@ -31,6 +31,7 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         [HttpPost]
         public Result Add([FromForm]SubjectDto modelDto)
         {
+            
             Subject dataModel = new Subject();
             List<SubjectRule> subjectRuleRangList = Mapper.Map<List<SubjectRule>>(modelDto.SubjectRuleRangeList);//流程可见范围
 
@@ -54,9 +55,10 @@ namespace XSchool.WorkFlow.WebApi.Controllers
             model.SubjectStepFlowList = subjectStepList;
             model.Status = EDStatus.Enable;
             model.CreateTime = DateTime.Now;
-            model.CompanyId = 0;//当前登陆人公司id
-            model.UpdateTime = DateTime.Now;
-            return subjectBusiness.Add(model);
+            model.CompanyId = Emplolyee.CompanyId;
+            model.CreateUserId = this.UToken.Id;
+            var dataResult=subjectBusiness.Add(model);
+            return dataResult;
         }
 
         /// <summary>
@@ -69,7 +71,6 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         {
             Subject dataModel = new Subject();
             List<SubjectRule> subjectRuleRangList = Mapper.Map<List<SubjectRule>>(modelDto.SubjectRuleRangeList);//流程可见范围
-
             List<SubjectStep> subjectStepList = new List<SubjectStep>();//流程节点集合
 
 
@@ -121,7 +122,7 @@ namespace XSchool.WorkFlow.WebApi.Controllers
 
 
         /// <summary>
-        /// 获取所有流程分组及流程内容
+        /// 获取所有流程分组及流程内容(流程模板)
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -129,5 +130,25 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         {
             return subjectBusiness.GetSubject();
         }
+
+        /// <summary>
+        /// 获取所有启用的流程分组及流程内容(发起审批)
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public Result GetEnableSubject()
+        {
+            return subjectBusiness.GetEnableSubject();
+        }
+        /// <summary>
+        /// 修改流程可见范围
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public Result UpdateSubjectRange([FromForm]SubjectRangeDto model)
+        {
+            return subjectBusiness.UpdateSubjectRange(model);
+        }
+
     }
 }

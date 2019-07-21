@@ -4,6 +4,7 @@ using System.Text;
 using XSchool.Businesses;
 using XSchool.WorkFlow.Model;
 using XSchool.WorkFlow.Repositories;
+using System.Linq;
 
 namespace XSchool.WorkFlow.Businesses
 {
@@ -26,6 +27,16 @@ namespace XSchool.WorkFlow.Businesses
         public bool DeleteBySubjectId(int subjectId)
         {
             return _repository.Delete(s => s.SubjectId == subjectId) > 0 ? true : false;
+        }
+
+        /// <summary>
+        /// 根据流程id查询对应节点
+        /// </summary>
+        /// <param name="SubjectId"></param>
+        /// <returns></returns>
+        public IList<SubjectStep> GetDataListBySubjectId(int subjectId)
+        {
+           return  _repository.Query(s => s.SubjectId == subjectId).OrderBy(s=>s.PassNo).ToList();
         }
 
     }

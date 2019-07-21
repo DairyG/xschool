@@ -33,13 +33,19 @@ namespace XSchool.WorkFlow.Model
             /// 事务流程
             /// </summary>
             [Description("事务流程")]
-            Transaction = 1,
+            事务流程 = 1,
 
             /// <summary>
-            /// 费用流程
+            /// 请款流程
             /// </summary>
-            [Description("费用流程")]
-            Expenses = 2,
+            [Description("请款流程")]
+            请款流程 = 2,
+
+            /// <summary>
+            /// 付款流程
+            /// </summary>
+            [Description("付款流程")]
+            付款流程 = 3,
         }
 
         /// <summary>
@@ -84,6 +90,38 @@ namespace XSchool.WorkFlow.Model
             [Description("流程管理节点人员")]
             Expenses = 2,
         }
+
+
+        /// <summary>
+        ///  事务流程
+        /// </summary>
+        public enum PassStatus
+        {
+            /// <summary>
+            /// 已撤销 
+            /// </summary>
+            [Description("已撤销")]
+            Cancel = 1,
+
+            /// <summary>
+            /// 同意
+            /// </summary>
+            [Description("同意")]
+            Agree = 2,
+            /// <summary>
+            /// 不同意
+            /// </summary>
+            [Description("不同意")]
+            DisAgree = 3,
+
+            /// <summary>
+            /// 审批中
+            /// </summary>
+            [Description("审批中")]
+            InApproval = 4,
+        }
+
+
         
     }
 }

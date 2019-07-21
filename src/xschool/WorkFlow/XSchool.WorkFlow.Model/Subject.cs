@@ -63,6 +63,11 @@ namespace XSchool.WorkFlow.Model
         /// 公司Id
         /// </summary>
         public int CompanyId { get; set; }
+        /// <summary>
+        /// 创建人Id
+        /// </summary>
+        public int CreateUserId { get; set; }
+        
 
         /// <summary>
         /// 启用状态（枚举）

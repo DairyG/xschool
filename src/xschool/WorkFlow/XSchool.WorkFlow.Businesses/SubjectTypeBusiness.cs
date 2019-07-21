@@ -48,7 +48,7 @@ namespace XSchool.WorkFlow.Businesses
 
             if (model.Id > 0)
             {
-                msg = _repository.Update(model) > 0 ? "" : "编辑失败！";
+                msg = _repository.Update(s=>s.Id==model.Id,s=>new SubjectType { SubjectTypeName=model.SubjectTypeName })? "" : "编辑失败！";
             }
             else
             {
@@ -65,7 +65,7 @@ namespace XSchool.WorkFlow.Businesses
             var subjectTypeList = _repository.Query(s => s.Status == EDStatus.Enable);
             return subjectTypeList;
         }
-
+           
         /// <summary>
         /// 删除流程组别
         /// </summary>

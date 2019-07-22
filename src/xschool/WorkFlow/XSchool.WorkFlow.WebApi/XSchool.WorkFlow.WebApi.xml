@@ -4,7 +4,7 @@
         <name>XSchool.WorkFlow.WebApi</name>
     </assembly>
     <members>
-        <!-- 对于成员“T:XSchool.WorkFlow.WebApi.AutoMapper.AutoMapperHelper”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:XSchool.WorkFlow.WebApi.AutoMapper.AutoMapperHelper" -->
         <member name="M:XSchool.WorkFlow.WebApi.AutoMapper.AutoMapperHelper.Start">
             <summary>
             注入AutoMapper

@@ -48,6 +48,170 @@
             <param name="type">类型，多个以,分割</param>
             <returns></returns>
         </member>
+        <member name="T:XSchool.GCenter.WebApi.Controllers.KpiEvaluationController">
+            <summary>
+            绩效考核
+            </summary>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.KpiEvaluationController.EditTemplat(XSchool.GCenter.Model.ViewModel.KpiEvaluationTemplatSubmitDto)">
+            <summary>
+            [添加/编辑] 考核模板
+            </summary>
+            <param name="modelDto">传入的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.KpiEvaluationController.QueryTemplat(System.Int32,System.Int32,XSchool.GCenter.WebApi.Controllers.KpiEvaluationController.Search)">
+            <summary>
+            [列表] 考核模板
+            </summary>
+            <param name="page">页索引</param>
+            <param name="limit">页大小</param>
+            <param name="search">筛选条件</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.KpiEvaluationController.GetTemplatRecord(System.Int32)">
+            <summary>
+            [详情] 考核模板
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.KpiEvaluationController.GeneratedManage(XSchool.GCenter.Model.KpiPlan)">
+            <summary>
+            [生成] 考核记录
+            </summary>
+            <param name="kpiId">考核方案</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.KpiEvaluationController.QueryManageDetail(System.Int32,System.Int32,XSchool.GCenter.Model.ViewModel.KpiEvaluationManageQueryDto)">
+            <summary>
+            [列表] 考核内容
+            </summary>
+            <param name="page">页索引</param>
+            <param name="limit">页大小</param>
+            <param name="search">参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.KpiEvaluationController.QueryManage(System.Int32,System.Int32,XSchool.GCenter.WebApi.Controllers.KpiEvaluationController.Search)">
+            <summary>
+            [列表] 考核管理
+            </summary>
+            <param name="page">页索引</param>
+            <param name="limit">页大小</param>
+            <param name="search">筛选条件</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.KpiEvaluationController.GetManageRecord(XSchool.GCenter.Model.ViewModel.KpiEvaluationManageQueryDto)">
+            <summary>
+            [详情] 考核管理
+            </summary>
+            <param name="modelDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.KpiEvaluationController.EditManage(XSchool.GCenter.Model.ViewModel.KpiEvaluationManageSubmitDto)">
+            <summary>
+            [考核提交] 考核管理
+            </summary>
+            <param name="modelDto"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XSchool.GCenter.WebApi.Controllers.KpiEvaluationController.Search">
+            <summary>
+            筛选条件
+            </summary>
+        </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.KpiEvaluationController.Search.Year">
+            <summary>
+            年份
+            </summary>
+        </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.KpiEvaluationController.Search.KpiId">
+            <summary>
+            考核方案
+            </summary>
+        </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.KpiEvaluationController.Search.KpiType">
+            <summary>
+            考核类型
+            </summary>
+        </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.KpiEvaluationController.Search.CompanyId">
+            <summary>
+            公司Id
+            </summary>
+        </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.KpiEvaluationController.Search.DptId">
+            <summary>
+            部门Id
+            </summary>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.NoteController.AddNote(XSchool.GCenter.Model.Note,System.Collections.Generic.List{XSchool.GCenter.Model.User},System.Collections.Generic.List{XSchool.GCenter.Model.Dep},System.Collections.Generic.List{XSchool.GCenter.Model.Com},System.Collections.Generic.List{XSchool.GCenter.Model.Position})">
+            <summary>
+            添加通知公告
+            </summary>
+            <param name="model">公告详情</param>
+            <param name="UserList">阅读人员列表</param>
+            <param name="DepList">阅读部门列表</param>
+            <param name="ComList">阅读公司列表</param>
+            <param name="PositionList">阅读职位</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.NoteController.GetRuleRegulationTypeList">
+            <summary>
+            获取制度类型列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.NoteController.RuleRegulationTypeAdd(XSchool.GCenter.Model.RuleRegulationType)">
+            <summary>
+            获取制度类型新增
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.NoteController.RuleRegulationTypeEdit(XSchool.GCenter.Model.RuleRegulationType)">
+            <summary>
+            获取制度修改
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.NoteController.RuleRegulationTypeDel(System.Int32)">
+            <summary>
+            制度管理类型删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.NoteController.GetRuleRegulationList">
+            <summary>
+            制度管理列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.NoteController.RuleRegulationAdd(XSchool.GCenter.Model.RuleRegulation,System.Collections.Generic.List{XSchool.GCenter.Model.User},System.Collections.Generic.List{XSchool.GCenter.Model.Dep},System.Collections.Generic.List{XSchool.GCenter.Model.Com},System.Collections.Generic.List{XSchool.GCenter.Model.Position})">
+            <summary>
+            获取制度新增
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.NoteController.RuleRegulationEdit(XSchool.GCenter.Model.RuleRegulation)">
+            <summary>
+            获取制度修改
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.NoteController.RuleRegulationDetail(System.Int32)">
+            <summary>
+            获取制度model
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.NoteController.RuleRegulationDel(System.Int32)">
+            <summary>
+            制度管理删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:XSchool.GCenter.WebApi.Controllers.ResumeController.Get(System.Int32,System.Int32,XSchool.GCenter.WebApi.Controllers.ResumeController.Search)">
             <summary>
             [列表] 简历
@@ -109,6 +273,31 @@
             <param name="scheId"></param>
             <returns></returns>
         </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.ScheduleController.ScheduleModel.Plan">
+            <summary>
+            考核计划
+            </summary>
+        </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.ScheduleController.ScheduleModel.RemindTimeName">
+            <summary>
+            提醒时间名称
+            </summary>
+        </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.ScheduleController.ScheduleModel.RemindWayName">
+            <summary>
+            提醒方式名称
+            </summary>
+        </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.ScheduleController.ScheduleModel.EmergencyName">
+            <summary>
+            紧急程度名称
+            </summary>
+        </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.ScheduleController.ScheduleModel.Completion">
+            <summary>
+            完成情况
+            </summary>
+        </member>
         <member name="M:XSchool.GCenter.WebApi.Controllers.ScheduleController.Add(XSchool.GCenter.Model.Schedule)">
             <summary>
             [添加] 日程
@@ -122,6 +311,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.ScheduleController.UpdatePid(System.Int32)">
+            <summary>
+            根据ID修改Pid
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:XSchool.GCenter.WebApi.Controllers.ScheduleController.GetSingle(System.Int32)">
             <summary>
             根据ID获取任务
@@ -129,7 +325,36 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:XSchool.GCenter.WebApi.Controllers.ScheduleController.GetDescription(System.Enum)" -->
+        <member name="M:XSchool.GCenter.WebApi.Controllers.ScheduleController.GetByDate(System.Int32,System.String)">
+            <summary>
+            根据日期查询日程（写总结处使用）
+            </summary>
+            <param name="eid">人员ID</param>
+            <param name="date">日期</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.ScheduleController.Get(System.Int32,System.String)">
+            <summary>
+            根据条件查询日程
+            </summary>
+            <param name="eid">人员ID</param>
+            <param name="catalog">要查询的目录（All,Executors,EmployeeId,Scribbles）</param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.ScheduleController.Delete(System.Int32)">
+            <summary>
+            删除日程
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.ScheduleController.GetDescription(System.Enum)">
+            <summary>
+            获取枚举的描述
+            </summary>
+            <param name="en">枚举</param>
+            <returns>返回枚举的描述</returns>
+        </member>
         <member name="M:XSchool.GCenter.WebApi.Controllers.ScheduleReplyController.Add(XSchool.GCenter.Model.ScheduleReply)">
             <summary>
             [添加] 日程回复
@@ -227,7 +452,17 @@
             <param name="model">传入的参数</param>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:XSchool.GCenter.WebApi.Controllers.SummaryController.GetDescription(System.Enum)" -->
+        <member name="M:XSchool.GCenter.WebApi.Controllers.SummaryController.GetByDate(System.Int32,System.String,XSchool.GCenter.Model.SummaryType,XSchool.GCenter.Model.SummaryIndex)">
+            <summary>
+            根据日期查询总结（写总结处使用（导入））
+            </summary>
+            <param name="eid">人员ID</param>
+            <param name="date">日期</param>
+            <param name="index">SummaryIndex(枚举)</param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <!-- 对于成员“M:XSchool.GCenter.WebApi.Controllers.SummaryController.GetDescription(System.Enum)”忽略有格式错误的 XML 注释 -->
         <member name="M:XSchool.GCenter.WebApi.Controllers.SummaryController.Delete(System.Int32)">
             <summary>
             删除报告
@@ -266,7 +501,7 @@
             <summary>
             [列表] 成长管理
             </summary>
-            <param name="personId">员工Id</param>
+            <param name="employeeId">员工Id</param>
             <returns></returns>
         </member>
         <member name="M:XSchool.GCenter.WebApi.Controllers.WorkerInFieldController.GetData(System.String)">

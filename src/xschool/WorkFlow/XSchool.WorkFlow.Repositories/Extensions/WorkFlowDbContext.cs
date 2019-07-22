@@ -40,9 +40,9 @@ namespace XSchool.WorkFlow.Repositories.Extensions
                 entry.ToTable("SubjectStep");
                 entry.HasKey(m => m.Id);
 
-                entry.HasOne(m => m.SubjectObj)
-               .WithMany(m => m.SubjectStepFlowList)
-               .HasForeignKey(m => m.SubjectId);
+               // entry.HasOne(m => m.SubjectObj)
+               //.WithMany(m => m.SubjectStepFlowList)
+               //.HasForeignKey(m => m.SubjectId);
             });
 
         }

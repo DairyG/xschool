@@ -272,17 +272,27 @@ namespace XSchool.GCenter.Businesses.Wrappers
                     {
                         return Result.Fail("未查询到相关记录");
                     }
-                    if (modelMagRecord.Status != KpiStatus.Assess && modelMagRecord.Status != KpiStatus.Audit)
+                    if (modelMagRecord.Status == KpiStatus.Complete || modelMagRecord.Status == KpiStatus.Invalid)
                     {
                         return Result.Fail("该记录已被处理，请勿重复操作");
                     }
-                    if (modelMagRecord.StepsCompanyId != fromMagRecord.StepsCompanyId || modelMagRecord.StepsDptId != fromMagRecord.StepsDptId || modelMagRecord.StepsEmployeeId != fromMagRecord.StepsEmployeeId)
+
+                    //当前处理人
+                    var employee = modelDto.Employee;
+                    //下一步处理人
+                    var nextEmployee = modelDto.NextEmployee;
+                    if ((modelMagRecord.Steps == KpiSteps.Zero || modelMagRecord.Steps == KpiSteps.One) && nextEmployee == null)
+                    {
+                        return Result.Fail("下一步处理人信息错误，请检查");
+                    }
+
+                    if (modelMagRecord.StepsCompanyId != employee.CompanyId || modelMagRecord.StepsDptId != employee.DptId || modelMagRecord.StepsEmployeeId != employee.Id)
                     {
                         return Result.Fail("请勿处理非本人处理的数据");
                     }
 
                     //考核管理统计
-                    var modelMagTotal = _magTotalBusiness.GetSingle(p => p.KpiType == fromMagRecord.KpiType && p.KpiId == fromMagRecord.KpiId && p.CompanyId == fromMagRecord.CompanyId && p.DptId == fromMagRecord.DptId && p.EmployeeId == fromMagRecord.EmployeeId);
+                    var modelMagTotal = _magTotalBusiness.GetSingle(p => p.KpiType == modelMagRecord.KpiType && p.KpiId == modelMagRecord.KpiId && p.CompanyId == modelMagRecord.CompanyId && p.DptId == modelMagRecord.DptId && p.EmployeeId == modelMagRecord.EmployeeId);
                     if (modelMagTotal == null)
                     {
                         return Result.Fail("未查询到相关记录：total");
@@ -293,34 +303,38 @@ namespace XSchool.GCenter.Businesses.Wrappers
                     decimal selfScore = 0, oneScore = 0, twoScore = 0;
                     foreach (var item in modelDto.ManageDetails)
                     {
-                        if (fromMagRecord.Steps == KpiSteps.Zero && item.SelfScore > item.Weight)
+                        item.KpiManageRecordId = modelMagRecord.Id;
+                        if (modelMagRecord.Steps == KpiSteps.Zero && item.SelfScore > item.Weight)
                         {
                             return Result.Fail($"[{item.EvaluationName}]项的自评分不能大于权重(分值)");
                         }
-                        if (fromMagRecord.Steps == KpiSteps.One && item.OneScore > item.Weight)
+                        if (modelMagRecord.Steps == KpiSteps.One && item.OneScore > item.Weight)
                         {
                             return Result.Fail($"[{item.EvaluationName}]项的初审分不能大于权重(分值)");
                         }
-                        if (fromMagRecord.Steps == KpiSteps.Two && item.TwoScore > item.Weight)
+                        if (modelMagRecord.Steps == KpiSteps.Two && item.TwoScore > item.Weight)
                         {
                             return Result.Fail($"[{item.EvaluationName}]项的终审分不能大于权重(分值)");
                         }
-                        selfScore = item.SelfScore.Value;
+                        selfScore += item.SelfScore.Value;
                         oneScore += item.OneScore.Value;
                         twoScore += item.TwoScore.Value;
                     }
 
-                    modelMagRecord.StepsCompanyId = fromMagRecord.StepsCompanyId;
-                    modelMagRecord.StepsCompanyName = fromMagRecord.StepsCompanyName;
-                    modelMagRecord.StepsDptId = fromMagRecord.StepsDptId;
-                    modelMagRecord.StepsDptName = fromMagRecord.StepsDptName;
-                    modelMagRecord.StepsEmployeeId = fromMagRecord.StepsEmployeeId;
-                    modelMagRecord.StepsUserName = fromMagRecord.StepsUserName;
+                    if (nextEmployee != null)
+                    {
+                        modelMagRecord.StepsCompanyId = nextEmployee.CompanyId;
+                        modelMagRecord.StepsCompanyName = nextEmployee.CompanyName;
+                        modelMagRecord.StepsDptId = nextEmployee.DptId;
+                        modelMagRecord.StepsDptName = nextEmployee.DptName;
+                        modelMagRecord.StepsEmployeeId = nextEmployee.Id;
+                        modelMagRecord.StepsUserName = nextEmployee.EmployeeName;
+                    }
 
                     var kpiTime = int.Parse(modelMagRecord.KpiDate);
 
                     //自评
-                    if (fromMagRecord.Steps == KpiSteps.Zero)
+                    if (modelMagRecord.Steps == KpiSteps.Zero)
                     {
                         modelMagRecord.Steps = KpiSteps.One;
                         modelMagRecord.Status = KpiStatus.Audit;
@@ -334,7 +348,7 @@ namespace XSchool.GCenter.Businesses.Wrappers
                         }
                     }
                     //初审
-                    if (fromMagRecord.Steps == KpiSteps.One)
+                    else if (modelMagRecord.Steps == KpiSteps.One)
                     {
                         modelMagRecord.Steps = KpiSteps.Two;
                         modelMagRecord.Status = KpiStatus.Audit;
@@ -348,11 +362,19 @@ namespace XSchool.GCenter.Businesses.Wrappers
                         }
                     }
                     //终审
-                    if (fromMagRecord.Steps == KpiSteps.Two)
+                    else if (modelMagRecord.Steps == KpiSteps.Two)
                     {
                         modelMagRecord.Steps = KpiSteps.Complete;
                         modelMagRecord.Status = KpiStatus.Complete;
                         modelMagRecord.CompleteDate = dtNow;
+
+                        //modelMagRecord.StepsCompanyId = null;
+                        //modelMagRecord.StepsCompanyName = null;
+                        //modelMagRecord.StepsDptId = null;
+                        //modelMagRecord.StepsDptName = null;
+                        //modelMagRecord.StepsEmployeeId = null;
+                        //modelMagRecord.StepsUserName = null;
+
                         for (int i = 0; i < 12; i++)
                         {
                             if ((i + 1) == kpiTime)

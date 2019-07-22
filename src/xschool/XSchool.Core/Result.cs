@@ -24,9 +24,24 @@ namespace XSchool.Core
             return new Result { Succeed = true, Code = "00", Message = "成功" };
         }
 
-        public static Result SuccForMsg(string message)
+        public static Result<T> Success<T>(T obj, string message)
+        {
+            return new Result<T> { Succeed = true, Code = "00", Data = obj, Message = message };
+        }
+
+        public static Result<T> Success<T>(T obj, string message, string code)
+        {
+            return new Result<T> { Succeed = true, Code = code, Data = obj, Message = message };
+        }
+
+        public static Result Succes(string message)
         {
             return new Result { Succeed = true, Code = "00", Message = message };
+        }
+
+        public static Result Succes(string message, string code)
+        {
+            return new Result { Succeed = true, Code = code, Message = message };
         }
 
         public static Result Fail(string message, string code)

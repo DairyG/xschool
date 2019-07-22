@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using XSchool.Core;
 
 namespace XSchool.GCenter.Model
@@ -121,17 +119,6 @@ namespace XSchool.GCenter.Model
         /// 状态，[10=考核，11=审批中，1=完成，-1=无效]
         /// </summary>		
         public KpiStatus Status { get; set; }
-
-        /// <summary>
-        /// 考核管理明细
-        /// </summary>
-        [NotMapped]
-        public IList<KpiManageDetail> ManageDetail { get; set; } = new List<KpiManageDetail>();
-        /// <summary>
-        /// 考核管理审核明细
-        /// </summary>
-        [NotMapped]
-        public IList<KpiManageAuditRecord> ManageAuditRecord { get; set; } = new List<KpiManageAuditRecord>();
     }
 }
 

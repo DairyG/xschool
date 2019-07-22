@@ -51,7 +51,8 @@ namespace XSchool.GCenter.WebApi
             });
 
             services.AddBusinesses();
-            services.AddCors(options => {
+            services.AddCors(options =>
+            {
                 options.AddPolicy("any", builder =>
                 {
                     builder.AllowAnyOrigin()
@@ -61,7 +62,10 @@ namespace XSchool.GCenter.WebApi
             });
 
             services.AddDbContextPool<GCenterDbContext>(options => options.UseSqlServer(connectonString), poolSize: 64);
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(operation =>
+            {
+                operation.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

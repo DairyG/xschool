@@ -76,6 +76,16 @@ namespace XSchool.GCenter.Model.ViewModel
         public string Evaluation { get; set; }
 
         /// <summary>
+        /// 当前处理人
+        /// </summary>
+        public EmployeeDto Employee { get; set; }
+
+        /// <summary>
+        /// 下一步处理人
+        /// </summary>
+        public EmployeeDto NextEmployee { get; set; }
+
+        /// <summary>
         /// 考核管理记录
         /// </summary>
         public KpiManageRecord ManageRecord { get; set; }
@@ -84,6 +94,31 @@ namespace XSchool.GCenter.Model.ViewModel
         /// 考核管理明细
         /// </summary>
         public List<KpiManageDetail> ManageDetails { get; set; }
+    }
+
+    /// <summary>
+    /// 考核管理 返回
+    /// </summary>
+    public class KpiManageResultDto
+    {
+        /// <summary>
+        /// 考核管理记录
+        /// </summary>
+        public KpiManageRecord Record { get; set; }
+
+        /// <summary>
+        /// 考核管理明细
+        /// </summary>
+        public List<KpiManageDetail> Detail { get; set; } = new List<KpiManageDetail>();
+        /// <summary>
+        /// 考核管理审核明细
+        /// </summary>
+        public List<KpiManageAuditRecord> AuditRecord { get; set; } = new List<KpiManageAuditRecord>();
+
+        /// <summary>
+        /// 考核模板审核人
+        /// </summary>
+        public KpiTemplateAuditsDto Audits { get; set; }
     }
 
 }

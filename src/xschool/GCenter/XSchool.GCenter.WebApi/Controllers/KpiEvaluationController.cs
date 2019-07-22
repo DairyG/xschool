@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using XSchool.Core;
 using XSchool.GCenter.Businesses;
 using XSchool.GCenter.Businesses.Wrappers;
@@ -136,34 +137,62 @@ namespace XSchool.GCenter.WebApi.Controllers
         /// <summary>
         /// [详情] 考核管理
         /// </summary>
-        /// <param name="modelDto"></param>
+        /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        public KpiManageRecord GetManageRecord([FromForm]KpiEvaluationManageQueryDto modelDto)
+        public Result GetManageRecord([FromForm]KpiEvaluationManageQueryDto dto)
         {
-            var model = _magRecordBusiness.GetSingle(p => p.KpiType == modelDto.KpiType && p.KpiId == modelDto.KpiId && p.CompanyId == modelDto.CompanyId && p.DptId == modelDto.DptId && p.Year == modelDto.Year && p.KpiDate == modelDto.KpiDate);
+            var model = _magRecordBusiness.GetSingle(p => p.KpiType == dto.KpiType && p.KpiId == dto.KpiId && p.CompanyId == dto.CompanyId && p.DptId == dto.DptId && p.EmployeeId == dto.EmployeeId && p.Year == dto.Year && p.KpiDate == dto.KpiDate);
             if (model != null)
             {
+                var result = new KpiManageResultDto();
+
                 List<KeyValuePair<string, OrderBy>> orderDetail = new List<KeyValuePair<string, OrderBy>>() {
                     new KeyValuePair<string, OrderBy>("Id", OrderBy.Desc)
                 };
                 List<KeyValuePair<string, OrderBy>> orderAudit = new List<KeyValuePair<string, OrderBy>>() {
                     new KeyValuePair<string, OrderBy>("Steps", OrderBy.Asc)
                 };
-                model.ManageDetail = _magDetailBusiness.Query(p => p.KpiManageRecordId == model.Id, p => p, orderDetail);
-                model.ManageAuditRecord = _magAuditRecordBusiness.Query(p => p.KpiManageRecordId == model.Id, p => p, orderAudit);
+
+                if (model.Status != KpiStatus.Complete && model.Status != KpiStatus.Invalid)
+                {
+                    var modelAudits = _tplRecordBusiness.GetSingle(p => p.Id == model.KpiTemplateRecordId);
+                    if (modelAudits == null)
+                    {
+                        return Result.Fail("未查询到模板记录");
+                    }
+                    var lsAudits = JsonConvert.DeserializeObject<List<KpiTemplateAuditsDto>>(modelAudits.Audits).ToList();
+                    if (lsAudits.Count() == 0)
+                    {
+                        return Result.Fail("未获取到下一步流转人");
+                    }
+                    if (model.Steps == KpiSteps.Zero)
+                    {
+                        result.Audits = lsAudits.FirstOrDefault(p => p.Steps == KpiSteps.One);
+                    }
+                    else if (model.Steps == KpiSteps.One)
+                    {
+                        result.Audits = lsAudits.FirstOrDefault(p => p.Steps == KpiSteps.Two);
+                    }
+                }
+
+                result.Record = model;
+                result.Detail = _magDetailBusiness.Query(p => p.KpiManageRecordId == model.Id, p => p, orderDetail).ToList();
+                result.AuditRecord = _magAuditRecordBusiness.Query(p => p.KpiManageRecordId == model.Id, p => p, orderAudit).ToList();
+
+                return Result.Success(result);
             }
-            return model;
+            return Result.Fail("未查询到记录");
         }
 
         /// <summary>
         /// [考核提交] 考核管理
         /// </summary>
-        /// <param name="modelDto"></param>
+        /// <param name="dto"></param>
         /// <returns></returns>
-        public Result EditManage([FromForm]KpiEvaluationManageSubmitDto modelDto)
+        public Result EditManage([FromForm]KpiEvaluationManageSubmitDto dto)
         {
-            return _wrappers.EditManage(modelDto);
+            return _wrappers.EditManage(dto);
         }
 
 

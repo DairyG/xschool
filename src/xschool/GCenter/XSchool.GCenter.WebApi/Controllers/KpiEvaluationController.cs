@@ -71,9 +71,9 @@ namespace XSchool.GCenter.WebApi.Controllers
             var condition = new Condition<KpiTemplate>();
             condition.And(p => p.CompanyId == search.CompanyId);
             condition.And(p => p.KpiType == search.KpiType);
-            if (search.DptId != null && search.DptId > 0)
+            if (search.DptId.Count() > 0)
             {
-                condition.And(p => p.DptId == search.DptId);
+                condition.And(p => search.DptId.Contains(p.DptId));
             }
             return _tplBusiness.Page(page, limit, condition.Combine());
         }
@@ -104,13 +104,40 @@ namespace XSchool.GCenter.WebApi.Controllers
         /// <summary>
         /// [列表] 考核内容
         /// </summary>
-        /// <param name="page">页索引</param>
-        /// <param name="limit">页大小</param>
-        /// <param name="search">参数</param>
+        /// <param name="employeeIds">员工Id数组</param>
+        /// <param name="kpiId">考核方案</param>
         /// <returns></returns>
-        public object QueryManageDetail([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]KpiEvaluationManageQueryDto search)
+        [HttpPost]
+        public object QueryManageDetail([FromForm]List<int> employeeIds, [FromForm]KpiPlan kpiId)
         {
-            return _magDetailBusiness.QueryManageDetail(page, limit, search);
+            if (employeeIds.Count() > 0)
+            {
+                var condition = new Condition<KpiTemplateRecord>();
+                condition.And(p => p.KpiType == KpiType.User);
+                condition.And(p => p.KpiId == kpiId);
+                if (employeeIds.Count() > 0)
+                {
+                    condition.And(p => employeeIds.Contains(p.EmployeeId));
+                }
+                var lsTpl = _tplRecordBusiness.Query(condition.Combine());
+                var lsTplContent = new List<KpiTemplateContentsDto>();
+                if (lsTpl.Count() > 0)
+                {
+                    foreach (var item in lsTpl)
+                    {
+                        lsTplContent.AddRange(JsonConvert.DeserializeObject<List<KpiTemplateContentsDto>>(item.Contents).ToList());
+                    }
+
+                    return lsTplContent
+                           .GroupBy(p => new { p.EvaluationId, p.EvaluationName, p.EvaluationType })
+                           .Select(p => p.Key)
+                           .OrderBy(p => p.EvaluationId)
+                           .Select(p => new EvaluationDto { Id = p.EvaluationId, Name = p.EvaluationName, EvaluationTypeName = p.EvaluationType })
+                           .ToList();
+                }
+            }
+
+            return new List<EvaluationDto>();
         }
 
         /// <summary>
@@ -127,9 +154,9 @@ namespace XSchool.GCenter.WebApi.Controllers
             condition.And(p => p.KpiType == search.KpiType);
             condition.And(p => p.Year == search.Year);
             condition.And(p => p.KpiId == search.KpiId);
-            if (search.DptId != null && search.DptId > 0)
+            if (search.DptId.Count() > 0)
             {
-                condition.And(p => p.DptId == search.DptId);
+                condition.And(p => search.DptId.Contains(p.DptId));
             }
             return _magTotalBusiness.Page(page, limit, condition.Combine());
         }
@@ -222,7 +249,7 @@ namespace XSchool.GCenter.WebApi.Controllers
             /// <summary>
             /// 部门Id
             /// </summary>
-            public int? DptId { get; set; }
+            public List<int> DptId { get; set; } = new List<int>();
         }
 
     }

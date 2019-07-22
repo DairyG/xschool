@@ -31,13 +31,21 @@ namespace XSchool.GCenter.Businesses
                 return base.Update(model);
             }
         }
-        public IList<Schedule> Get()
+        public IList<Schedule> Get(int eid)
         {
             List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
             {
                 new KeyValuePair<string, OrderBy>("AddTime", OrderBy.Desc)
             };
-            return base.Query(p => p.Id > 0, p => p, order);
+            return base.Query(p => p.Executors.Contains("," + eid.ToString() + ",") || p.EmployeeId.Equals(eid) || p.Scribbles.Contains(eid.ToString()), p => p, order);
+        }
+        public IList<Schedule> GetByKpi(int kmrId)
+        {
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
+            {
+                new KeyValuePair<string, OrderBy>("AddTime", OrderBy.Desc)
+            };
+            return base.Query(p => p.KpiManageRecordId.Equals(kmrId),p => p, order);
         }
         public IList<Schedule> Get(int eid, string catalog)
         {
@@ -50,6 +58,9 @@ namespace XSchool.GCenter.Businesses
             {
                 case "All":
                     list = base.Query(p => p.Executors.Contains("," + eid.ToString() + ",") || p.EmployeeId.Equals(eid) || p.Scribbles.Contains(eid.ToString()), p => p, order);
+                    break;
+                case "Doing":
+                    list = base.Query(p => p.Executors.Contains("," + eid.ToString() + ",") || p.EmployeeId.Equals(eid), p => p, order);
                     break;
                 case "Executors":
                     list = base.Query(p => p.Executors.Contains("," + eid.ToString() + ","), p => p, order);
@@ -148,7 +159,8 @@ namespace XSchool.GCenter.Businesses
                             Scribbles = model.Scribbles,
                             ScribblesJson = model.ScribblesJson,
                             KpiPlan = model.KpiPlan,
-                            KpiId = model.KpiId,
+                            KpiManageRecordId = model.KpiManageRecordId,
+                            KpiManageRecordName = model.KpiManageRecordName,
                             BeginTime = bTime,
                             EndTime = eTime,
                             RemindTime = model.RemindTime,
@@ -191,7 +203,8 @@ namespace XSchool.GCenter.Businesses
                             Scribbles = model.Scribbles,
                             ScribblesJson = model.ScribblesJson,
                             KpiPlan = model.KpiPlan,
-                            KpiId = model.KpiId,
+                            KpiManageRecordId = model.KpiManageRecordId,
+                            KpiManageRecordName = model.KpiManageRecordName,
                             BeginTime = bTime,
                             EndTime = eTime,
                             RemindTime = model.RemindTime,
@@ -234,7 +247,8 @@ namespace XSchool.GCenter.Businesses
                             Scribbles = model.Scribbles,
                             ScribblesJson = model.ScribblesJson,
                             KpiPlan = model.KpiPlan,
-                            KpiId = model.KpiId,
+                            KpiManageRecordId = model.KpiManageRecordId,
+                            KpiManageRecordName = model.KpiManageRecordName,
                             BeginTime = bTime,
                             EndTime = eTime,
                             RemindTime = model.RemindTime,

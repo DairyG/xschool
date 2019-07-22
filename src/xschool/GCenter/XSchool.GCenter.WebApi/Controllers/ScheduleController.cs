@@ -46,6 +46,38 @@ namespace XSchool.GCenter.WebApi.Controllers
             /// </summary>
             public string Completion { get; set; }
         }
+        public class ScheduleKPI
+        {
+            public int Id { get; set; }
+            /// <summary>
+            /// 标题
+            /// </summary>
+            public string Title { get; set; }
+            /// <summary>
+            /// 开始时间
+            /// </summary>
+            public DateTime BeginTime { get; set; }
+            /// <summary>
+            /// 结束时间
+            /// </summary>
+            public DateTime EndTime { get; set; }
+            /// <summary>
+            /// 考核管理记录Id
+            /// </summary>
+            public int KpiManageRecordId { get; set; }
+            /// <summary>
+            /// 考核管理记录名称
+            /// </summary>
+            public string KpiManageRecordName { get; set; }
+            /// <summary>
+            /// 完成时间
+            /// </summary>
+            public DateTime FinishTime { get; set; }
+            /// <summary>
+            /// 完成情况
+            /// </summary>
+            public string Completion { get; set; }
+        }
         /// <summary>
         /// [添加] 日程
         /// </summary>
@@ -60,10 +92,49 @@ namespace XSchool.GCenter.WebApi.Controllers
         /// 获取全部日程
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        public IList<Schedule> Get()
+        [HttpGet("{eid}")]
+        public IList<Schedule> Get(int eid)
         {
-            return _scheduleBusiness.Get();
+            return _scheduleBusiness.Get(eid);
+        }
+        /// <summary>
+        /// 根据KPI获取日程
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("{kmrId}")]
+        public IList<ScheduleKPI> GetByKpi(int kmrId)
+        {
+            //先根据条件获取所有日程
+            IList<Schedule> list = _scheduleBusiness.GetByKpi(kmrId);
+            //封装新集合
+            IList<ScheduleKPI> newList = new List<ScheduleKPI>();
+            foreach (Schedule item in list)
+            {
+                ScheduleKPI sm = new ScheduleKPI();
+                sm.Id = item.Id;
+                sm.Title = item.Title;
+                sm.BeginTime = item.BeginTime;
+                sm.EndTime = item.EndTime;
+                sm.KpiManageRecordId = item.KpiManageRecordId;
+                sm.KpiManageRecordName = item.KpiManageRecordName;
+                //完成了的集合
+                IList<ScheduleComplete> cmp = _scheduleCompleteBusiness.Get(item.Id);
+                //执行人集合
+                string exestring = item.Executors.Substring(1);
+                exestring = exestring.Substring(0, exestring.Length - 1);
+                string[] exes = exestring.Split(",");
+                //如果完成数等于执行人数
+                if (cmp.Count >= exes.Length)
+                {
+                    sm.Completion = "已完成";
+                }
+                else
+                {
+                    sm.Completion = "未完成";
+                }
+                newList.Add(sm);
+            }
+            return newList;
         }
         /// <summary>
         /// 根据ID修改Pid
@@ -108,7 +179,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         [HttpPost]
         public Schedule GetByDate([FromForm] int eid, [FromForm]string date)
         {
-            return _scheduleBusiness.GetByDate(eid,date);
+            return _scheduleBusiness.GetByDate(eid, date);
         }
         /// <summary>
         /// 根据条件查询日程
@@ -121,7 +192,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             catalog = string.IsNullOrWhiteSpace(catalog) ? "All" : catalog;
             string empty = catalog;
-            if (catalog == "Finish" || catalog == "Doing")
+            if (catalog == "Finish")
             {
                 catalog = "All";
             }
@@ -145,7 +216,7 @@ namespace XSchool.GCenter.WebApi.Controllers
                 IList<ScheduleComplete> cmp = _scheduleCompleteBusiness.Get(item.Id);
                 //执行人集合
                 string exestring = item.Executors.Substring(1);
-                exestring = exestring.Substring(0,exestring.Length - 1);
+                exestring = exestring.Substring(0, exestring.Length - 1);
                 string[] exes = exestring.Split(",");
                 //如果完成数等于执行人数
                 if (cmp.Count >= exes.Length)
@@ -165,7 +236,8 @@ namespace XSchool.GCenter.WebApi.Controllers
                         }
                     }
                     //判断我是否完成（该我去完成）
-                    if (!me) {
+                    if (!me)
+                    {
                         foreach (ScheduleComplete sc in cmp)
                         {
                             if (sc.EmployeeId.Equals(eid))
@@ -192,7 +264,8 @@ namespace XSchool.GCenter.WebApi.Controllers
             {
                 return finishList;
             }
-            else if (empty == "Doing") {
+            else if (empty == "Doing")
+            {
                 return ingList;
             }
             return newList;

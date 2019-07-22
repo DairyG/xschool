@@ -32,9 +32,13 @@ namespace XSchool.GCenter.Model
         /// </summary>
         public KpiPlan KpiPlan { get; set; }
         /// <summary>
-        /// 考核项目ID
+        /// 考核管理记录Id
         /// </summary>
-        public int KpiId { get; set; }
+        public int KpiManageRecordId { get; set; }
+        /// <summary>
+        /// 考核管理记录名称
+        /// </summary>
+        public string KpiManageRecordName { get; set; }
         /// <summary>
         /// 开始时间
         /// </summary>

@@ -298,6 +298,41 @@
             完成情况
             </summary>
         </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.ScheduleController.ScheduleKPI.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.ScheduleController.ScheduleKPI.BeginTime">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.ScheduleController.ScheduleKPI.EndTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.ScheduleController.ScheduleKPI.KpiManageRecordId">
+            <summary>
+            考核管理记录Id
+            </summary>
+        </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.ScheduleController.ScheduleKPI.KpiManageRecordName">
+            <summary>
+            考核管理记录名称
+            </summary>
+        </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.ScheduleController.ScheduleKPI.FinishTime">
+            <summary>
+            完成时间
+            </summary>
+        </member>
+        <member name="P:XSchool.GCenter.WebApi.Controllers.ScheduleController.ScheduleKPI.Completion">
+            <summary>
+            完成情况
+            </summary>
+        </member>
         <member name="M:XSchool.GCenter.WebApi.Controllers.ScheduleController.Add(XSchool.GCenter.Model.Schedule)">
             <summary>
             [添加] 日程
@@ -305,9 +340,15 @@
             <param name="model">传入的参数</param>
             <returns></returns>
         </member>
-        <member name="M:XSchool.GCenter.WebApi.Controllers.ScheduleController.Get">
+        <member name="M:XSchool.GCenter.WebApi.Controllers.ScheduleController.Get(System.Int32)">
             <summary>
             获取全部日程
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XSchool.GCenter.WebApi.Controllers.ScheduleController.GetByKpi(System.Int32)">
+            <summary>
+            根据KPI获取日程
             </summary>
             <returns></returns>
         </member>
@@ -462,7 +503,7 @@
             <param name="type"></param>
             <returns></returns>
         </member>
-        <!-- 对于成员“M:XSchool.GCenter.WebApi.Controllers.SummaryController.GetDescription(System.Enum)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:XSchool.GCenter.WebApi.Controllers.SummaryController.GetDescription(System.Enum)" -->
         <member name="M:XSchool.GCenter.WebApi.Controllers.SummaryController.Delete(System.Int32)">
             <summary>
             删除报告

@@ -19,4 +19,12 @@ namespace XSchool.GCenter.Repositories
         //              join b in _dbContent.AspNetUsers
         //}
     }
+    public class NoteReadRepository : Repository<Model.NoteRead>
+    {
+        private GCenterDbContext _dbContent;
+        public NoteReadRepository(GCenterDbContext dbContext) : base(dbContext)
+        {
+            _dbContent = dbContext;
+        }
+    }
 }

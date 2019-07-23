@@ -27,13 +27,17 @@ namespace XSchool.GCenter.WebApi.Controllers
         private readonly RuleRegulationTypeBusiness _ruleRegulationTypeBusiness;
         private readonly RuleRegulationBusiness _ruleRegulationBusiness;
         private readonly NoteReadRangeBusinesses _noteReadRangeBusinesses;
+        private readonly NoteReadBusinesses _noteReadBusinesses;
+        private readonly RuleRegulationReadBusiness _ruleRegulationReadBusiness;
         public NoteController(NoteBusinesses business, RuleRegulationTypeBusiness ruleRegulationTypeBusiness, RuleRegulationBusiness ruleRegulationBusiness, BasicInfoWrapper basicInfoWrapper
-            , NoteReadRangeBusinesses noteReadRangeBusinesses)
+            , NoteReadRangeBusinesses noteReadRangeBusinesses, NoteReadBusinesses noteReadBusinesses, RuleRegulationReadBusiness ruleRegulationReadBusiness)
         {
             this._business = business;
             this._ruleRegulationTypeBusiness = ruleRegulationTypeBusiness;
             this._ruleRegulationBusiness = ruleRegulationBusiness;
             this._noteReadRangeBusinesses = noteReadRangeBusinesses;
+            this._noteReadBusinesses = noteReadBusinesses;
+            this._ruleRegulationReadBusiness = ruleRegulationReadBusiness;
             _basicInfoWrapper = basicInfoWrapper;
         }
 
@@ -59,21 +63,30 @@ namespace XSchool.GCenter.WebApi.Controllers
             else
             {
                 model.CreateDate = DateTime.Now;
-                return _business.Update(model);
+                return _business.Update(model, UserList, DepList, ComList, PositionList);
             }
         }
         [HttpPost]
         [Description("查询已读/未读公告")]
-        public Result<IPageCollection<Model.NoteReadRange>> NoteReadRange([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]int IsRead, [FromForm]int NoteId)
+        public Result<IPageCollection<Model.NoteRead>> NoteReadRecord([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]int IsRead, [FromForm]int NoteId)
         {
             List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
+                 {
+                     new KeyValuePair<string, OrderBy>("Id", OrderBy.Desc)
+                  };
+            var condition = new Condition<Model.NoteRead>();
+            if (IsRead == 1)
             {
-                new KeyValuePair<string, OrderBy>("Id", OrderBy.Desc)
-            };
-            var condition = new Condition<Model.NoteReadRange>();
-            condition.And(p => (p.IsRead==IsRead&&p.NoteId==NoteId));
-            var pageList = _noteReadRangeBusinesses.Page(page, limit, condition.Combine(), order);
-            return pageList;
+                condition.And(p => (p.NoteId == NoteId));
+                var pageList = _noteReadBusinesses.Page(page, limit, condition.Combine(), order);
+                return pageList;
+            }
+            else
+            {
+                condition.And(p => (p.NoteId == 0));
+                var pageList = _noteReadBusinesses.Page(page, limit, condition.Combine(), order);
+                return null;
+            }
         }
         [HttpPost]
         [Description("通知公告列表")]
@@ -84,16 +97,37 @@ namespace XSchool.GCenter.WebApi.Controllers
                 new KeyValuePair<string, OrderBy>("Id", OrderBy.Desc)
             };
             var condition = new Condition<Model.Note>();
-            var pageList= _business.Page(page, limit, condition.Combine(), order);
-            return pageList;        }
+            var pageList = _business.Page(page, limit, condition.Combine(), order);
+            return pageList;
+        }
         [HttpGet]
         [Description("查询某个通知公告")]
-        public Result<Model.Note> GetSigleNote(int id)
+        public Result<Model.DetailNote> GetSigleNote(int NoteId, int UserId, string UserName, string CompanyName, string DptName)
         {
-            var noteModel = _business.GetSingle(id);
+            Model.DetailNote detailNoteModel = new Model.DetailNote();
+            //更新阅读次数
+            var noteModel = _business.GetSingle(NoteId);
             noteModel.ReadCount++;
             _business.Update(noteModel);
-            return Result.Success(noteModel);
+            //查询通知详情
+            var chooseUser = _noteReadRangeBusinesses.ChooseUser(noteModel.Id);
+            detailNoteModel.noteDetail = noteModel;
+            detailNoteModel.chooseUser = chooseUser;
+            //插入阅读记录
+            if (UserId > 0)
+            {
+                var readModel = new Model.NoteRead();
+                readModel.CompanyName = CompanyName;
+                readModel.DptName = DptName;
+                readModel.NoteId = NoteId;
+                readModel.ReadDate = DateTime.Now;
+                readModel.UserId = UserId;
+                readModel.UserName = UserName;
+                var IsRead = _noteReadBusinesses.Exist(x => x.NoteId == NoteId && x.UserId == UserId);
+                if (!IsRead)
+                    _noteReadBusinesses.Add(readModel);
+            }
+            return Result.Success(detailNoteModel);
         }
         [HttpGet]
         [Description("删除通知公告")]
@@ -182,8 +216,8 @@ namespace XSchool.GCenter.WebApi.Controllers
         [HttpPost]
         [Description("通知公告列表")]
         public IPageCollection<Model.RuleRegulationPage> GetRuleRegulationPage([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]Model.RuleRegulationSearch search)
-        {            
-            var pageList = _ruleRegulationBusiness.GetRuleRegulationList(page, limit,search);
+        {
+            var pageList = _ruleRegulationBusiness.GetRuleRegulationList(page, limit, search);
             return pageList;
         }
         /// <summary>
@@ -198,7 +232,7 @@ namespace XSchool.GCenter.WebApi.Controllers
             if (model.Id == 0)
                 return _ruleRegulationBusiness.Add(model, UserList, DepList, ComList, PositionList);
             else
-                return _ruleRegulationBusiness.Update(model);
+                return _ruleRegulationBusiness.Update(model, UserList, DepList, ComList, PositionList);
         }
         /// <summary>
         /// 获取制度修改
@@ -216,10 +250,52 @@ namespace XSchool.GCenter.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Description("制度管理model")]
-        public Result RuleRegulationDetail(int id)
+        public Result RuleRegulationDetail(int id, int UserId, string UserName, string CompanyName, string DptName)
         {
-            var model= _ruleRegulationBusiness.GetSingle(id);
-            return Result.Success(model);
+            Model.DetailRuleRegulation detailRuleRegulationModel = new Model.DetailRuleRegulation();
+            //更新阅读次数
+            var model = _ruleRegulationBusiness.GetSingle(id);
+            var chooseUser = _ruleRegulationBusiness.ChooseUser(id);
+            //查询通知详情
+            detailRuleRegulationModel.chooseUser = chooseUser;
+            detailRuleRegulationModel.ruleRegulationDetail = model;
+            //插入阅读记录
+            if (UserId > 0)
+            {
+                var readModel = new Model.RuleRegulationRead();
+                readModel.CompanyName = CompanyName;
+                readModel.DptName = DptName;
+                readModel.RuleRegulationId = id;
+                readModel.ReadDate = DateTime.Now;
+                readModel.UserId = UserId;
+                readModel.UserName = UserName;
+                var IsRead = _ruleRegulationReadBusiness.Exist(x => x.RuleRegulationId == id && x.UserId == UserId);
+                if (!IsRead)
+                    _ruleRegulationReadBusiness.Add(readModel);
+            }
+            return Result.Success(detailRuleRegulationModel);
+        }
+        [HttpPost]
+        [Description("查询已读/未读公告")]
+        public Result<IPageCollection<Model.RuleRegulationRead>> RuleRegulationRead([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]int IsRead, [FromForm]int RuleRegulationId)
+        {
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
+                 {
+                     new KeyValuePair<string, OrderBy>("Id", OrderBy.Desc)
+                  };
+            var condition = new Condition<Model.RuleRegulationRead>();
+            if (IsRead == 1)
+            {
+                condition.And(p => (p.RuleRegulationId == RuleRegulationId));
+                var pageList = _ruleRegulationReadBusiness.Page(page, limit, condition.Combine(), order);
+                return pageList;
+            }
+            else
+            {
+                condition.And(p => (p.RuleRegulationId == 0));
+                var pageList = _ruleRegulationReadBusiness.Page(page, limit, condition.Combine(), order);
+                return null;
+            }
         }
         /// <summary>
         /// 制度管理删除

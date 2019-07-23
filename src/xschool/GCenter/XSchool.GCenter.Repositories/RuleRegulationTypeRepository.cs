@@ -48,4 +48,10 @@ namespace XSchool.GCenter.Repositories
         {
         }
     }
+    public class RuleRegulationReadRepository : Repository<Model.RuleRegulationRead>
+    {
+        public RuleRegulationReadRepository(GCenterDbContext dbContext) : base(dbContext)
+        {
+        }
+    }
 }

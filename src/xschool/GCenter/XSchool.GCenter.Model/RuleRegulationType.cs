@@ -47,6 +47,18 @@ namespace XSchool.GCenter.Model
         /// 附件Url地址
         /// </summary>
         public string EnclosureUrl { get; set; }
+        /// <summary>
+        /// 发布内容
+        /// </summary>
+        public string PublisherName { get; set; }
+        /// <summary>
+        /// 发布内容
+        /// </summary>
+        public string DepartmentName { get; set; }
+        /// <summary>
+        /// 树结构typeId
+        /// </summary>
+        public string SelType { get; set; }
     }
     public class RuleRegulationPage
     {
@@ -94,18 +106,21 @@ namespace XSchool.GCenter.Model
         /// </summary>
         public int TypeId { get; set; }
     }
+    #region 制度阅读记录
     /// <summary>
-    /// 阅读记录
+    /// 制度阅读记录
     /// </summary>
-    public class RuleRegulationReadRecord
+    public class RuleRegulationRead : IModel<int>
     {
         public int Id { get; set; }
-        public int NoteId { get; set; }
-        public int IsRead { get; set; }
-        public DateTime ReadDate { get; set; }
+        public int RuleRegulationId { get; set; }
         public int UserId { get; set; }
         public string UserName { get; set; }
+        public string CompanyName { get; set; }
+        public string DptName { get; set; }
+        public DateTime ReadDate { get; set; }
     }
+    #endregion
     /// <summary>
     /// 阅读范围
     /// </summary>
@@ -124,5 +139,10 @@ namespace XSchool.GCenter.Model
         public string CompanyName { get; set; }
         public int PositionId { get; set; }
         public string PositionName { get; set; }
+    }
+    public class DetailRuleRegulation
+    {
+        public RuleRegulation ruleRegulationDetail { get; set; }
+        public ChooseUser chooseUser { get; set; }
     }
 }

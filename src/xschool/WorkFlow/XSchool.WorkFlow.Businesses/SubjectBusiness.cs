@@ -242,18 +242,18 @@ namespace XSchool.WorkFlow.Businesses
             List<subjectTypeDto> empData = null;
             if (enableStatus == 1)
             {
-                empData=(from a in _repositoryTypeSubject.Entites
-                 join b in _repository.Entites on a.Id equals b.SubjectTypeId into subjectList
-                 select new subjectTypeDto
-                 {
-                     Id = a.Id,
-                     SubjectTypeName = a.SubjectTypeName,
-                     subjectList = subjectList.Where(s=>s.Status==EDStatus.Enable).Select(q => new subjectViewDto
-                     {
-                         subjectId = q.Id,
-                         SubjectName = q.SubjectName,
-                         UpdateTime = q.UpdateTime,
-                         Remark = q.Remark
+                empData = (from a in _repositoryTypeSubject.Entites
+                           join b in _repository.Entites on a.Id equals b.SubjectTypeId into subjectList
+                           select new subjectTypeDto
+                           {
+                               Id = a.Id,
+                               SubjectTypeName = a.SubjectTypeName,
+                               subjectList = subjectList.Where(s => s.Status == EDStatus.Enable).Select(q => new subjectViewDto
+                               {
+                                   subjectId = q.Id,
+                                   SubjectName = q.SubjectName,
+                                   UpdateTime = q.UpdateTime == null ? "" : q.UpdateTime.ToString(),
+                                  Remark = q.Remark
                      }).ToList()
                  }).ToList();
             }
@@ -269,7 +269,7 @@ namespace XSchool.WorkFlow.Businesses
                                {
                                    subjectId = q.Id,
                                    SubjectName = q.SubjectName,
-                                   UpdateTime = q.UpdateTime,
+                                   UpdateTime = q.UpdateTime == null ? "" : q.UpdateTime.ToString(),
                                    Remark = q.Remark
                                }).ToList()
                            }).ToList();

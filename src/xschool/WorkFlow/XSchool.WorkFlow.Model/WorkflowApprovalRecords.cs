@@ -6,7 +6,7 @@ using XSchool.Core;
 namespace XSchool.WorkFlow.Model
 {
     /// <summary>
-    ///  工作流审核记录表
+    /// 工作流审核记录表
     /// </summary>
     public class WorkflowApprovalRecords : IModel<int>
     {
@@ -22,29 +22,14 @@ namespace XSchool.WorkFlow.Model
         public int WorkflowBusinessId { get; set; }
 
         /// <summary>
-        /// 流程Id
-        /// </summary>		
-        public int SubjectId { get; set; }
-
-        /// <summary>
         /// 流程节点Id
         /// </summary>		
-        public int SubjectStepId { get; set; }
+        public int WorkflowApprovalStepId { get; set; }
 
         /// <summary>
         ///  -1 拒绝，1等待审批，2同意，3未接收审批
         /// </summary>		
         public int Status { get; set; }
-
-        /// <summary>
-        ///  审批节点
-        /// </summary>		
-        public int PassNo { get; set; }
-
-        /// <summary>
-        /// 节点名称
-        /// </summary>		
-        public string PassName { get; set; }
 
         /// <summary>
         /// 审核人Id
@@ -62,7 +47,7 @@ namespace XSchool.WorkFlow.Model
         public DateTime? AuditidTime { get; set; }
 
         /// <summary>
-        /// 审批意见
+        /// 审批意见或操作说明
         /// </summary>		
         public string Memo { get; set; }
 
@@ -70,6 +55,11 @@ namespace XSchool.WorkFlow.Model
         /// 最大编号为最新记录，其他为旧的记录
         /// </summary>		
         public int OldCode { get; set; }
+
+        /// <summary>
+        /// 1 审核内容，2操作记录
+        /// </summary>		
+        public int DataType { get; set; }
 
     }
 }

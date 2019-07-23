@@ -10,6 +10,7 @@ using XSchool.WorkFlow.Repositories;
 using static XSchool.WorkFlow.Model.Enums;
 using System.Linq;
 using Logistics.Helpers;
+using AutoMapper;
 
 namespace XSchool.WorkFlow.Businesses
 {
@@ -23,13 +24,16 @@ namespace XSchool.WorkFlow.Businesses
         private readonly SubjectStepBusiness _subjectStepBusiness;
         private readonly SubjectRepository _subjectRepository;
         private readonly SubjectTypeRepository _repositoryTypeSubject;
-        public WorkflowMainBusiness(IServiceProvider provider, WorkflowMainRepository repository, SubjectRepository repositorySubject, SubjectStepBusiness subjectStepBusiness, SubjectRepository subjectRepository, SubjectTypeRepository repositoryTypeSubject) : base(provider, repository)
+        private readonly WorkflowApprovalStepRepository _workflowApprovalStepRepository;
+
+        public WorkflowMainBusiness(IServiceProvider provider, WorkflowMainRepository repository, SubjectRepository repositorySubject, SubjectStepBusiness subjectStepBusiness, SubjectRepository subjectRepository, SubjectTypeRepository repositoryTypeSubject, WorkflowApprovalStepRepository workflowApprovalStepRepository) : base(provider, repository)
         {
             this._repository = repository;
             this._repositorySubject = repositorySubject;
             this._subjectStepBusiness = subjectStepBusiness;
             this._subjectRepository = subjectRepository;
             this._repositoryTypeSubject = repositoryTypeSubject;
+            this._workflowApprovalStepRepository = workflowApprovalStepRepository;
         }
 
         /// <summary>
@@ -71,10 +75,23 @@ namespace XSchool.WorkFlow.Businesses
                               select new { b.SubjectTypeName,a.SubjectName }
                             ).FirstOrDefault();
 
+                model.BusinessCode = PingYinHelper.GetFirstSpell(SubjectObj.SubjectTypeName) + "_" + DateTime.Now.ToString("yyMMddHHmmssff") + "_" + new Random().Next(1000, 9999);
+               model.SubjectName = SubjectObj.SubjectName;
+                //获取流程节点
+                var stepList = _subjectStepBusiness.GetDataListBySubjectId(model.SubjectId);
+                List<WorkflowApprovalStep> stepEmpList = Mapper.Map<List<WorkflowApprovalStep>>(stepList);
+                using (System.Transactions.TransactionScope ts = new System.Transactions.TransactionScope())
+                {
+                    stepEmpList.ForEach(s => s.Id = 0);
+                    model.WorkflowApprovalStepList = stepEmpList;
+                    status = _repository.Add(model) > 0 ? true : false;
+                  //  stepEmpList.ForEach(s => s.WorkflowBusinessId = model.Id);
+                  // _workflowApprovalStepRepository.AddRange(stepEmpList);
 
-            model.BusinessCode = PingYinHelper.GetFirstSpell(SubjectObj.SubjectTypeName) + "_" + DateTime.Now.ToString("yyMMddHHmmssff") + "_" + new Random().Next(1000, 9999);
-            model.SubjectName = SubjectObj.SubjectName;
-            status=_repository.Add(model)>0?true:false;
+
+
+                    ts.Complete();//提交事务
+                }
             }
             catch (Exception ex)
             {

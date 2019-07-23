@@ -45,6 +45,17 @@ namespace XSchool.WorkFlow.Repositories.Extensions
                //.HasForeignKey(m => m.SubjectId);
             });
 
+            //工作流业务主表：工作流审核节点表，one=>many
+            modelBuilder.Entity<WorkflowApprovalStep>(entry =>
+            {
+                entry.ToTable("WorkflowApprovalStep");
+                entry.HasKey(m => m.Id);
+
+                entry.HasOne(m => m.WorkflowMain)
+               .WithMany(m => m.WorkflowApprovalStepList)
+               .HasForeignKey(m => m.WorkflowBusinessId);
+            });
+
         }
 
 

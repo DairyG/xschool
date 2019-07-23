@@ -71,5 +71,11 @@ namespace XSchool.WorkFlow.Model
         /// 公司Id
         /// </summary>
         public int CompanyId { get; set; }
+
+
+        /// <summary>
+        /// 工作流审核节点集合
+        /// </summary>
+        public virtual ICollection<WorkflowApprovalStep> WorkflowApprovalStepList { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace XSchool.WorkFlow.WebApi.AutoMapper
             cfg.CreateMap<SubjectRuleDto, SubjectRule>();
             cfg.CreateMap<SubjectDto, Subject>();
             cfg.CreateMap<SubjectStepDto, SubjectStep>();
-            
+            cfg.CreateMap<SubjectStep, WorkflowApprovalStep>();
             Mapper.Initialize(cfg);
         }
     }

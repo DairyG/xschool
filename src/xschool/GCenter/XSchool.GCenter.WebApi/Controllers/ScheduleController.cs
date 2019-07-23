@@ -101,11 +101,11 @@ namespace XSchool.GCenter.WebApi.Controllers
         /// 根据KPI获取日程
         /// </summary>
         /// <returns></returns>
-        [HttpGet("{kmrId}")]
-        public IList<ScheduleKPI> GetByKpi(int kmrId)
+        [HttpPost]
+        public IList<ScheduleKPI> GetByKpi([FromForm]int kmrId, [FromForm]string date)
         {
             //先根据条件获取所有日程
-            IList<Schedule> list = _scheduleBusiness.GetByKpi(kmrId);
+            IList<Schedule> list = _scheduleBusiness.GetByKpi(kmrId,date);
             //封装新集合
             IList<ScheduleKPI> newList = new List<ScheduleKPI>();
             foreach (Schedule item in list)

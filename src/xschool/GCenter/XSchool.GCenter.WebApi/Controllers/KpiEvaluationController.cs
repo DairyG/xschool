@@ -207,6 +207,24 @@ namespace XSchool.GCenter.WebApi.Controllers
                 result.Detail = _magDetailBusiness.Query(p => p.KpiManageRecordId == model.Id, p => p, orderDetail).ToList();
                 result.AuditRecord = _magAuditRecordBusiness.Query(p => p.KpiManageRecordId == model.Id, p => p, orderAudit).ToList();
 
+                var kpiDate = DateTime.Now;
+                switch (model.KpiId)
+                {
+                    case KpiPlan.Monthly: //月度
+                        kpiDate = TimeHelper.LastDayOfMonth(DateTime.Parse(model.Year + "-" + model.KpiDate + "-1"));
+                        break;
+                    case KpiPlan.Quarter: //季度
+                        kpiDate = TimeHelper.GetQuraterByTuple(model.KpiDate, model.Year).Item2;
+                        break;
+                    case KpiPlan.HalfYear: //半年
+                        kpiDate = DateTime.Parse(model.KpiDate == "1" ? model.Year + "-06-30" : model.Year + "-12-31");
+                        break;
+                    case KpiPlan.Annual: //年度
+                        kpiDate = DateTime.Parse(model.Year + "-12-31");
+                        break;
+                }
+                result.KpiDate = kpiDate;
+
                 return Result.Success(result);
             }
             return Result.Fail("未查询到记录");

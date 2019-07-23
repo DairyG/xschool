@@ -116,6 +116,11 @@ namespace XSchool.GCenter.Model
         public DateTime? CompleteDate { get; set; }
 
         /// <summary>
+        /// 考核分数
+        /// </summary>		
+        public decimal Score { get; set; }
+
+        /// <summary>
         /// 状态，[10=考核，11=审批中，1=完成，-1=无效]
         /// </summary>		
         public KpiStatus Status { get; set; }

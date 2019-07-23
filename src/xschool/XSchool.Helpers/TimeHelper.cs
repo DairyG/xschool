@@ -73,6 +73,43 @@ namespace XSchool.Helpers
         }
 
         /// <summary>
+        /// 根据季度 获取开始时间和结束时间
+        /// </summary>
+        /// <param name="quarter">季度，[1、2、3、4]</param>
+        /// <param name="year">年份，注：0-当前日期</param>
+        /// <returns></returns>
+        public static Tuple<DateTime, DateTime> GetQuraterByTuple(string quarter, int year = 0)
+        {
+            DateTime dt = new DateTime();
+            if (year == 0)
+            {
+                year = DateTime.Now.Year;
+            }
+            switch (quarter)
+            {
+                case "1":
+                    dt = DateTime.Parse($"{year},1, 01");
+                    break;
+                case "2":
+                    dt = DateTime.Parse($"{year},4, 01");
+                    break;
+                case "3":
+                    dt = DateTime.Parse($"{year},7, 01");
+                    break;
+                case "4":
+                    dt = DateTime.Parse($"{year},10, 01");
+                    break;
+            }
+
+            //本季度初
+            string start = dt.AddMonths(0 - (dt.Month - 1) % 3).AddDays(1 - dt.Day).ToString("yyyy-MM-01 00:00:00");
+            //获取本季度的最后一天 
+            string end = dt.AddMonths(0 - (dt.Month - 1) % 3).AddDays(1 - dt.Day).AddMonths(3).AddDays(-1).ToString("yyyy-MM-dd 23:59:59");
+
+            return Tuple.Create(DateTime.Parse(start), DateTime.Parse(end));
+        }
+
+        /// <summary>
         /// 获取该时间所在的季度
         /// </summary>
         /// <param name="target"></param>

@@ -338,6 +338,7 @@ namespace XSchool.GCenter.Businesses.Wrappers
                     {
                         modelMagRecord.Steps = KpiSteps.One;
                         modelMagRecord.Status = KpiStatus.Audit;
+                        modelMagRecord.Score = selfScore;
                         for (int i = 0; i < 12; i++)
                         {
                             if ((i + 1) == kpiTime)
@@ -352,6 +353,7 @@ namespace XSchool.GCenter.Businesses.Wrappers
                     {
                         modelMagRecord.Steps = KpiSteps.Two;
                         modelMagRecord.Status = KpiStatus.Audit;
+                        modelMagRecord.Score = selfScore + oneScore;
                         for (int i = 0; i < 12; i++)
                         {
                             if ((i + 1) == kpiTime)
@@ -367,19 +369,20 @@ namespace XSchool.GCenter.Businesses.Wrappers
                         modelMagRecord.Steps = KpiSteps.Complete;
                         modelMagRecord.Status = KpiStatus.Complete;
                         modelMagRecord.CompleteDate = dtNow;
+                        modelMagRecord.Score = selfScore + oneScore + twoScore;
 
-                        //modelMagRecord.StepsCompanyId = null;
-                        //modelMagRecord.StepsCompanyName = null;
-                        //modelMagRecord.StepsDptId = null;
-                        //modelMagRecord.StepsDptName = null;
-                        //modelMagRecord.StepsEmployeeId = null;
-                        //modelMagRecord.StepsUserName = null;
+                        modelMagRecord.StepsCompanyId = null;
+                        modelMagRecord.StepsCompanyName = null;
+                        modelMagRecord.StepsDptId = null;
+                        modelMagRecord.StepsDptName = null;
+                        modelMagRecord.StepsEmployeeId = null;
+                        modelMagRecord.StepsUserName = null;
 
                         for (int i = 0; i < 12; i++)
                         {
                             if ((i + 1) == kpiTime)
                             {
-                                DynaimcHelper.DynamicFileds[i].Score.SetValue(modelMagTotal, selfScore + oneScore);
+                                DynaimcHelper.DynamicFileds[i].Score.SetValue(modelMagTotal, selfScore + oneScore + twoScore);
                                 DynaimcHelper.DynamicFileds[i].Status.SetValue(modelMagTotal, KpiStatus.Complete);
                             }
                         }
@@ -543,6 +546,7 @@ namespace XSchool.GCenter.Businesses.Wrappers
                             StepsEmployeeId = tplRecord.EmployeeId,
                             StepsUserName = tplRecord.UserName,
                             AddDate = dtNow,
+                            Score = 0,
                             Status = KpiStatus.Assess
                         });
                     }

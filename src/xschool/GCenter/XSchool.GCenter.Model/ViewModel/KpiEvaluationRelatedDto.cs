@@ -119,6 +119,11 @@ namespace XSchool.GCenter.Model.ViewModel
         /// 考核模板审核人
         /// </summary>
         public KpiTemplateAuditsDto Audits { get; set; }
+
+        /// <summary>
+        /// Kpi日期
+        /// </summary>
+        public DateTime KpiDate { get; set; }
     }
 
 }

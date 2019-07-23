@@ -38,6 +38,8 @@ namespace XSchool.GCenter.Repositories.Extensions
         public DbSet<KpiManageRecord> KpiManageRecord { get; set; }
         public DbSet<KpiManageDetail> KpiManageDetail { get; set; }
 
-        public DbSet<KpiManageTemplate> KpiManageTemplate { get; set; }
+
         public DbSet<NoteRead> NoteRead { get; set; }
-        public DbSet<RuleRegulationRead> RuleRegulationRead { get; set; }}
+        public DbSet<RuleRegulationRead> RuleRegulationRead { get; set;} 
+
+

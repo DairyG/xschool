@@ -67,7 +67,7 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         /// <param name="modelDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public Result Edit([FromBody]SubjectDto modelDto)
+        public Result Edit([FromForm]SubjectDto modelDto)
         {
             Subject dataModel = new Subject();
             List<SubjectRule> subjectRuleRangList = Mapper.Map<List<SubjectRule>>(modelDto.SubjectRuleRangeList);//流程可见范围

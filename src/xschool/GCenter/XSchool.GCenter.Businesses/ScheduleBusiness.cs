@@ -37,15 +37,22 @@ namespace XSchool.GCenter.Businesses
             {
                 new KeyValuePair<string, OrderBy>("AddTime", OrderBy.Desc)
             };
-            return base.Query(p => p.Executors.Contains("," + eid.ToString() + ",") || p.EmployeeId.Equals(eid) || p.Scribbles.Contains(eid.ToString()), p => p, order);
+            if (eid > 0)
+            {
+                return base.Query(p => p.Executors.Contains("," + eid.ToString() + ",") || p.EmployeeId.Equals(eid) || p.Scribbles.Contains(eid.ToString()), p => p, order);
+            }
+            else
+            {
+                return base.Query(p => p.Id > 0, p => p, order);
+            }
         }
-        public IList<Schedule> GetByKpi(int eid,KpiPlan planId,string date)
+        public IList<Schedule> GetByKpi(int eid, KpiPlan planId, string date)
         {
             List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
             {
                 new KeyValuePair<string, OrderBy>("AddTime", OrderBy.Desc)
             };
-            return base.Query(p => p.EmployeeId.Equals(eid) && p.KpiPlan.Equals(planId) && p.EndTime.ToString("yyyy-MM-dd").Contains(date),p => p, order);
+            return base.Query(p => p.EmployeeId.Equals(eid) && p.KpiPlan.Equals(planId) && p.EndTime.ToString("yyyy-MM-dd").Contains(date), p => p, order);
         }
         public IList<Schedule> Get(int eid, string catalog)
         {
@@ -151,7 +158,8 @@ namespace XSchool.GCenter.Businesses
                     //无重复，并且重复日程的开始时间小于或等于重复结束时间
                     if (!has && tim <= 0)
                     {
-                        Schedule newModel = new Schedule() {
+                        Schedule newModel = new Schedule()
+                        {
                             Id = 0,
                             Pid = model.Pid,
                             Executors = model.Executors,

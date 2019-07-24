@@ -17,5 +17,26 @@ namespace XSchool.GCenter.Businesses
         {
             _budgetSetRepository = repository;
         }
+        public Result Add(BudgetSet model) {
+            if (model.Id == 0)
+            {
+                model.AddTime = DateTime.Now;
+                return base.Add(model);
+            }
+            else
+            {
+                return base.Update(model);
+            }
+        }
+        public IList<BudgetSet> Get(int dptId,int year) {
+            if (dptId == 0)
+            {
+                return base.Query(p => p.Id > 0);
+            }
+            else
+            {
+                return base.Query(p => p.DptId.Equals(dptId) && p.Year.Equals(year));
+            }
+        }
     }
 }

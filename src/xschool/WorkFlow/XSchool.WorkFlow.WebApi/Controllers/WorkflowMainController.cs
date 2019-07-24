@@ -45,27 +45,18 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         [HttpPost]
         public Result CreateWork([FromForm]WorkFlowMainFormDto model)
         {
-            EmployeeDptJobDto test = new EmployeeDptJobDto {
-                 CompanyId=7,
-                 DptId=62,
-                  OnlySelf=false,
-                   LoadChildDptEmployee=false
-            };
-            RemoteRequestHelper.GetEmployeeDptJobByUserIdAsync(test);
-            return null;
+           
             WorkflowMain entity = new WorkflowMain
             {
                 SubjectId = model.SubjectId,
                 Createtime = DateTime.Now,
-                CreateUserId = UToken.Id,
-                CreateUserName = UToken.UserName,
+                CreateUserId =UToken.Id,
+                CreateUserName =UToken.UserName,
                 PassStatus = PassStatus.InApproval,
                 FormAttribute = model.FormAttribute,
                 FormContent = model.FormContent,
                  CompanyId=this.Emplolyee.CompanyId
             };
-
-
             return workflowMainBusiness.CreateWork(entity);
         }
 

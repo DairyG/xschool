@@ -17,11 +17,6 @@ namespace XSchool.WorkFlow.Model
         public int Id { get; set; }
 
         /// <summary>
-        /// 工作流业务主键Id
-        /// </summary>		
-        public int WorkflowBusinessId { get; set; }
-
-        /// <summary>
         /// 流程节点Id
         /// </summary>		
         public int WorkflowApprovalStepId { get; set; }
@@ -39,7 +34,7 @@ namespace XSchool.WorkFlow.Model
         /// <summary>
         /// 审核人姓名
         /// </summary>		
-        public int AuditidUserName { get; set; }
+        public string AuditidUserName { get; set; }
 
         /// <summary>
         /// 审核时间
@@ -60,6 +55,10 @@ namespace XSchool.WorkFlow.Model
         /// 1 审核内容，2操作记录
         /// </summary>		
         public int DataType { get; set; }
+        /// <summary>
+        /// 业务流程节点表
+        /// </summary>
+        public virtual WorkflowApprovalStep workflowApprovalStep { get; set; }
 
     }
 }

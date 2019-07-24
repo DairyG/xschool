@@ -37,12 +37,12 @@ namespace XSchool.WorkFlow.Model
         /// </summary>
         public bool IsEnd { get; set; }
         /// <summary>
-        /// 是否会签（true：会签，false：或签）费用型默认都是会签
+        /// 是否会签（true：会签，false：或签）
         /// </summary>
         public bool IsCountersign { get; set; }
 
         /// <summary>
-        /// 节点类型 （复盘节点时候发起人存userId，部门经理存DepId）
+        /// 节点类型  1 审核节点，2 是抄送节点，3 是复盘节点（复盘节点时候发起人存userId，部门经理存DepId）
         /// </summary>
         public PassType PassType { get; set; }
 
@@ -51,6 +51,12 @@ namespace XSchool.WorkFlow.Model
         /// 工作流业务主表
         /// </summary>
         public WorkflowMain WorkflowMain { get; set; }
-        
-    }
+        /// <summary>
+        /// 节点对应审核记录
+        /// </summary>
+
+        public virtual ICollection<WorkflowApprovalRecords> workflowApprovalRecordList { get; set; }
+
+
+}
 }

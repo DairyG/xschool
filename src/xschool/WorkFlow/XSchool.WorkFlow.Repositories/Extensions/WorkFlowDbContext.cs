@@ -28,7 +28,7 @@ namespace XSchool.WorkFlow.Repositories.Extensions
                .WithMany(m=>m.SubjectRuleRangeList)
                .HasForeignKey(m => m.SubjectId);
 
-                //流程主表：节点人员表，one=>many
+                //流程节点表：节点人员表，one=>many
                 entry.HasOne(m => m.SubjectStepObj)
             .WithMany(m => m.SubjectRulePassList)
             .HasForeignKey(m => m.SubjectStepId);
@@ -54,6 +54,20 @@ namespace XSchool.WorkFlow.Repositories.Extensions
                 entry.HasOne(m => m.WorkflowMain)
                .WithMany(m => m.WorkflowApprovalStepList)
                .HasForeignKey(m => m.WorkflowBusinessId);
+
+            });
+
+
+            //工作流审核节点表：工作流业务审核记录表，one=>many
+            modelBuilder.Entity<WorkflowApprovalRecords>(entry =>
+            {
+                entry.ToTable("WorkflowApprovalRecords");
+                entry.HasKey(m => m.Id);
+
+                entry.HasOne(m => m.workflowApprovalStep)
+               .WithMany(m => m.workflowApprovalRecordList)
+               .HasForeignKey(m => m.WorkflowApprovalStepId);
+
             });
 
         }

@@ -14,6 +14,8 @@ namespace XSchool.WorkFlow.Model.ViewModel
         public int JobId { get; set; }
 
         public int EmployeeId { get; set; }
+        public int userId { get; set; }
+        public string userName { get; set; }
     }
 
     public class EmployeeDptJobBindingDto : EmployeeDptJobBinding

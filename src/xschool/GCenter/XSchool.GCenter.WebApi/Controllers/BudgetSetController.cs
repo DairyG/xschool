@@ -21,5 +21,36 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             this._business = business;
         }
+        /// <summary>
+        /// [添加/修改] 预算
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Result Add([FromForm]BudgetSet model)
+        {
+            Check(model);
+            return _business.Add(model);
+        }
+        [HttpPost]
+        public IList<BudgetSet> Get([FromForm]int dptId, [FromForm]int year) {
+            return _business.Get(dptId, year);
+        }
+        private Result Check(BudgetSet model)
+        {
+            if (model.DptId <= 0)
+            {
+                return Result.Fail("请选择部门！");
+            }
+            if (model.Year <= 0)
+            {
+                return Result.Fail("请选择年份！");
+            }
+            if (model.Total <= 0)
+            {
+                return Result.Fail("请输入总预算！");
+            }
+            return Result.Success();
+        }
     }
 }

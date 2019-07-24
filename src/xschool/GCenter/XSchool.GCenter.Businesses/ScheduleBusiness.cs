@@ -46,13 +46,13 @@ namespace XSchool.GCenter.Businesses
                 return base.Query(p => p.Id > 0, p => p, order);
             }
         }
-        public IList<Schedule> GetByKpi(int eid, KpiPlan planId, string date)
+        public IList<Schedule> GetByKpi(int eid, KpiPlan planId,DateTime startDate, DateTime endDate)
         {
             List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
             {
                 new KeyValuePair<string, OrderBy>("AddTime", OrderBy.Desc)
             };
-            return base.Query(p => p.EmployeeId.Equals(eid) && p.KpiPlan.Equals((KpiPlan)planId) && p.EndTime.ToString("yyyy-MM-dd").Contains(date), p => p, order);
+            return base.Query(p => p.EmployeeId.Equals(eid) && p.KpiPlan.Equals((KpiPlan)planId) && DateTime.Compare(DateTime.ParseExact(p.EndTime.ToString(), "yyyy-MM-dd", null), DateTime.ParseExact(startDate.ToString(), "yyyy-MM-dd", null)) >= 0 && DateTime.Compare(DateTime.ParseExact(p.EndTime.ToString(), "yyyy-MM-dd", null), DateTime.ParseExact(endDate.ToString(), "yyyy-MM-dd", null)) <= 0, p => p, order);
             //&& p.KpiPlan.Equals((KpiPlan)planId) && p.EndTime.ToString("yyyy-MM-dd").Contains(date)
         }
         public IList<Schedule> Get(int eid, string catalog)
@@ -68,7 +68,7 @@ namespace XSchool.GCenter.Businesses
                     list = base.Query(p => p.Executors.Contains("," + eid.ToString() + ",") || p.EmployeeId.Equals(eid) || p.Scribbles.Contains(eid.ToString()), p => p, order);
                     break;
                 case "Doing":
-                    list = base.Query(p => p.Executors.Contains("," + eid.ToString() + ",") || p.EmployeeId.Equals(eid), p => p, order);
+                    list = base.Query(p => p.Executors.Contains("," + eid.ToString() + ","), p => p, order);
                     break;
                 case "Executors":
                     list = base.Query(p => p.Executors.Contains("," + eid.ToString() + ","), p => p, order);

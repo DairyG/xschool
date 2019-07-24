@@ -121,9 +121,13 @@ namespace XSchool.GCenter.Model.ViewModel
         public KpiTemplateAuditsDto Audits { get; set; }
 
         /// <summary>
-        /// Kpi日期
+        /// 开始日期
         /// </summary>
-        public DateTime KpiDate { get; set; }
+        public DateTime StartDate { get; set; }
+        /// <summary>
+        /// 结束日期
+        /// </summary>
+        public DateTime EndDate { get; set; }
     }
 
 }

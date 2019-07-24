@@ -45,6 +45,9 @@ namespace XSchool.GCenter.Businesses.Wrappers
         public static IList<DynaimcTwoScoreAndStatuesWrapper> DynamicFileds = new List<DynaimcTwoScoreAndStatuesWrapper>(12);
     }
 
+    /// <summary>
+    /// 绩效考核
+    /// </summary>
     public class KpiEvaluationWrappers : BusinessWrapper
     {
         private readonly KpiTemplateBusiness _tplBusiness;

@@ -631,6 +631,29 @@ namespace XSchool.GCenter.Model
         /// </summary>
         [Description("组织（非企业）增值税普通发票")]
         PersonNormal = 3
-        
+
+    }
+
+    /// <summary>
+    /// 权限 各个表之间的映射标识
+    /// </summary>
+    public enum PowerIdentifiers
+    {
+        /// <summary>
+        /// 角色对应模块
+        /// </summary>
+        [Description("角色对应模块")]
+        RoleByModule = 20001,
+        /// <summary>
+        /// 角色对应模块元素
+        /// </summary>
+        [Description("角色对应模块元素")]
+        RoleByElement = 20002,
+
+        /// <summary>
+        /// 用户对应角色
+        /// </summary>
+        [Description("用户对应角色")]
+        UserByRole = 30003
     }
 }

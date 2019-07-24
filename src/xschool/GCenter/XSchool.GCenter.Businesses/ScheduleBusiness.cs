@@ -52,7 +52,8 @@ namespace XSchool.GCenter.Businesses
             {
                 new KeyValuePair<string, OrderBy>("AddTime", OrderBy.Desc)
             };
-            return base.Query(p => p.EmployeeId.Equals(eid) && p.KpiPlan.Equals(planId) && p.EndTime.ToString("yyyy-MM-dd").Contains(date), p => p, order);
+            return base.Query(p => p.EmployeeId.Equals(eid) && p.KpiPlan.Equals((KpiPlan)planId) && p.EndTime.ToString("yyyy-MM-dd").Contains(date), p => p, order);
+            //&& p.KpiPlan.Equals((KpiPlan)planId) && p.EndTime.ToString("yyyy-MM-dd").Contains(date)
         }
         public IList<Schedule> Get(int eid, string catalog)
         {

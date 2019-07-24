@@ -207,23 +207,30 @@ namespace XSchool.GCenter.WebApi.Controllers
                 result.Detail = _magDetailBusiness.Query(p => p.KpiManageRecordId == model.Id, p => p, orderDetail).ToList();
                 result.AuditRecord = _magAuditRecordBusiness.Query(p => p.KpiManageRecordId == model.Id, p => p, orderAudit).ToList();
 
-                var kpiDate = DateTime.Now;
+                DateTime startDate = DateTime.Now,
+                    endDate = DateTime.Now;
                 switch (model.KpiId)
                 {
                     case KpiPlan.Monthly: //月度
-                        kpiDate = TimeHelper.LastDayOfMonth(DateTime.Parse(model.Year + "-" + model.KpiDate + "-1"));
+                        startDate = TimeHelper.FirstDayOfMonth(DateTime.Parse(model.Year + "-" + model.KpiDate + "-1"));
+                        endDate = TimeHelper.LastDayOfMonth(DateTime.Parse(model.Year + "-" + model.KpiDate + "-1"));
                         break;
                     case KpiPlan.Quarter: //季度
-                        kpiDate = TimeHelper.GetQuraterByTuple(model.KpiDate, model.Year).Item2;
+                        var temp = TimeHelper.GetQuraterByTuple(model.KpiDate, model.Year);
+                        startDate = temp.Item1;
+                        endDate = temp.Item2;
                         break;
                     case KpiPlan.HalfYear: //半年
-                        kpiDate = DateTime.Parse(model.KpiDate == "1" ? model.Year + "-06-30" : model.Year + "-12-31");
+                        startDate = DateTime.Parse(model.KpiDate == "1" ? model.Year + "-01-01" : model.Year + "-12-31");
+                        endDate = DateTime.Parse(model.KpiDate == "1" ? model.Year + "-07-01" : model.Year + "-12-31");
                         break;
                     case KpiPlan.Annual: //年度
-                        kpiDate = DateTime.Parse(model.Year + "-12-31");
+                        startDate = DateTime.Parse(model.Year + "-01-01");
+                        endDate = DateTime.Parse(model.Year + "-12-31");
                         break;
                 }
-                result.KpiDate = kpiDate;
+                result.StartDate = startDate;
+                result.EndDate = endDate;
 
                 return Result.Success(result);
             }

@@ -51,6 +51,10 @@ namespace XSchool.GCenter.WebApi.Controllers
             {
                 new KeyValuePair<string, OrderBy>("SortId", OrderBy.Asc)
             };
+            if (string.IsNullOrWhiteSpace(search))
+            {
+                return _business.Query(p => p.Id > 0, p => new { p.Id, p.Pid, p.Name, p.SortId, p.Memo, p.BgStatus, p.LevelMap, p.Type, p.IsSystem }, order);
+            }
             return _business.Query(p => p.Type.Equals(Enum.Parse(typeof(BudgetType), search)), p => new { p.Id, p.Pid, p.Name, p.SortId,p.Memo, p.BgStatus,p.LevelMap,p.Type,p.IsSystem }, order);
             //var condition = new Condition<Budget>();
             //condition.And(p => p.Type.Equals(Enum.Parse(typeof(BudgetType), search)));

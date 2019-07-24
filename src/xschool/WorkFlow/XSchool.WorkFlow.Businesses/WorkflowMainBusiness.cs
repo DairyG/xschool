@@ -11,6 +11,7 @@ using static XSchool.WorkFlow.Model.Enums;
 using System.Linq;
 using Logistics.Helpers;
 using AutoMapper;
+using XSchool.WorkFlow.WebApi.Helper;
 
 namespace XSchool.WorkFlow.Businesses
 {
@@ -25,8 +26,9 @@ namespace XSchool.WorkFlow.Businesses
         private readonly SubjectRepository _subjectRepository;
         private readonly SubjectTypeRepository _repositoryTypeSubject;
         private readonly WorkflowApprovalStepRepository _workflowApprovalStepRepository;
+        private readonly SubjectRuleRepository _subjectRuleRepository;
 
-        public WorkflowMainBusiness(IServiceProvider provider, WorkflowMainRepository repository, SubjectRepository repositorySubject, SubjectStepBusiness subjectStepBusiness, SubjectRepository subjectRepository, SubjectTypeRepository repositoryTypeSubject, WorkflowApprovalStepRepository workflowApprovalStepRepository) : base(provider, repository)
+        public WorkflowMainBusiness(IServiceProvider provider, WorkflowMainRepository repository, SubjectRepository repositorySubject, SubjectStepBusiness subjectStepBusiness, SubjectRepository subjectRepository, SubjectTypeRepository repositoryTypeSubject, WorkflowApprovalStepRepository workflowApprovalStepRepository, SubjectRuleRepository subjectRuleRepository) : base(provider, repository)
         {
             this._repository = repository;
             this._repositorySubject = repositorySubject;
@@ -34,6 +36,7 @@ namespace XSchool.WorkFlow.Businesses
             this._subjectRepository = subjectRepository;
             this._repositoryTypeSubject = repositoryTypeSubject;
             this._workflowApprovalStepRepository = workflowApprovalStepRepository;
+            this._subjectRuleRepository = subjectRuleRepository;
         }
 
         /// <summary>
@@ -63,6 +66,8 @@ namespace XSchool.WorkFlow.Businesses
         /// <returns></returns>
         public Result CreateWork(WorkflowMain model)
         {
+            
+
             string msg = string.Empty;
             bool status = false;
             try
@@ -80,13 +85,29 @@ namespace XSchool.WorkFlow.Businesses
                 //获取流程节点
                 var stepList = _subjectStepBusiness.GetDataListBySubjectId(model.SubjectId);
                 List<WorkflowApprovalStep> stepEmpList = Mapper.Map<List<WorkflowApprovalStep>>(stepList);
+                //通过流程节点id查询节点对应人
+                foreach (var item in stepEmpList)
+                {
+                   var objStep= _subjectRuleRepository.Entites.Where(s => s.SubjectStepId == item.Id).FirstOrDefault();
+                    EmployeeDptJobDto modelEmployeeDptJobDto = new EmployeeDptJobDto {
+                        CompanyId = objStep.CompanyId,
+                        DptId = objStep.DepId,
+                        JobId = objStep.JobId,
+                        LoadChildDptEmployee = false,
+                        OnlySelf = false
+                    };
+                    //WorkflowApprovalRecords
+                var sss= ApiBusinessHelper.GetEmployeeDptJobByUserIdAsync(modelEmployeeDptJobDto);
+                }
+              
+
                 using (System.Transactions.TransactionScope ts = new System.Transactions.TransactionScope())
                 {
                     stepEmpList.ForEach(s => s.Id = 0);
                     model.WorkflowApprovalStepList = stepEmpList;
                     status = _repository.Add(model) > 0 ? true : false;
-                  //  stepEmpList.ForEach(s => s.WorkflowBusinessId = model.Id);
-                  // _workflowApprovalStepRepository.AddRange(stepEmpList);
+                 
+
 
 
 
@@ -97,7 +118,7 @@ namespace XSchool.WorkFlow.Businesses
             {
                 msg = ex.Message.ToString();
             }
-            return new Result(){ Succeed = status, Message= "失败:"+msg };
+            return new Result(){ Succeed = status, Message= msg };
         }
 
         /// <summary>

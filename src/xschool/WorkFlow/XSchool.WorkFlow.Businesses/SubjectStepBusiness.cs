@@ -38,6 +38,5 @@ namespace XSchool.WorkFlow.Businesses
         {
            return  _repository.Query(s => s.SubjectId == subjectId).OrderBy(s=>s.PassNo).ToList();
         }
-
     }
 }

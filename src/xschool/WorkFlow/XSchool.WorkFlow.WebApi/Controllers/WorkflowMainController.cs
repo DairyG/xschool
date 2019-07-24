@@ -9,6 +9,7 @@ using XSchool.Core;
 using XSchool.WorkFlow.Businesses;
 using XSchool.WorkFlow.Model;
 using XSchool.WorkFlow.Model.ViewModel;
+using XSchool.WorkFlow.WebApi.Helper;
 using static XSchool.WorkFlow.Model.Enums;
 
 namespace XSchool.WorkFlow.WebApi.Controllers
@@ -44,6 +45,14 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         [HttpPost]
         public Result CreateWork([FromForm]WorkFlowMainFormDto model)
         {
+            EmployeeDptJobDto test = new EmployeeDptJobDto {
+                 CompanyId=7,
+                 DptId=62,
+                  OnlySelf=false,
+                   LoadChildDptEmployee=false
+            };
+            RemoteRequestHelper.GetEmployeeDptJobByUserIdAsync(test);
+            return null;
             WorkflowMain entity = new WorkflowMain
             {
                 SubjectId = model.SubjectId,

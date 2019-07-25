@@ -17,5 +17,28 @@ namespace XSchool.GCenter.Businesses
         {
             _budgetDetailsRepository = repository;
         }
+        public Result Add(List<BudgetDetails> list)
+        {
+            foreach (BudgetDetails item in list)
+            {
+                if (item.Id > 0)
+                {
+                    base.Update(item);
+                }
+                else
+                {
+                    base.Add(item);
+                }
+            }
+            return Result.Success();
+        }
+        public IList<BudgetDetails> Get(int setId)
+        {
+            return base.Query(p => p.BudgetSetId.Equals(setId));
+        }
+        public Result Delete(int id)
+        {
+            return base.Delete(p => p.Id.Equals(id));
+        }
     }
 }

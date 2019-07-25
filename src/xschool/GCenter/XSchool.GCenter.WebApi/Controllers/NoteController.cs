@@ -68,7 +68,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         }
         [HttpPost]
         [Description("查询已读/未读公告")]
-        public Result<IPageCollection<Model.NoteRead>> NoteReadRecord([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]int IsRead, [FromForm]int NoteId)
+        public Result<IPageCollection<Model.NoteRead>> NoteReadRecord([FromForm]int page, [Range(1, 500)][FromForm]int limit, [FromForm]int IsRead, [FromForm]int NoteId)
         {
             List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
                  {
@@ -97,6 +97,11 @@ namespace XSchool.GCenter.WebApi.Controllers
                 new KeyValuePair<string, OrderBy>("Id", OrderBy.Desc)
             };
             var condition = new Condition<Model.Note>();
+            condition.And(x =>string.IsNullOrEmpty(search.Title)?true: x.Title.Contains(search.Title));
+            if (search.IsRead != -1)
+            {
+                condition.And(x => search.IsRead > 0 ? x.ReadCount > 0 : x.ReadCount == 0);
+            }
             var pageList = _business.Page(page, limit, condition.Combine(), order);
             return pageList;
         }
@@ -277,7 +282,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         }
         [HttpPost]
         [Description("查询已读/未读公告")]
-        public Result<IPageCollection<Model.RuleRegulationRead>> RuleRegulationRead([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]int IsRead, [FromForm]int RuleRegulationId)
+        public Result<IPageCollection<Model.RuleRegulationRead>> RuleRegulationRead([FromForm]int page, [Range(1, 500)][FromForm]int limit, [FromForm]int IsRead, [FromForm]int RuleRegulationId)
         {
             List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
                  {

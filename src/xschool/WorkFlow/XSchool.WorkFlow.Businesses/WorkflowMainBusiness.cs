@@ -128,26 +128,29 @@ namespace XSchool.WorkFlow.Businesses
                             list.Add(approvalRecord);
                         }
                     }
-                    else {
+                    else
+                    {
                         //复盘节点
                         var approvalRecordFP = new WorkflowApprovalRecords
                         {
                             DataType = 1,
                             Status = 3
                         };
-                        if(objStep.UserId > 0)
+                        if (objStep.UserId > 0)
                         {//创建人
                             approvalRecordFP.AuditidUserId = model.CreateUserId;
                             approvalRecordFP.AuditidUserName = model.CreateUserName;
                             list.Add(approvalRecordFP);
                         }
-                         if (objStep.DepId > 0)
+
+                        if (objStep.DepId > 0)
                         {   //获取部门经理
-                            approvalRecordFP.AuditidUserId = 0;
-                            approvalRecordFP.AuditidUserName = "00000000";
+                            var empLD = ApiBusinessHelper.GetEmployeeManagerByUserId(model.CreateUserId).Result;
+                            approvalRecordFP.AuditidUserId = empLD.userId;
+                            approvalRecordFP.AuditidUserName = empLD.employeeName;
                             list.Add(approvalRecordFP);
                         }
-                        
+
                     }
                     item.workflowApprovalRecordList = list;
                 }
@@ -158,7 +161,6 @@ namespace XSchool.WorkFlow.Businesses
                     stepEmpList.ForEach(s => s.Id = 0);
                     model.WorkflowApprovalStepList = stepEmpList;
                     status = _repository.Add(model) > 0 ? true : false;
-
                     ts.Complete();//提交事务
                 }
             }
@@ -170,34 +172,34 @@ namespace XSchool.WorkFlow.Businesses
         }
 
         /// <summary>
-        ///  待我审批
+        /// 待我审核
         /// </summary>
-        /// <param name="SubjectId"></param>
+        /// <param name="model"></param>
+        /// <param name="pageNum">页索引</param>
+        /// <param name="pageSize">页大小</param>
         /// <returns></returns>
-        public Result WaitApprove(WorkflowMain model)
+        public Result WaitApprove(WorkFlowDataPageDto model,int pageNum, int pageSize)
         {
-            string msg = string.Empty;
-            bool status = false;
-            try
-            {
-                if (model.SubjectId <= 0)
-                    return new Result() { Succeed = status, Message = "流程参数丢失" };
+            var subjectObjList = (from a in _repository.Entites
+                             join b in _workflowApprovalStepRepository.Entites on a.Id equals b.WorkflowBusinessId
+                             join c in _workflowApprovalRecordsRepository.Entites on b.Id equals c.WorkflowApprovalStepId
+                             where a.PassStatus == PassStatus.InApproval && b.PassType != PassType.Copy && c.Status == 1 && c.AuditidUserId==model.CreateUserId
+                             select new WorkFlowDataPageDto
+                             {
+                                 PassStatus = a.PassStatus,
+                                 BusinessCode = a.BusinessCode,
+                                 Createtime = a.Createtime,
+                                 EndTime = a.EndTime,
+                                 SubjectName = a.SubjectName,
+                                 CreateUserId = a.CreateUserId,
+                                 CreateUserName = a.CreateUserName,
+                                 DeptId = a.DepId,
+                                 Id = a.Id,
+                                 WaitApprovalId = c.AuditidUserId,
+                                 WaitApprovalName = c.AuditidUserName
+                             }).Skip(pageSize * (pageNum - 1)).Take(pageSize).OrderBy(s=>s.Createtime).ToList();
 
-                var SubjectObj = (from a in _subjectRepository.Entites
-                                  join b in _repositoryTypeSubject.Entites on a.SubjectTypeId equals b.Id
-                                  select new { b.SubjectTypeName, a.SubjectName }
-                                ).FirstOrDefault();
-
-
-                model.BusinessCode = PingYinHelper.GetFirstSpell(SubjectObj.SubjectTypeName) + "_" + DateTime.Now.ToString("yyMMddHHmmssff") + "_" + new Random().Next(1000, 9999);
-                model.SubjectName = SubjectObj.SubjectName;
-                status = _repository.Add(model) > 0 ? true : false;
-            }
-            catch (Exception ex)
-            {
-                msg = ex.Message.ToString();
-            }
-            return new Result() { Succeed = status, Message = "失败:" + msg };
+            return new Result<List<WorkFlowDataPageDto>> { Succeed = true,Data= subjectObjList };
         }
 
     }

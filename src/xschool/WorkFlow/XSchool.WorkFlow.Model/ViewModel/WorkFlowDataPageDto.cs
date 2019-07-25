@@ -1,27 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using XSchool.Core;
 using static XSchool.WorkFlow.Model.Enums;
 
-namespace XSchool.WorkFlow.Model
+namespace XSchool.WorkFlow.Model.ViewModel
 {
     /// <summary>
-    /// 工作流业务主表
+    /// 待我审批
     /// </summary>
-    public class WorkflowMain : IModel<int>
+    public class WorkFlowDataPageDto
     {
-
         /// <summary>
-        /// 
+        /// WorkflowMainId
         /// </summary>		
         public int Id { get; set; }
-
-        /// <summary>
-        /// 流程Id
-        /// </summary>		
-        public int SubjectId { get; set; }
-
         /// <summary>
         /// 流程名称
         /// </summary>		
@@ -58,28 +50,24 @@ namespace XSchool.WorkFlow.Model
         public string CreateUserName { get; set; }
 
         /// <summary>
-        /// 表单内容
-        /// </summary>
-        public string FormContent { get; set; }
-
-        /// <summary>
-        /// 表单属性
-        /// </summary>
-        public string FormAttribute { get; set; }
-
-        /// <summary>
-        /// 公司Id
-        /// </summary>
-        public int CompanyId { get; set; }
-
-        /// <summary>
         /// 申请部门Id
-        /// </summary>
-        public int DepId { get; set; }
+        /// </summary>		
+        public int DeptId { get; set; }
+
 
         /// <summary>
-        /// 工作流审核节点集合
-        /// </summary>
-        public virtual ICollection<WorkflowApprovalStep> WorkflowApprovalStepList { get; set; }
+        /// 待审核人Id
+        /// </summary>		
+        public int WaitApprovalId { get; set; }
+        /// <summary>
+        /// 待审核人
+        /// </summary>		
+        public string WaitApprovalName { get; set; }
+
+        /// <summary>
+        /// 历史审批人信息
+        /// </summary>		
+        public string HistoryApprovalNames { get; set; }
+
     }
 }

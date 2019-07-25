@@ -14,6 +14,9 @@ namespace XSchool.WorkFlow.WebApi.Controllers
     [ApiController]
     public class ApiBaseController : ControllerBase
     {
+        /// <summary>
+        /// 获取当前登录信息
+        /// </summary>
         protected TokenUser UToken
         {
             get
@@ -23,6 +26,9 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         }
 
         private Employee _employee;
+        /// <summary>
+        /// 当前登录人员所在公司
+        /// </summary>
         protected Employee Emplolyee
         {
             get

@@ -64,4 +64,23 @@ namespace XSchool.WorkFlow.Model.ViewModel
         public bool OnlySelf { get; set; }
         public bool LoadChildDptEmployee { get; set; }
     }
+
+    public class EmployeeInfo
+    {
+        public int companyId { get; set; }
+        public string companyName { get; set; }
+
+        public int dptId { get; set; }
+
+        public string dptName { get; set; }
+
+        public int jobId { get; set; }
+        public string jobName { get; set; }
+        public int userId { get; set; }
+
+        public int employeeId { get; set; }
+        public string employeeName { get; set; }
+    }
+
+
 }

@@ -145,11 +145,16 @@ namespace XSchool.WorkFlow.Businesses
                                  SubjectRulePassList = _rulerepository.Entites.Where(s => s.SubjectStepId == q.Id).Select(s => new SubjectRuleDto
                                  {
                                      CompanyId = s.CompanyId,
+                                      CompanyName=s.CompanyName,
                                      DepId = s.DepId,
+                                     DepName=s.DepName,
                                      JobDepId = s.JobDepId,
+                                     JobDepName=s.JobDepName,
                                      JobId = s.JobId,
+                                     JobName=s.JobName,
                                      dataType = s.dataType,
-                                     UserId = s.UserId
+                                     UserId = s.UserId,
+                                     UserName=s.UserName
                                  }).ToList()
                              }).OrderBy(s => s.PassNo).ToList()
                          }).FirstOrDefault();

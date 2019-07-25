@@ -14,7 +14,12 @@ namespace XSchool.WorkFlow.WebApi.Helper
     public static class ApiBusinessHelper
     {
         const string Gateway = "http://114.116.54.157:8000/";
-       
+
+        /// <summary>
+        /// 根据当前节点的公司/部门/岗位查询对应的人员集合(无序)
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public static async Task<List<EmployeeDptJobBinding>> GetEmployeeDptJobByUserIdAsync(EmployeeDptJobDto model)
         {
             try
@@ -38,6 +43,32 @@ namespace XSchool.WorkFlow.WebApi.Helper
 
             }
             return null;
+        }
+
+        /// <summary>
+        /// 根据用户登录ID获取该用户所处部门的负责人
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        public static async Task<EmployeeInfo> GetEmployeeManagerByUserId(int userid)
+        {
+
+                HttpClient client = new HttpClient();
+                try
+                {
+                    var message = await client.GetAsync($"{Gateway}api/v1/uc/employee/GetEmployeeManagerByUserId/{userid}");
+                    if (message.IsSuccessStatusCode)
+                    {
+                        var value = await message.Content.ReadAsStringAsync();
+                        var employee = Newtonsoft.Json.JsonConvert.DeserializeObject<EmployeeInfo>(value);
+                        return employee;
+                    }
+                }
+                catch
+                {
+
+                }
+                return null;
         }
     }
 }

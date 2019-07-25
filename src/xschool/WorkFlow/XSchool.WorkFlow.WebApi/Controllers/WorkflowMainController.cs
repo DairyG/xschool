@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Logistics.Helpers;
@@ -45,20 +46,56 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         [HttpPost]
         public Result CreateWork([FromForm]WorkFlowMainFormDto model)
         {
-           
+
             WorkflowMain entity = new WorkflowMain
             {
                 SubjectId = model.SubjectId,
                 Createtime = DateTime.Now,
-                CreateUserId =UToken.Id,
-                CreateUserName =UToken.UserName,
+                CreateUserId = UToken.Id,
+                CreateUserName = UToken.UserName,
                 PassStatus = PassStatus.InApproval,
                 FormAttribute = model.FormAttribute,
                 FormContent = model.FormContent,
-                 CompanyId=this.Emplolyee.CompanyId
+                CompanyId = this.Emplolyee.CompanyId,
+                DepId = this.Emplolyee.DptId
             };
             return workflowMainBusiness.CreateWork(entity);
         }
+        /// <summary>
+        /// 待我审核
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="page">页索引</param>
+        /// <param name="limit">页大小</param>
+        /// <returns></returns>
+        [HttpPost]
+        public Result WatiApprovalList([FromForm]WorkFlowDataPageDto model, [FromForm]int page, [Range(1, 50)][FromForm]int limit)
+        {
+            model.CreateUserId = UToken.Id;
+            return workflowMainBusiness.WaitApprove(model, page, limit);
+        }
+        /// <summary>
+        ///  我发起的
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public Result GetMyWorkFlowDataList([FromForm]WorkFlowMainFormDto model)
+        {
+
+            WorkflowMain entity = new WorkflowMain
+            {
+                SubjectId = model.SubjectId,
+                Createtime = DateTime.Now,
+                CreateUserId = UToken.Id,
+                CreateUserName = UToken.UserName,
+                PassStatus = PassStatus.InApproval,
+                FormAttribute = model.FormAttribute,
+                FormContent = model.FormContent,
+                CompanyId = this.Emplolyee.CompanyId
+            };
+            return workflowMainBusiness.CreateWork(entity);
+        }
+
 
     }
 }

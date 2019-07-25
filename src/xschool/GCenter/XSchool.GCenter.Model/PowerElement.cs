@@ -51,14 +51,14 @@ namespace XSchool.GCenter.Model
         public IsSystem IsSystem { get; set; }
 
         /// <summary>
+        /// 显示的位置
+        /// </summary>
+        public PowerElementPosition Position { get; set; }
+
+        /// <summary>
         /// 排序，数字越小越靠前
         /// </summary>		
         public int DisplayOrder { get; set; }
-
-        /// <summary>
-        /// 备注
-        /// </summary>		
-        public string Remarks { get; set; }
 
     }
 }

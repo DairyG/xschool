@@ -150,11 +150,11 @@ namespace XSchool.Businesses
             return pageCollection;
         }
 
-        public virtual Result<IPageCollection<TSelect>> Page<TSelect>(int page, int size, Expression<Func<TModel, bool>> where, Expression<Func<TModel, TSelect>> select
+        public virtual IPageCollection<TSelect> Page<TSelect>(int page, int size, Expression<Func<TModel, bool>> where, Expression<Func<TModel, TSelect>> select
         , IEnumerable<KeyValuePair<string, OrderBy>> orderColumns)
         {
             var pageCollection = this.Repository.Page(page, size, where, select, orderColumns);
-            return Result.Success(pageCollection);
+            return pageCollection;
         }
 
         public virtual int Count(Expression<Func<TModel, bool>> where)

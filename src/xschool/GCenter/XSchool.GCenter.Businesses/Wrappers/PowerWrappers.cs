@@ -39,6 +39,10 @@ namespace XSchool.GCenter.Businesses.Wrappers
                 {
                     return Result.Fail("模块名称已存在");
                 }
+                if (_moduleBusiness.Exist(p => p.Code == model.Code && p.Status == NomalStatus.Valid))
+                {
+                    return Result.Fail("模块Code已存在");
+                }
             }
             else
             {
@@ -46,12 +50,16 @@ namespace XSchool.GCenter.Businesses.Wrappers
                 {
                     return Result.Fail("模块名称已存在");
                 }
+                if (_moduleBusiness.Exist(p => p.Code == model.Code && p.Status == NomalStatus.Valid && p.Id != model.Id))
+                {
+                    return Result.Fail("模块Code已存在");
+                }
             }
 
             return Result.Success();
         }
 
-        public Result AddOrEdit(PowerModule model)
+        public Result AddOrEditModule(PowerModule model)
         {
             var result = CheckModule(model);
             if (!result.Succeed)
@@ -99,6 +107,77 @@ namespace XSchool.GCenter.Businesses.Wrappers
             {
                 return Result.Fail("操作失败：" + ex.Message);
             }
+        }
+
+        public Result DeleteModule(List<int> ids)
+        {
+            if (ids.Count <= 0)
+            {
+                return Result.Fail("请勾选你要删除的数据");
+            }
+            return Result.Success();
+        }
+
+        /// <summary>
+        /// 验证模块元素
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public Result CheckElement(PowerElement model)
+        {
+            if (model.ModuleId <= 0)
+            {
+                return Result.Fail("模块不能为空");
+            }
+            if (string.IsNullOrWhiteSpace(model.Name))
+            {
+                return Result.Fail("名称不能为空");
+            }
+
+            if (model.Id <= 0)
+            {
+                if (_elementBusiness.Exist(p => p.ModuleId == model.ModuleId && p.Name == model.Name && p.Status == NomalStatus.Valid))
+                {
+                    return Result.Fail("名称已存在");
+                }
+            }
+            else
+            {
+                if (_elementBusiness.Exist(p => p.ModuleId == model.ModuleId && p.Name == model.Name && p.Status == NomalStatus.Valid && p.Id != model.Id))
+                {
+                    return Result.Fail("名称已存在");
+                }
+            }
+
+            return Result.Success();
+        }
+
+        public Result AddOrEditElement(PowerElement model)
+        {
+            var result = CheckElement(model);
+            if (!result.Succeed)
+            {
+                return result;
+            }
+            model.Status = NomalStatus.Valid;
+
+            if (model.Id <= 0)
+            {
+                return _elementBusiness.Add(model);
+            }
+            else
+            {
+                return _elementBusiness.Update(model);
+            }
+        }
+
+        public Result DeleteElement(List<int> ids)
+        {
+            if (ids.Count <= 0)
+            {
+                return Result.Fail("请勾选你要删除的数据");
+            }
+            return Result.Success();
         }
 
     }

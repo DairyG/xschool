@@ -68,10 +68,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         [HttpPost]
         public IPageCollection<PowerModule> QueryModule([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]int pid)
         {
-            var condition = new Condition<PowerModule>();
-            condition.And(p => p.Status == NomalStatus.Valid);
-            condition.And(p => p.LevelMap.Contains("," + pid + ","));
-            return _moduleBusiness.Page(page, limit, condition.Combine());
+            return _moduleBusiness.Page(page, limit, pid);
         }
 
         /// <summary>
@@ -82,7 +79,18 @@ namespace XSchool.GCenter.WebApi.Controllers
         [HttpPost]
         public Result EditModule([FromForm]PowerModule model)
         {
-            return _wrappers.AddOrEdit(model);
+            return _wrappers.AddOrEditModule(model);
+        }
+
+        /// <summary>
+        /// [删除] 模块
+        /// </summary>
+        /// <param name="ids">id</param>
+        /// <returns></returns>
+        [HttpPost]
+        public Result DeleteModule([FromForm]List<int> ids)
+        {
+            return _wrappers.DeleteModule(ids);
         }
 
 
@@ -99,7 +107,33 @@ namespace XSchool.GCenter.WebApi.Controllers
             var condition = new Condition<PowerElement>();
             condition.And(p => p.Status == NomalStatus.Valid);
             condition.And(p => p.ModuleId == moduleId);
-            return _elementBusiness.Page(page, limit, condition.Combine());
+
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>() {
+                    new KeyValuePair<string, OrderBy>("DisplayOrder", OrderBy.Asc)
+                };
+            return _elementBusiness.Page(page, limit, condition.Combine(), p => p, order);
+        }
+
+        /// <summary>
+        /// [添加/编辑] 模板元素
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Result EditElement([FromForm]PowerElement model)
+        {
+            return _wrappers.AddOrEditElement(model);
+        }
+
+        /// <summary>
+        /// [删除] 模块元素
+        /// </summary>
+        /// <param name="ids">id</param>
+        /// <returns></returns>
+        [HttpPost]
+        public Result DeleteElement([FromForm]List<int> ids)
+        {
+            return _wrappers.DeleteElement(ids);
         }
 
         /// <summary>

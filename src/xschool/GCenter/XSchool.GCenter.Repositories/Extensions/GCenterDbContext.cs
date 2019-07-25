@@ -43,7 +43,7 @@ namespace XSchool.GCenter.Repositories.Extensions
         public DbSet<RuleRegulationRead> RuleRegulationRead { get; set; }
 
         public DbSet<PowerModule> PowerModule { get; set; }
-        public DbSet<PowerElement> PowerModuleElement { get; set; }
+        public DbSet<PowerElement> PowerElement { get; set; }
         public DbSet<PowerRole> PowerRole { get; set; }
         public DbSet<PowerRelevance> PowerRelevance { get; set; }
 

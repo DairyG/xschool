@@ -656,4 +656,21 @@ namespace XSchool.GCenter.Model
         [Description("用户对应角色")]
         UserByRole = 30003
     }
+
+    /// <summary>
+    /// 权限 按钮显示的位置
+    /// </summary>
+    public enum PowerElementPosition
+    {
+        /// <summary>
+        /// Table上方
+        /// </summary>
+        [Description("Table上方")]
+        Up = 1,
+        /// <summary>
+        /// Table右边
+        /// </summary>
+        [Description("Table右边")]
+        Right = 2
+    }
 }

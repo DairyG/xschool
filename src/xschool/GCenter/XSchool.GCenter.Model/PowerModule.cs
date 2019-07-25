@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using XSchool.Core;
 
 namespace XSchool.GCenter.Model
@@ -16,6 +17,11 @@ namespace XSchool.GCenter.Model
         public string Name { get; set; }
 
         /// <summary>
+        /// 模板Code
+        /// </summary>
+        public string Code { get; set; }
+
+        /// <summary>
         /// 节点语义Id
         /// </summary>		
         public string LevelMap { get; set; }
@@ -29,6 +35,12 @@ namespace XSchool.GCenter.Model
         /// 父节点Id
         /// </summary>		
         public int Pid { get; set; }
+
+        /// <summary>
+        /// 父节点名称
+        /// </summary>
+        [NotMapped]
+        public string PName { get; set; }
 
         /// <summary>
         /// 节点图标

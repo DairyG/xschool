@@ -29,9 +29,13 @@ namespace XSchool.GCenter.Businesses
             }
         }
         public IList<BudgetSet> Get(int dptId,int year) {
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
+            {
+                new KeyValuePair<string, OrderBy>("AddTime", OrderBy.Desc)
+            };
             if (dptId == 0)
             {
-                return base.Query(p => p.Id > 0);
+                return base.Query(p => p.Id > 0,p=>p,order);
             }
             else
             {

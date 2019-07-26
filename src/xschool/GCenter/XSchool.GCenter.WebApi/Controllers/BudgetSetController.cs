@@ -36,6 +36,16 @@ namespace XSchool.GCenter.WebApi.Controllers
         public IList<BudgetSet> Get([FromForm]int dptId, [FromForm]int year) {
             return _business.Get(dptId, year);
         }
+        /// <summary>
+        /// 根据ID查询
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public BudgetSet GetSingle(int id)
+        {
+            return _business.GetSingle(id);
+        }
         private Result Check(BudgetSet model)
         {
             if (model.DptId <= 0)

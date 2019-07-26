@@ -42,5 +42,9 @@ namespace XSchool.GCenter.Businesses
                 return base.Query(p => p.DptId.Equals(dptId) && p.Year.Equals(year));
             }
         }
+        public BudgetSet GetSingle(int id)
+        {
+            return base.GetSingle(p => p.Id.Equals(id));
+        }
     }
 }

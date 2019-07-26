@@ -109,7 +109,7 @@ namespace XSchool.WorkFlow.Businesses
                             var approvalRecord = new WorkflowApprovalRecords
                             {
                                 AuditidUserId = itemChild.userId,
-                                AuditidUserName = itemChild.userName,
+                                AuditidUserName = itemChild.EmployeeName,
                                 DataType = 1,
                                 Status = 3
                             };
@@ -178,28 +178,30 @@ namespace XSchool.WorkFlow.Businesses
         /// <param name="pageNum">页索引</param>
         /// <param name="pageSize">页大小</param>
         /// <returns></returns>
-        public Result WaitApprove(WorkFlowDataPageDto model,int pageNum, int pageSize)
+        public List<WorkFlowDataPageDto> WaitApprove(WorkFlowDataPageDto model,int pageNum, int pageSize,ref int totalCount)
         {
-            var subjectObjList = (from a in _repository.Entites
-                             join b in _workflowApprovalStepRepository.Entites on a.Id equals b.WorkflowBusinessId
-                             join c in _workflowApprovalRecordsRepository.Entites on b.Id equals c.WorkflowApprovalStepId
-                             where a.PassStatus == PassStatus.InApproval && b.PassType != PassType.Copy && c.Status == 1 && c.AuditidUserId==model.CreateUserId
-                             select new WorkFlowDataPageDto
-                             {
-                                 PassStatus = a.PassStatus,
-                                 BusinessCode = a.BusinessCode,
-                                 Createtime = a.Createtime,
-                                 EndTime = a.EndTime,
-                                 SubjectName = a.SubjectName,
-                                 CreateUserId = a.CreateUserId,
-                                 CreateUserName = a.CreateUserName,
-                                 DeptId = a.DepId,
-                                 Id = a.Id,
-                                 WaitApprovalId = c.AuditidUserId,
-                                 WaitApprovalName = c.AuditidUserName
-                             }).Skip(pageSize * (pageNum - 1)).Take(pageSize).OrderBy(s=>s.Createtime).ToList();
+            var query = (from a in _repository.Entites
+                                  join b in _workflowApprovalStepRepository.Entites on a.Id equals b.WorkflowBusinessId
+                                  join c in _workflowApprovalRecordsRepository.Entites on b.Id equals c.WorkflowApprovalStepId
+                                  where a.PassStatus == PassStatus.InApproval && b.PassType != PassType.Copy && c.Status == 1 && c.AuditidUserId == model.CreateUserId
+                                  select new WorkFlowDataPageDto
+                                  {
+                                      PassStatus = a.PassStatus,
+                                      BusinessCode = a.BusinessCode,
+                                      Createtime = a.Createtime,
+                                      EndTime = a.EndTime,
+                                      SubjectName = a.SubjectName,
+                                      CreateUserId = a.CreateUserId,
+                                      CreateUserName = a.CreateUserName,
+                                      DeptId = a.DepId,
+                                      Id = a.Id,
+                                      WaitApprovalId = c.AuditidUserId,
+                                      WaitApprovalName = c.AuditidUserName
+                                  });
+            totalCount = query.Count();
+              var subjectObjList = query.Skip(pageSize * (pageNum - 1)).Take(pageSize).OrderBy(s=>s.Createtime).ToList();
 
-            return new Result<List<WorkFlowDataPageDto>> { Succeed = true,Data= subjectObjList };
+            return  subjectObjList;
         }
 
     }

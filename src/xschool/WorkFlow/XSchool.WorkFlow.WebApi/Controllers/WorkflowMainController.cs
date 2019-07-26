@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Logistics.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -52,7 +53,7 @@ namespace XSchool.WorkFlow.WebApi.Controllers
                 SubjectId = model.SubjectId,
                 Createtime = DateTime.Now,
                 CreateUserId = UToken.Id,
-                CreateUserName = UToken.UserName,
+                CreateUserName = this.Emplolyee.EmployeeName,
                 PassStatus = PassStatus.InApproval,
                 FormAttribute = model.FormAttribute,
                 FormContent = model.FormContent,
@@ -69,10 +70,14 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         /// <param name="limit">页大小</param>
         /// <returns></returns>
         [HttpPost]
-        public Result WatiApprovalList([FromForm]WorkFlowDataPageDto model, [FromForm]int page, [Range(1, 50)][FromForm]int limit)
+        public object WatiApprovalList([FromForm]WorkFlowDataViewDto viewModel,[FromForm]int page, [Range(1, 50)][FromForm]int limit)
         {
+
+            var model = Mapper.Map<WorkFlowDataPageDto>(viewModel);
             model.CreateUserId = UToken.Id;
-            return workflowMainBusiness.WaitApprove(model, page, limit);
+            int totalCount = 0;
+           var dataList= workflowMainBusiness.WaitApprove(model, page, limit, ref totalCount);
+            return new { totalCount = totalCount, items = dataList };
         }
         /// <summary>
         ///  我发起的

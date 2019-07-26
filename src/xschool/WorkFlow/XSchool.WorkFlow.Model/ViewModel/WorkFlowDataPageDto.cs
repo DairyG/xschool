@@ -70,4 +70,28 @@ namespace XSchool.WorkFlow.Model.ViewModel
         public string HistoryApprovalNames { get; set; }
 
     }
+
+
+    public class WorkFlowDataViewDto
+    {
+        /// <summary>
+        /// 流程名称
+        /// </summary>		
+        public string SubjectName { get; set; }
+
+        /// <summary>
+        /// 流程编号=流程组别_时间_随机数
+        /// </summary>		
+        public string BusinessCode { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>		
+        public DateTime? Createtime { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>		
+        public string CreateUserName { get; set; }
+    }
 }

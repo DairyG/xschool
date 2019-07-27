@@ -10,6 +10,7 @@ using XSchool.Core;
 using XSchool.GCenter.Businesses;
 using XSchool.GCenter.Businesses.Wrappers;
 using XSchool.GCenter.Model;
+using XSchool.GCenter.Model.ViewModel;
 using XSchool.Helpers;
 using XSchool.Query.Pageing;
 
@@ -22,11 +23,15 @@ namespace XSchool.GCenter.WebApi.Controllers
     {
         private readonly PowerModuleBusiness _moduleBusiness;
         private readonly PowerElementBusiness _elementBusiness;
+        private readonly PowerRoleBusiness _roleBusiness;
+        private readonly PowerRelevanceBusiness _relevanceBusiness;
         private readonly PowerWrappers _wrappers;
-        public PowerController(PowerModuleBusiness moduleBusiness, PowerElementBusiness elementBusiness, PowerWrappers wrappers)
+        public PowerController(PowerModuleBusiness moduleBusiness, PowerElementBusiness elementBusiness, PowerRoleBusiness roleBusiness, PowerRelevanceBusiness relevanceBusiness, PowerWrappers wrappers)
         {
             _moduleBusiness = moduleBusiness;
             _elementBusiness = elementBusiness;
+            _roleBusiness = roleBusiness;
+            _relevanceBusiness = relevanceBusiness;
             _wrappers = wrappers;
         }
 
@@ -57,7 +62,6 @@ namespace XSchool.GCenter.WebApi.Controllers
 
             return lsMoudle.OrderBy(p => p.DisplayOrder);
         }
-
         /// <summary>
         /// [分页] 模块
         /// </summary>
@@ -70,7 +74,6 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             return _moduleBusiness.Page(page, limit, pid);
         }
-
         /// <summary>
         /// [添加/编辑] 模块
         /// </summary>
@@ -81,7 +84,6 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             return _wrappers.AddOrEditModule(model);
         }
-
         /// <summary>
         /// [删除] 模块
         /// </summary>
@@ -101,7 +103,7 @@ namespace XSchool.GCenter.WebApi.Controllers
         /// <param name="limit">页大小</param>
         /// <param name="moduleId">模块Id</param>
         /// <returns></returns>
-        /// <returns></returns>
+        [HttpPost]
         public IPageCollection<PowerElement> QueryElement([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]int moduleId)
         {
             var condition = new Condition<PowerElement>();
@@ -113,7 +115,6 @@ namespace XSchool.GCenter.WebApi.Controllers
                 };
             return _elementBusiness.Page(page, limit, condition.Combine(), p => p, order);
         }
-
         /// <summary>
         /// [添加/编辑] 模板元素
         /// </summary>
@@ -124,7 +125,6 @@ namespace XSchool.GCenter.WebApi.Controllers
         {
             return _wrappers.AddOrEditElement(model);
         }
-
         /// <summary>
         /// [删除] 模块元素
         /// </summary>
@@ -134,6 +134,119 @@ namespace XSchool.GCenter.WebApi.Controllers
         public Result DeleteElement([FromForm]List<int> ids)
         {
             return _wrappers.DeleteElement(ids);
+        }
+
+
+        /// <summary>
+        /// [列表] 角色
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public object QueryRole()
+        {
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>() {
+                    new KeyValuePair<string, OrderBy>("DisplayOrder", OrderBy.Asc)
+                };
+            return _roleBusiness.Query(p => p.Status == NomalStatus.Valid, p => new { p.Id, p.Name }, order);
+        }
+        /// <summary>
+        /// [详情] 角色
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public PowerRole GetRole(int id)
+        {
+            return _roleBusiness.GetSingle(p => p.Id == id);
+        }
+        /// <summary>
+        /// [分页] 角色
+        /// </summary>
+        /// <param name="page">页索引</param>
+        /// <param name="limit">页大小</param>
+        /// <param name="name">角色名称</param>
+        /// <returns></returns>
+        [HttpPost]
+        public IPageCollection<PowerRole> QueryRole([FromForm]int page, [Range(1, 50)][FromForm]int limit, [FromForm]string name)
+        {
+            var condition = new Condition<PowerRole>();
+            condition.And(p => p.Status == NomalStatus.Valid);
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                condition.And(p => p.Name.Contains(name));
+            }
+
+            List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>() {
+                    new KeyValuePair<string, OrderBy>("DisplayOrder", OrderBy.Asc)
+                };
+            return _roleBusiness.Page(page, limit, condition.Combine(), p => p, order);
+        }
+        /// <summary>
+        /// [添加/编辑] 角色
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Result EditRole([FromForm]PowerRole model)
+        {
+            return _wrappers.AddOrEditRole(model);
+        }
+        /// <summary>
+        /// [删除] 角色
+        /// </summary>
+        /// <param name="ids">id</param>
+        /// <returns></returns>
+        [HttpPost]
+        public Result DeleteRole([FromForm]List<int> ids)
+        {
+            return _wrappers.DeleteRole(ids);
+        }
+        /// <summary>
+        /// [设置] 员工的角色
+        /// </summary>
+        /// <param name="modelDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Result EditRoleByEmployee([FromForm]EmployeePowerRoleSubmitDto modelDto)
+        {
+            return _wrappers.EditRoleByEmployee(modelDto);
+        }
+
+        /// <summary>
+        /// [列表] 模块，迭代
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public List<PowerModuleDto> QueryNav()
+        {
+            return _wrappers.QueryNav();
+        }
+        /// <summary>
+        /// [列表] 根据角色Id查询模块元素
+        /// </summary>
+        /// <param name="roleId">角色Id</param>
+        /// <returns></returns>
+        [HttpGet]
+        public object QueryElementByRole(int roleId)
+        {
+            return _relevanceBusiness.Query(p => p.FirstId == roleId & p.Identifiers == PowerIdentifiers.RoleByElement, p => new
+            {
+                p.FirstId,
+                p.SecondId
+            }).ToList();
+        }
+        /// <summary>
+        /// [列表] 根据用户Id查询角色
+        /// </summary>
+        /// <param name="employeeId">用户Id</param>
+        /// <returns></returns>
+        [HttpGet("{employeeId}")]
+        public object QueryRoleByEmployee(int employeeId)
+        {
+            return _relevanceBusiness.Query(p => p.FirstId == employeeId & p.Identifiers == PowerIdentifiers.UserByRole, p => new
+            {
+                p.FirstId,
+                p.SecondId
+            }).ToList();
         }
 
         /// <summary>

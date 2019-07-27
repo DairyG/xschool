@@ -3,6 +3,8 @@ using XSchool.GCenter.Repositories.Extensions;
 using XSchool.Repositories;
 using System.Linq;
 using XSchool.Query.Pageing;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace XSchool.GCenter.Repositories
 {

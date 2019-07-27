@@ -23,7 +23,7 @@ namespace XSchool.GCenter.Model
         /// <summary>
         /// 映射标识
         /// </summary>		
-        public int Identifiers { get; set; }
+        public PowerIdentifiers Identifiers { get; set; }
 
         /// <summary>
         /// 备注

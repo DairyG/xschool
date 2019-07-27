@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using XSchool.Core;
 
 namespace XSchool.GCenter.Model
@@ -59,6 +60,12 @@ namespace XSchool.GCenter.Model
         /// 排序，数字越小越靠前
         /// </summary>		
         public int DisplayOrder { get; set; }
+
+        /// <summary>
+        /// 是否选中
+        /// </summary>
+        [NotMapped]
+        public int Checkeds { get; set; }
 
     }
 }

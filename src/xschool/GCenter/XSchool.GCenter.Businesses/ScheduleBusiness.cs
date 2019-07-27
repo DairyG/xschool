@@ -46,13 +46,21 @@ namespace XSchool.GCenter.Businesses
                 return base.Query(p => p.Id > 0, p => p, order);
             }
         }
-        public IList<Schedule> GetByKpi(int eid, KpiPlan planId,DateTime startDate, DateTime endDate)
+        public IList<Schedule> GetByKpi(int eid, KpiPlan planId, DateTime startDate, DateTime endDate)
         {
             List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>
             {
                 new KeyValuePair<string, OrderBy>("AddTime", OrderBy.Desc)
             };
-            return base.Query(p => p.EmployeeId.Equals(eid) && p.KpiPlan.Equals((KpiPlan)planId) && DateTime.Compare(DateTime.ParseExact(p.EndTime.ToString(), "yyyy-MM-dd", null), DateTime.ParseExact(startDate.ToString(), "yyyy-MM-dd", null)) >= 0 && DateTime.Compare(DateTime.ParseExact(p.EndTime.ToString(), "yyyy-MM-dd", null), DateTime.ParseExact(endDate.ToString(), "yyyy-MM-dd", null)) <= 0, p => p, order);
+            return base.Query(p => p.EmployeeId== eid && p.KpiPlan==planId && 
+            p.EndTime>=startDate.Date
+            //DateTime.Compare(DateTime.ParseExact(p.EndTime.ToString(), "yyyy-MM-dd", null), 
+            //DateTime.ParseExact(startDate.ToString(), "yyyy-MM-dd", null)) >= 0 
+            && 
+            p.EndTime<=endDate.Date,
+            //DateTime.Compare(DateTime.ParseExact(p.EndTime.ToString(), "yyyy-MM-dd", null), 
+            //DateTime.ParseExact(endDate.ToString(), "yyyy-MM-dd", null)) <= 0,
+            p => p, order);
             //&& p.KpiPlan.Equals((KpiPlan)planId) && p.EndTime.ToString("yyyy-MM-dd").Contains(date)
         }
         public IList<Schedule> Get(int eid, string catalog)

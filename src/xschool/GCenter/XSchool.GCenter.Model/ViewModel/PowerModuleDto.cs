@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using XSchool.Core;
+using System.Text;
 
-namespace XSchool.GCenter.Model
+namespace XSchool.GCenter.Model.ViewModel
 {
     /// <summary>
-    /// 角色表
+    /// 模块
     /// </summary>
-    public class PowerRole : IModel<int>
+    public class PowerModuleDto
     {
         public int Id { get; set; }
 
@@ -18,14 +17,19 @@ namespace XSchool.GCenter.Model
         public string Name { get; set; }
 
         /// <summary>
-        /// 备注
-        /// </summary>		
-        public string Remarks { get; set; }
+        /// 模板Code
+        /// </summary>
+        public string Code { get; set; }
 
         /// <summary>
-        /// 状态
+        /// 父节点Id
         /// </summary>		
-        public NomalStatus Status { get; set; }
+        public int Pid { get; set; }
+
+        /// <summary>
+        /// 节点级别
+        /// </summary>		
+        public int Level { get; set; }
 
         /// <summary>
         /// 排序，数字越小越靠前
@@ -35,7 +39,7 @@ namespace XSchool.GCenter.Model
         /// <summary>
         /// 模块中的元素
         /// </summary>
-        [NotMapped]
         public List<PowerElement> Elements { get; set; } = new List<PowerElement>();
+
     }
 }

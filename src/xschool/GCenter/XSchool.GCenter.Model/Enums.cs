@@ -37,6 +37,23 @@ namespace XSchool.GCenter.Model
         [Description("有效")]
         Valid = 1,
     }
+    /// <summary>
+    /// 常用类型，[是，否]
+    /// </summary>
+    public enum NomalWhether
+    {
+        /// <summary>
+        /// 否
+        /// </summary>
+        [Description("否")]
+        No = 0,
+
+        /// <summary>
+        /// 是
+        /// </summary>
+        [Description("是")]
+        Yes = 1,
+    }
 
     /// <summary>
     /// 禁启状态，[禁用，启用]
@@ -656,7 +673,6 @@ namespace XSchool.GCenter.Model
         [Description("用户对应角色")]
         UserByRole = 30003
     }
-
     /// <summary>
     /// 权限 按钮显示的位置
     /// </summary>

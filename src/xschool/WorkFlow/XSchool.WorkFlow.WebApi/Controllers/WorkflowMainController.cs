@@ -76,7 +76,23 @@ namespace XSchool.WorkFlow.WebApi.Controllers
             var model = Mapper.Map<WorkFlowDataPageDto>(viewModel);
             model.CreateUserId = UToken.Id;
             int totalCount = 0;
-           var dataList= workflowMainBusiness.WaitApprove(model, page, limit, ref totalCount);
+            int queryType = 1;//1 待我审批，2我已审批，3我发起的，4抄送我的
+            var dataList= workflowMainBusiness.WaitApprove(model, page, limit, ref totalCount, queryType);
+            return new { totalCount = totalCount, items = dataList };
+        }
+        /// <summary>
+        ///  我已审批
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public object ApprovalRecords([FromForm]WorkFlowDataViewDto viewModel, [FromForm]int page, [Range(1, 50)][FromForm]int limit)
+        {
+
+            var model = Mapper.Map<WorkFlowDataPageDto>(viewModel);
+            model.CreateUserId = UToken.Id;
+            int totalCount = 0;
+            int queryType = 2;//1 待我审批，2我已审批，3我发起的，4抄送我的
+            var dataList = workflowMainBusiness.WaitApprove(model, page, limit, ref totalCount, queryType);
             return new { totalCount = totalCount, items = dataList };
         }
         /// <summary>
@@ -84,23 +100,31 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public Result GetMyWorkFlowDataList([FromForm]WorkFlowMainFormDto model)
+        public object MyCreateApproval([FromForm]WorkFlowDataViewDto viewModel, [FromForm]int page, [Range(1, 50)][FromForm]int limit)
         {
 
-            WorkflowMain entity = new WorkflowMain
-            {
-                SubjectId = model.SubjectId,
-                Createtime = DateTime.Now,
-                CreateUserId = UToken.Id,
-                CreateUserName = UToken.UserName,
-                PassStatus = PassStatus.InApproval,
-                FormAttribute = model.FormAttribute,
-                FormContent = model.FormContent,
-                CompanyId = this.Emplolyee.CompanyId
-            };
-            return workflowMainBusiness.CreateWork(entity);
+            var model = Mapper.Map<WorkFlowDataPageDto>(viewModel);
+            model.CreateUserId = UToken.Id;
+            int totalCount = 0;
+            int queryType = 3;//1 待我审批，2我已审批，3我发起的，4抄送我的
+            var dataList = workflowMainBusiness.WaitApprove(model, page, limit, ref totalCount, queryType);
+            return new { totalCount = totalCount, items = dataList };
         }
 
+        /// <summary>
+        ///  抄送我的
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public object SendCopyMe([FromForm]WorkFlowDataViewDto viewModel, [FromForm]int page, [Range(1, 50)][FromForm]int limit)
+        {
 
+            var model = Mapper.Map<WorkFlowDataPageDto>(viewModel);
+            model.CreateUserId = UToken.Id;
+            int totalCount = 0;
+            int queryType = 4;//1 待我审批，2我已审批，3我发起的，4抄送我的
+            var dataList = workflowMainBusiness.WaitApprove(model, page, limit, ref totalCount, queryType);
+            return new { totalCount = totalCount, items = dataList };
+        }
     }
 }

@@ -257,10 +257,11 @@ namespace XSchool.WorkFlow.Businesses
                                {
                                    subjectId = q.Id,
                                    SubjectName = q.SubjectName,
+                                   EDStatus= q.Status,
                                    UpdateTime = q.UpdateTime == null ? "" : q.UpdateTime.ToString(),
                                   Remark = q.Remark
                      }).ToList()
-                 }).ToList();
+                 }).OrderByDescending(s => s.Id).ToList();
             }
             else
             {
@@ -274,10 +275,11 @@ namespace XSchool.WorkFlow.Businesses
                                {
                                    subjectId = q.Id,
                                    SubjectName = q.SubjectName,
+                                   EDStatus = q.Status,
                                    UpdateTime = q.UpdateTime == null ? "" : q.UpdateTime.ToString(),
                                    Remark = q.Remark
                                }).ToList()
-                           }).ToList();
+                           }).OrderByDescending(s => s.Id).ToList();
             }
             return empData;
         }

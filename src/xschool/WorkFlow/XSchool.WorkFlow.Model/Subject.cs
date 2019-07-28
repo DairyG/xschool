@@ -77,10 +77,10 @@ namespace XSchool.WorkFlow.Model
         /// <summary>
         /// 流程节点集合
         /// </summary>
-        public ICollection<SubjectStep> SubjectStepFlowList { get; set; }
+        public virtual ICollection<SubjectStep> SubjectStepFlowList { get; set; }
         /// <summary>
         /// 流程可视范围
         /// </summary>
-        public ICollection<SubjectRule> SubjectRuleRangeList { get; set; }
+        public virtual ICollection<SubjectRule> SubjectRuleRangeList { get; set; }
     }
 }

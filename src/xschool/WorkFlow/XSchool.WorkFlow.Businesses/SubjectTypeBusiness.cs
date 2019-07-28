@@ -79,24 +79,30 @@ namespace XSchool.WorkFlow.Businesses
                 if(obj.Id==Id) return new Result() { Message = "【其他】选项不能删除！", Succeed = status };
 
             var list = _repositorySubject.Query(s => s.SubjectTypeId == Id);
-            using (TransactionScope tsCope = new TransactionScope())
+            if (list != null && list.Count > 0)
             {
-                if (list != null && list.Count > 0)
-                {
-                    status = _repositorySubject.Update(s => s.SubjectTypeId == Id, s => new Subject { SubjectTypeId = obj.Id });
-                }
-                else {
-                    status = true;
-                }
-                if(status)
-                status = _repository.Delete(s=>s.Id==Id) > 0 ? true : false;
-                tsCope.Complete();
+                status = _repositorySubject.Update(s => s.SubjectTypeId == Id, s => new Subject { SubjectTypeId = obj.Id });
+           
+                status = _repository.DeleteExt(s=>s.Id==Id);
             }
             if (!status) msg = "删除失败。。。";
             return new Result() { Message = msg, Succeed = status };
         }
 
-     
+
+        /// <summary>
+        /// 删除流程组别
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public Result DeleteSubjectType1(int Id)
+        {
+            string msg = string.Empty;
+            bool status = false;
+
+            status = _repository.Delete(s => s.Id == Id) > 0 ? true : false;
+            return new Result() { Message = msg, Succeed = status };
+        }
 
     }
 }

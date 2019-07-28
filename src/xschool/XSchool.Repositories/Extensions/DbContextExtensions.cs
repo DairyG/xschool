@@ -36,6 +36,18 @@ namespace XSchool.Repositories.Extensions
 
         }
 
+        public static object ExecuteScalar(this DatabaseFacade databaseFacade, string cmdText, CommandType cmdType=CommandType.Text, params DbParameter[] parameters)
+        {
+            var concurrencyDetector = databaseFacade.GetService<IConcurrencyDetector>();
+            using (concurrencyDetector.EnterCriticalSection())
+            {
+                var rawSqlCommand = databaseFacade.GetService<IRawSqlCommandBuilder>().Build(cmdText, parameters);
+                return rawSqlCommand.RelationalCommand.ExecuteScalar(
+                    databaseFacade.GetService<IRelationalConnection>(),
+                    parameterValues: rawSqlCommand.ParameterValues);
+            }
+
+        }
 
     }
 }

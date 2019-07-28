@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static XSchool.WorkFlow.Model.Enums;
 
 namespace XSchool.WorkFlow.Model.ViewModel
 {
@@ -39,6 +40,12 @@ namespace XSchool.WorkFlow.Model.ViewModel
         /// 业务流程名称
         /// </summary>
         public string SubjectName { get; set; }
+
+        /// <summary>
+        /// 启用状态（枚举）
+        /// </summary>
+        public EDStatus EDStatus { get; set; }
+        
         /// <summary>
         /// 可见范围
         /// </summary>

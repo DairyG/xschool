@@ -48,14 +48,14 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public List<KeyValuePair<int,string>> GetFlowTypeList()
+        public List<KeyValuePair<int, string>> GetFlowTypeList()
         {
             var data = EnumHelper.GetEnumValueNameCollection(typeof(FlowType)).ToList();
-            
+
             return data;
         }
 
-        
+
         /// <summary>
         /// 删除流程组别
         /// </summary>
@@ -64,7 +64,20 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         [HttpPost]
         public Result DeleteSubjectType([FromForm]int Id)
         {
-            return subjectTypeBusiness.DeleteSubjectType( Id);
+            return subjectTypeBusiness.DeleteSubjectType(Id);
+        }
+
+
+        /// <summary>
+        /// 删除流程组别 test1
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public Result testDel([FromForm]int Id)
+        {
+            return subjectTypeBusiness.DeleteSubjectType1(Id);
+
         }
     }
 }

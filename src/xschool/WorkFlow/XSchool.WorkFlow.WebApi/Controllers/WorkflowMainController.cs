@@ -65,7 +65,7 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         /// <summary>
         /// 待我审核
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="viewModel"></param>
         /// <param name="page">页索引</param>
         /// <param name="limit">页大小</param>
         /// <returns></returns>
@@ -76,9 +76,8 @@ namespace XSchool.WorkFlow.WebApi.Controllers
             var model = Mapper.Map<WorkFlowDataPageDto>(viewModel);
             model.CreateUserId = UToken.Id;
             int totalCount = 0;
-            int queryType = 1;//1 待我审批，2我已审批，3我发起的，4抄送我的
-            var dataList= workflowMainBusiness.WaitApprove(model, page, limit, ref totalCount, queryType);
-            return new { totalCount = totalCount, items = dataList };
+            var dataList= workflowMainBusiness.WatiApprovalList(model, page, limit, ref totalCount);
+                return new { totalCount = totalCount, items = dataList };
         }
         /// <summary>
         ///  我已审批
@@ -91,8 +90,7 @@ namespace XSchool.WorkFlow.WebApi.Controllers
             var model = Mapper.Map<WorkFlowDataPageDto>(viewModel);
             model.CreateUserId = UToken.Id;
             int totalCount = 0;
-            int queryType = 2;//1 待我审批，2我已审批，3我发起的，4抄送我的
-            var dataList = workflowMainBusiness.WaitApprove(model, page, limit, ref totalCount, queryType);
+            var dataList = workflowMainBusiness.ApprovalRecords(model, page, limit, ref totalCount);
             return new { totalCount = totalCount, items = dataList };
         }
         /// <summary>
@@ -106,8 +104,7 @@ namespace XSchool.WorkFlow.WebApi.Controllers
             var model = Mapper.Map<WorkFlowDataPageDto>(viewModel);
             model.CreateUserId = UToken.Id;
             int totalCount = 0;
-            int queryType = 3;//1 待我审批，2我已审批，3我发起的，4抄送我的
-            var dataList = workflowMainBusiness.WaitApprove(model, page, limit, ref totalCount, queryType);
+            var dataList = workflowMainBusiness.MyCreateApproval(model, page, limit, ref totalCount);
             return new { totalCount = totalCount, items = dataList };
         }
 
@@ -122,9 +119,21 @@ namespace XSchool.WorkFlow.WebApi.Controllers
             var model = Mapper.Map<WorkFlowDataPageDto>(viewModel);
             model.CreateUserId = UToken.Id;
             int totalCount = 0;
-            int queryType = 4;//1 待我审批，2我已审批，3我发起的，4抄送我的
-            var dataList = workflowMainBusiness.WaitApprove(model, page, limit, ref totalCount, queryType);
+            var dataList = workflowMainBusiness.SendCopyMe(model, page, limit, ref totalCount);
             return new { totalCount = totalCount, items = dataList };
         }
+
+        /// <summary>
+        ///  撤销
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public Result Revoke([FromForm]int Id)
+        {
+            string msg = string.Empty;
+            var status = workflowMainBusiness.Revoke(Id,ref msg);
+            return new Result {  Succeed=status, Message= msg };
+        }
+
     }
 }

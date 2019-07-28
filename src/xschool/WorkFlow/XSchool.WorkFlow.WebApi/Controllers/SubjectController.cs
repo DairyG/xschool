@@ -115,7 +115,7 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         /// <param name="status">1禁用，2启用</param>
         /// <returns></returns>
         [HttpPost]
-        public Result EnableSubject([FromForm]int Id, int status)
+        public Result EnableSubject([FromForm]int Id, [FromForm]int status)
         {
             return subjectBusiness.EnableSubject(Id, status);
         }

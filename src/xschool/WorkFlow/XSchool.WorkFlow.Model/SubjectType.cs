@@ -35,6 +35,6 @@ namespace XSchool.WorkFlow.Model
         /// <summary>
         /// 流程表
         /// </summary>
-        public ICollection<Subject> SubjectList { get; set; }
+        public virtual ICollection<Subject> SubjectList { get; set; }
     }
 }

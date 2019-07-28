@@ -177,15 +177,74 @@ namespace XSchool.WorkFlow.Businesses
         /// <param name="model"></param>
         /// <param name="pageNum">页索引</param>
         /// <param name="pageSize">页大小</param>
-        /// <param name="queryType">1 待我审批，2我已审批，3我发起的，4抄送我的</param>
         /// <returns></returns>
-        public List<WorkFlowDataPageDto> WaitApprove(WorkFlowDataPageDto model,int pageNum, int pageSize,ref int totalCount,int queryType)
+        public List<WorkFlowDataPageDto> WatiApprovalList(WorkFlowDataPageDto model,int pageNum, int pageSize,ref int totalCount)
         {
-
-            var subjectObjList = _repository.GetWorkflowMainPageList(model,pageNum,pageSize, ref totalCount,queryType);
-           
+            var subjectObjList = _repository.WatiApprovalList(model,pageNum,pageSize, ref totalCount);
             return  subjectObjList;
         }
+
+        /// <summary>
+        /// 我已审批
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="pageNum">页索引</param>
+        /// <param name="pageSize">页大小</param>
+        /// <returns></returns>
+        public List<WorkFlowDataPageDto> ApprovalRecords(WorkFlowDataPageDto model, int pageNum, int pageSize, ref int totalCount)
+        {
+            var subjectObjList = _repository.ApprovalRecords(model, pageNum, pageSize, ref totalCount);
+            return subjectObjList;
+        }
+
+
+        /// <summary>
+        /// 我发起的
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="pageNum">页索引</param>
+        /// <param name="pageSize">页大小</param>
+        /// <returns></returns>
+        public List<WorkFlowDataPageDto> MyCreateApproval(WorkFlowDataPageDto model, int pageNum, int pageSize, ref int totalCount)
+        {
+            var subjectObjList = _repository.MyCreateApproval(model, pageNum, pageSize, ref totalCount);
+            return subjectObjList;
+        }
+
+        /// <summary>
+        /// 抄送我的
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="pageNum">页索引</param>
+        /// <param name="pageSize">页大小</param>
+        /// <returns></returns>
+        public List<WorkFlowDataPageDto> SendCopyMe(WorkFlowDataPageDto model, int pageNum, int pageSize, ref int totalCount)
+        {
+            var subjectObjList = _repository.SendCopyMe(model, pageNum, pageSize, ref totalCount);
+            return subjectObjList;
+        }
+
+        /// <summary>
+        /// 撤销
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public bool Revoke(int Id, ref string msg)
+        {
+            bool status = false;
+            try
+            {
+                status = _repository.Update(s => s.Id == Id,s=> new WorkflowMain { PassStatus=PassStatus.Cancel });
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message.ToString();
+            }
+            return status;
+        }
+
+       
 
     }
 }

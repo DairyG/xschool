@@ -60,6 +60,17 @@ namespace XSchool.Repositories
             return this.DbContext.SaveChanges();
         }
 
+        /// <summary>
+        /// 删除实体
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <returns></returns>
+        public bool DeleteExt(Expression<Func<TModel, bool>> filterExpression)
+        {
+            var count = this._set.Where(filterExpression).Count();
+
+            return this._set.Where(filterExpression).Delete() == count;
+        }
 
         public virtual int Delete(Expression<Func<TModel, bool>> where)
         {

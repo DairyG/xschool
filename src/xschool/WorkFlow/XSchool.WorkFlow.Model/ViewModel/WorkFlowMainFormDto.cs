@@ -31,4 +31,22 @@ namespace XSchool.WorkFlow.Model.ViewModel
         /// </summary>
         public IList<SubjectStep> SubjectPassList { get; set; }
     }
+    public class WorkflowMainTestDto: WorkflowMain
+    {
+        /// <summary>
+        /// 表单内容
+        /// </summary>
+        public string DepName { get; set; }
+
+        /// <summary>
+        /// 表单属性
+        /// </summary>
+        public string JobName { get; set; }
+
+        /// <summary>
+        /// 表单属性
+        /// </summary>
+        public string CompanyName { get; set; }
+
+    }
 }

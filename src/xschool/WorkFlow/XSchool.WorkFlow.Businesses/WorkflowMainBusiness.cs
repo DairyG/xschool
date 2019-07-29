@@ -178,10 +178,10 @@ namespace XSchool.WorkFlow.Businesses
         /// <param name="pageNum">页索引</param>
         /// <param name="pageSize">页大小</param>
         /// <returns></returns>
-        public List<WorkFlowDataPageDto> WatiApprovalList(WorkFlowDataPageDto model,int pageNum, int pageSize,ref int totalCount)
+        public List<WorkFlowDataPageDto> WatiApprovalList(WorkFlowDataPageDto model, int pageNum, int pageSize, ref int totalCount)
         {
-            var subjectObjList = _repository.WatiApprovalList(model,pageNum,pageSize, ref totalCount);
-            return  subjectObjList;
+            var subjectObjList = _repository.WatiApprovalList(model, pageNum, pageSize, ref totalCount);
+            return subjectObjList;
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace XSchool.WorkFlow.Businesses
             bool status = false;
             try
             {
-                status = _repository.Update(s => s.Id == Id,s=> new WorkflowMain { PassStatus=PassStatus.Cancel });
+                status = _repository.Update(s => s.Id == Id, s => new WorkflowMain { PassStatus = PassStatus.Cancel });
             }
             catch (Exception ex)
             {
@@ -243,8 +243,37 @@ namespace XSchool.WorkFlow.Businesses
             }
             return status;
         }
+  
+        /// <summary>
+        ///  审核人员变更
+        /// </summary>
+        /// <returns></returns>
+        public Result ApprovalPerson(ApprovalPersonChageDto model,string optName)
+        {
+            bool status = false;
+            string msg = "";
+            try
+            {
+            var dataObj=_repository.GetData(model.Id);
+             status= _workflowApprovalRecordsRepository.Update(s => s.Id == dataObj.WorkflowApprovalStepId, s => new WorkflowApprovalRecords { AuditidUserName = model.AuditidUserName, AuditidUserId = model.AuditidUserId });
+            WorkflowApprovalRecords addData = new WorkflowApprovalRecords()
+            {
+                AuditidTime = DateTime.Now,
+                WorkflowApprovalStepId = dataObj.WorkflowApprovalStepId,
+                DataType = 2,
+                Memo = optName + "将审批人从" + dataObj.AuditidUserName + "换为" + model.AuditidUserName
+            };
 
-       
+            status =    _workflowApprovalRecordsRepository.Add(addData)>0?true:false;
+            }
+            catch (Exception ex)
+            {
+                status = false;
+                msg = ex.Message.ToString();
+            }
+            return new Result {  Succeed=status, Message= msg };
+        }
+
 
     }
 }

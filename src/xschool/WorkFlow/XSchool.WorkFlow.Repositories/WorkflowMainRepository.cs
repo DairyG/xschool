@@ -276,6 +276,35 @@ namespace XSchool.WorkFlow.Repositories
                 return list;
             }
         }
+        /// <summary>
+        /// 读取当前审核人
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public WorkflowApprovalRecords GetData(int Id)
+        {
+            string sql = $@"SELECT t.Id,t.WorkflowApprovalStepId,t.AuditidUserId,t.AuditidUserName 
+FROM  
+  [WorkflowMain] a
+                         CROSS APPLY( 
+                         SELECT TOP 1 c.Id,c.WorkflowApprovalStepId,c.AuditidUserId,c.AuditidUserName FROM [WorkflowApprovalStep]  b,[WorkflowApprovalRecords] c
+                         WHERE  c.WorkflowApprovalStepId=b.Id AND a.Id=b.WorkflowBusinessId  and c.Status=1 and a.Id={Id}
+						  ORDER BY c.Id  ) AS T";
+            var obj = new WorkflowApprovalRecords();
+            using (var reader = _dbContext.Database.ExcuteReader(sql))
+            {
+                while (reader.Read())
+                {
+                 
+                    obj.Id = Convert.ToInt32(reader.DbDataReader["Id"]);
+                    obj.WorkflowApprovalStepId = Convert.ToInt32(reader.DbDataReader["WorkflowApprovalStepId"]);
+                    obj.AuditidUserId = Convert.ToInt32(reader.DbDataReader["AuditidUserId"].ToString());
+                    obj.AuditidUserName = reader.DbDataReader["AuditidUserName"].ToString();
+                    
+                }
+                return obj;
+            }
+        }
 
     }
 }

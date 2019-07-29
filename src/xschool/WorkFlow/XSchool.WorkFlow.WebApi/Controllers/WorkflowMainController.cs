@@ -134,6 +134,32 @@ namespace XSchool.WorkFlow.WebApi.Controllers
             var status = workflowMainBusiness.Revoke(Id,ref msg);
             return new Result {  Succeed=status, Message= msg };
         }
+        /// <summary>
+        ///  审核人员变更
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public Result ApprovalPerson([FromForm]ApprovalPersonChageDto model)
+        {
+            string optName = this.Emplolyee.EmployeeName;
+           var data  = workflowMainBusiness.ApprovalPerson(model, optName);
+            return data;
+        }
 
+        /// <summary>
+        /// 获取发起人信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public WorkflowMainTestDto GetCreateLCInfo(int Id)
+        {
+           var obj= workflowMainBusiness.GetSingle(Id);
+            var model = Mapper.Map<WorkflowMainTestDto>(obj);
+            var objqwe = XSchool.WorkFlow.WebApi.Helper.RemoteRequestHelper.GetEmployeeByUserId(obj.CreateUserId).Result;
+            model.DepName = objqwe.DptName;
+            model.JobName = objqwe.JobName;
+            model.CompanyName = objqwe.CompanyName;
+            return model;
+        }
     }
 }

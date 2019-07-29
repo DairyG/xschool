@@ -94,4 +94,22 @@ namespace XSchool.WorkFlow.Model.ViewModel
         /// </summary>		
         public string CreateUserName { get; set; }
     }
+
+    public class ApprovalPersonChageDto
+    {
+        /// <summary>
+        /// 
+        /// </summary>		
+        public int Id { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>		
+        public int AuditidUserId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>		
+        public string AuditidUserName { get; set; }
+    }
 }

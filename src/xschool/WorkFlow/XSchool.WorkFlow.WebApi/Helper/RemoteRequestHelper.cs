@@ -72,5 +72,24 @@ namespace XSchool.WorkFlow.WebApi.Helper
             return null;
         }
 
+        public static async Task<Employee> GetEmployeeByUserId(int userid)
+        {
+            HttpClient client = new HttpClient();
+            try
+            {
+                var message = await client.GetAsync($"{Gateway}api/v1/uc/employee/GetEmployeeByUserId/{userid}");
+                if (message.IsSuccessStatusCode)
+                {
+                    var value = await message.Content.ReadAsStringAsync();
+                    var employee = Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(value);
+                    return employee;
+                }
+            }
+            catch
+            {
+
+            }
+            return null;
+        }
     }
 }

@@ -125,6 +125,7 @@ namespace XSchool.WorkFlow.Businesses
                             {
                                 approvalRecord.Status = 2;//抄送人员默认是审核成功（不卡流程）
                             }
+                            approvalRecord.ReadStatus = 1;
                             list.Add(approvalRecord);
                         }
                     }
@@ -243,37 +244,62 @@ namespace XSchool.WorkFlow.Businesses
             }
             return status;
         }
-  
+
         /// <summary>
         ///  审核人员变更
         /// </summary>
         /// <returns></returns>
-        public Result ApprovalPerson(ApprovalPersonChageDto model,string optName)
+        public Result ApprovalPerson(ApprovalPersonChageDto model, string optName)
         {
             bool status = false;
             string msg = "";
             try
             {
-            var dataObj=_repository.GetData(model.Id);
-             status= _workflowApprovalRecordsRepository.Update(s => s.Id == dataObj.WorkflowApprovalStepId, s => new WorkflowApprovalRecords { AuditidUserName = model.AuditidUserName, AuditidUserId = model.AuditidUserId });
-            WorkflowApprovalRecords addData = new WorkflowApprovalRecords()
-            {
-                AuditidTime = DateTime.Now,
-                WorkflowApprovalStepId = dataObj.WorkflowApprovalStepId,
-                DataType = 2,
-                Memo = optName + "将审批人从" + dataObj.AuditidUserName + "换为" + model.AuditidUserName
-            };
+                var dataObj = _repository.GetData(model.Id);
+                status = _workflowApprovalRecordsRepository.Update(s => s.Id == dataObj.WorkflowApprovalStepId, s => new WorkflowApprovalRecords { AuditidUserName = model.AuditidUserName, AuditidUserId = model.AuditidUserId });
+                WorkflowApprovalRecords addData = new WorkflowApprovalRecords()
+                {
+                    AuditidTime = DateTime.Now,
+                    WorkflowApprovalStepId = dataObj.WorkflowApprovalStepId,
+                    DataType = 2,
+                    Memo = optName + "将审批人从" + dataObj.AuditidUserName + "换为" + model.AuditidUserName
+                };
 
-            status =    _workflowApprovalRecordsRepository.Add(addData)>0?true:false;
+                status = _workflowApprovalRecordsRepository.Add(addData) > 0 ? true : false;
             }
             catch (Exception ex)
             {
                 status = false;
                 msg = ex.Message.ToString();
             }
-            return new Result {  Succeed=status, Message= msg };
+            return new Result { Succeed = status, Message = msg };
         }
-
+        /// <summary>
+        ///  获取审核进度
+        /// </summary>
+        /// <returns></returns>
+        public Result GetApprovalInfo(int Id)
+        {
+            var data = from a in _workflowApprovalStepRepository.Entites
+                       join b in _workflowApprovalRecordsRepository.Entites
+                       on a.Id equals b.WorkflowApprovalStepId 
+                       where a.WorkflowBusinessId == Id && b.DataType == 1 
+                       select new WorkFlowStepersInfoDto
+                       {
+                            AuditNo=a.AuditNo,
+                             PassName=a.PassName,
+                              PassNo=a.PassNo,
+                               PassType= a.PassType,
+                               SubjectRulePassList =a.workflowApprovalRecordList.Select(s=>new WorkflowApprovalStepRecordsDto() {
+                                    AuditidUserId=s.AuditidUserId,
+                                    AuditidUserName=s.AuditidUserName,
+                                     Status=s.Status,
+                                      ReadStatus=s.ReadStatus
+                               }).ToList()
+                       };
+            var dataResult = data.ToList();
+            return new Result <List<WorkFlowStepersInfoDto>>() { Succeed = true, Data= dataResult };
+        }
 
     }
 }

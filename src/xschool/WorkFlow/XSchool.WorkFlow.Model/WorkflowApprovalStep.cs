@@ -47,7 +47,7 @@ namespace XSchool.WorkFlow.Model
         public PassType PassType { get; set; }
 
         /// <summary>
-        /// true 当前节点是审核节点，反之
+        /// true 当前节点 处于审核环节，反之
         /// </summary>
         public bool AuditNo { get; set; }
         /// <summary>

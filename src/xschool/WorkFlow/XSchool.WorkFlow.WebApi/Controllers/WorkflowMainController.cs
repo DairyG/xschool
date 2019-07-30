@@ -146,20 +146,96 @@ namespace XSchool.WorkFlow.WebApi.Controllers
             return data;
         }
 
+       
+
         /// <summary>
-        /// 获取发起人信息
+        /// 同意
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        public WorkflowMainTestDto GetCreateLCInfo(int Id)
+        [HttpPost]
+        public WorkflowMainTestDto Agree(int Id)
         {
-           var obj= workflowMainBusiness.GetSingle(Id);
+            var obj = workflowMainBusiness.GetSingle(Id);
             var model = Mapper.Map<WorkflowMainTestDto>(obj);
             var objqwe = XSchool.WorkFlow.WebApi.Helper.RemoteRequestHelper.GetEmployeeByUserId(obj.CreateUserId).Result;
             model.DepName = objqwe.DptName;
             model.JobName = objqwe.JobName;
             model.CompanyName = objqwe.CompanyName;
             return model;
+        }
+
+        /// <summary>
+        /// 不同意
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public WorkflowMainTestDto Disagree(int Id)
+        {
+            var obj = workflowMainBusiness.GetSingle(Id);
+            var model = Mapper.Map<WorkflowMainTestDto>(obj);
+            var objqwe = XSchool.WorkFlow.WebApi.Helper.RemoteRequestHelper.GetEmployeeByUserId(obj.CreateUserId).Result;
+            model.DepName = objqwe.DptName;
+            model.JobName = objqwe.JobName;
+            model.CompanyName = objqwe.CompanyName;
+            return model;
+        }
+        /// <summary>
+        /// 驳回
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public WorkflowMainTestDto Reject(int Id)
+        {
+            var obj = workflowMainBusiness.GetSingle(Id);
+            var model = Mapper.Map<WorkflowMainTestDto>(obj);
+            var objqwe = XSchool.WorkFlow.WebApi.Helper.RemoteRequestHelper.GetEmployeeByUserId(obj.CreateUserId).Result;
+            model.DepName = objqwe.DptName;
+            model.JobName = objqwe.JobName;
+            model.CompanyName = objqwe.CompanyName;
+            return model;
+        }
+
+        /// <summary>
+        /// 获取审核进度
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public Result GetApprovalInfo(int Id)
+        {
+           var data= workflowMainBusiness.GetApprovalInfo(Id);
+            return data;
+        }
+
+        /// <summary>
+        /// 获取发起人信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public Result  GetCreateLCInfo(int Id)
+        {
+            var obj = workflowMainBusiness.GetSingle(Id);
+            var model = Mapper.Map<WorkflowMainTestDto>(obj);
+            var objqwe = XSchool.WorkFlow.WebApi.Helper.RemoteRequestHelper.GetEmployeeByUserId(obj.CreateUserId).Result;
+            model.DepName = objqwe.DptName;
+            model.JobName = objqwe.JobName;
+            model.CompanyName = objqwe.CompanyName;
+            return new Result<WorkflowMainTestDto>() {  Data=model,Succeed=true};
+        }
+
+        /// <summary>
+        /// 获取审批日志
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public Result GetApprovalRecordsInfo(int Id)
+        {
+            var obj = workflowMainBusiness.GetSingle(Id);
+            var model = Mapper.Map<WorkflowMainTestDto>(obj);
+            var objqwe = XSchool.WorkFlow.WebApi.Helper.RemoteRequestHelper.GetEmployeeByUserId(obj.CreateUserId).Result;
+            model.DepName = objqwe.DptName;
+            model.JobName = objqwe.JobName;
+            model.CompanyName = objqwe.CompanyName;
+            return new Result<WorkflowMainTestDto>() { Data = model, Succeed = true };
         }
     }
 }

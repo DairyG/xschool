@@ -67,7 +67,7 @@ namespace XSchool.GCenter.Businesses.Wrappers
 
             //模块元素
             var elementIds = relevanceIds.Where(p => p.Identifiers == PowerIdentifiers.RoleByElement).Select(p => p.SecondId);
-            var elements = _elementBusiness.Query(p => elementIds.Contains(p.Id) && p.IsSystem == 0);
+            var elements = _elementBusiness.Query(p => elementIds.Contains(p.Id) && p.IsSystem == 0 && p.Status == NomalStatus.Valid);
             result.Elements = modules.Select(p => new PowerModuleElementDto()
             {
                 Id = p.Id,

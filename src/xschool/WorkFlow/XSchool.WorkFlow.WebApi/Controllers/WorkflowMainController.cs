@@ -196,30 +196,23 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         }
 
         /// <summary>
-        /// 获取审核进度
+        /// 获取审核进度和发起人信息
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public Result GetApprovalInfo(int Id)
+        public Object GetApprovalInfo(int Id)
         {
-           var data= workflowMainBusiness.GetApprovalInfo(Id);
-            return data;
-        }
-
-        /// <summary>
-        /// 获取发起人信息
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public Result  GetCreateLCInfo(int Id)
-        {
+            //进度
+            var dataJD = workflowMainBusiness.GetApprovalInfo(Id);
+            //发起人休息
             var obj = workflowMainBusiness.GetSingle(Id);
             var model = Mapper.Map<WorkflowMainTestDto>(obj);
             var objqwe = XSchool.WorkFlow.WebApi.Helper.RemoteRequestHelper.GetEmployeeByUserId(obj.CreateUserId).Result;
             model.DepName = objqwe.DptName;
             model.JobName = objqwe.JobName;
             model.CompanyName = objqwe.CompanyName;
-            return new Result<WorkflowMainTestDto>() {  Data=model,Succeed=true};
+            var dataReult = new { ApprovalInfo = dataJD, CreateLCInfo = model };
+            return dataReult;
         }
 
         /// <summary>

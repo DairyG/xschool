@@ -102,6 +102,18 @@ namespace XSchool.GCenter.WebApi.Controllers
             {
                 condition.And(x => search.IsRead > 0 ? x.ReadCount > 0 : x.ReadCount == 0);
             }
+            if (search.SelectRange == 1)
+            {
+                var rangeUser = _noteReadRangeBusinesses.Query(x => x.TypeId == Model.OrgType.User && x.UserId == search.UserId);
+                var rangeCom = _noteReadRangeBusinesses.Query(x => x.TypeId == Model.OrgType.Com && x.CompanyId == search.CompanyId);
+                var rangeDep = _noteReadRangeBusinesses.Query(x => x.TypeId == Model.OrgType.Dep && x.DptId == search.DptId);
+                var rangePosition = _noteReadRangeBusinesses.Query(x => x.TypeId == Model.OrgType.Position && x.PositionId == search.JobId);
+                var list = _business.Query(x => (rangeUser.Count > 0 ? rangeUser.Select(m => m.NoteId).Contains(x.Id) : false) ||
+                                                (rangeCom.Count > 0 ? rangeCom.Select(m => m.NoteId).Contains(x.Id) : false) ||
+                                                (rangeDep.Count > 0 ? rangeDep.Select(m => m.NoteId).Contains(x.Id) : false) ||
+                                                (rangePosition.Count > 0 ? rangePosition.Select(m => m.NoteId).Contains(x.Id) : false));
+                condition.And(x => list.Select(m => m.Id).Contains(x.Id));
+            }
             var pageList = _business.Page(page, limit, condition.Combine(), order);
             return pageList;
         }
@@ -178,20 +190,28 @@ namespace XSchool.GCenter.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Description("制度管理类型新增")]
         public Result RuleRegulationTypeAdd([FromForm]Model.RuleRegulationType model)
         {
-            return _ruleRegulationTypeBusiness.Add(model);
+            if (_ruleRegulationTypeBusiness.Exist(x => x.RuleName == model.RuleName && x.ParentId == model.ParentId))
+                return new Result { Code = int.MaxValue.ToString(), Succeed = false, Message = "当前目录下已存在:" + model.RuleName + "！" };
+            else
+                return _ruleRegulationTypeBusiness.Add(model);
         }
         /// <summary>
         /// 获取制度修改
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Description("制度管理类型修改")]
         public Result RuleRegulationTypeEdit([FromForm]Model.RuleRegulationType model)
         {
-            return _ruleRegulationTypeBusiness.Update(model);
+            XSchool.Core.Result result = new Result();
+            if (_ruleRegulationTypeBusiness.Exist(x => x.ParentId == model.ParentId && x.Id != model.Id && x.RuleName == model.RuleName))
+            {
+                result= new Result { Code = int.MaxValue.ToString(), Succeed = false, Message = "当前目录下已存在:" + model.RuleName + "！" };//Result.Fail("当前目录下已存在:" + model.RuleName + "！");                 
+            }
+            else
+                result= _ruleRegulationTypeBusiness.Update(model);
+            return result;
         }
         /// <summary>
         /// 制度管理类型删除

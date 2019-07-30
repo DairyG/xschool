@@ -74,6 +74,11 @@ namespace XSchool.GCenter.Model
         /// 是否已读
         /// </summary>
         public int IsRead { get; set; }
+        public int CompanyId { get; set; }
+        public int DptId { get; set; }
+        public int JobId { get; set; }
+        public int UserId { get; set; }
+        public int SelectRange { get; set; }
     }
     #endregion
 

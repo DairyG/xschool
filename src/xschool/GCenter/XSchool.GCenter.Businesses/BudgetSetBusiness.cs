@@ -17,7 +17,7 @@ namespace XSchool.GCenter.Businesses
         {
             _budgetSetRepository = repository;
         }
-        public Result Add(BudgetSet model) {
+        public override Result Add(BudgetSet model) {
             if (model.Id == 0)
             {
                 model.AddTime = DateTime.Now;
@@ -42,7 +42,7 @@ namespace XSchool.GCenter.Businesses
                 return base.Query(p => p.DptId.Equals(dptId) && p.Year.Equals(year));
             }
         }
-        public BudgetSet GetSingle(int id)
+        public override BudgetSet GetSingle(int id)
         {
             return base.GetSingle(p => p.Id.Equals(id));
         }

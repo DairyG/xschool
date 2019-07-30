@@ -105,7 +105,7 @@ namespace XSchool.GCenter.Businesses
             }
             return null;
         }
-        public Schedule GetSingle(int id)
+        public override Schedule GetSingle(int id)
         {
             return base.GetSingle(p => p.Id.Equals(id));
         }

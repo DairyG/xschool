@@ -36,7 +36,7 @@ namespace XSchool.GCenter.Businesses
         {
             return base.Query(p => p.BudgetSetId.Equals(setId));
         }
-        public Result Delete(int id)
+        public override Result Delete(int id)
         {
             return base.Delete(p => p.Id.Equals(id));
         }

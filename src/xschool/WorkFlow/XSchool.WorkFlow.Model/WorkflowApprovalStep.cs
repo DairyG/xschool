@@ -46,7 +46,10 @@ namespace XSchool.WorkFlow.Model
         /// </summary>
         public PassType PassType { get; set; }
 
-
+        /// <summary>
+        /// true 当前节点是审核节点，反之
+        /// </summary>
+        public bool AuditNo { get; set; }
         /// <summary>
         /// 工作流业务主表
         /// </summary>

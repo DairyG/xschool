@@ -19,14 +19,15 @@ namespace XSchool.GCenter.WebApi.Controllers
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
     [ApiController]
+    [RequestFormLimits(ValueCountLimit = 5000)]
     public class PowerController : ApiBaseController
     {
         private readonly PowerModuleBusiness _moduleBusiness;
         private readonly PowerElementBusiness _elementBusiness;
         private readonly PowerRoleBusiness _roleBusiness;
         private readonly PowerRelevanceBusiness _relevanceBusiness;
-        private readonly PowerWrappers _wrappers;
-        public PowerController(PowerModuleBusiness moduleBusiness, PowerElementBusiness elementBusiness, PowerRoleBusiness roleBusiness, PowerRelevanceBusiness relevanceBusiness, PowerWrappers wrappers)
+        private readonly PowerWrapper _wrappers;
+        public PowerController(PowerModuleBusiness moduleBusiness, PowerElementBusiness elementBusiness, PowerRoleBusiness roleBusiness, PowerRelevanceBusiness relevanceBusiness, PowerWrapper wrappers)
         {
             _moduleBusiness = moduleBusiness;
             _elementBusiness = elementBusiness;
@@ -214,11 +215,12 @@ namespace XSchool.GCenter.WebApi.Controllers
         /// <summary>
         /// [列表] 模块，迭代
         /// </summary>
+        /// <param name="roleId">角色Id</param>
         /// <returns></returns>
         [HttpGet]
-        public List<PowerModuleDto> QueryNav()
+        public List<PowerModuleDto> QueryNav(int roleId)
         {
-            return _wrappers.QueryNav();
+            return _wrappers.QueryNav(roleId);
         }
         /// <summary>
         /// [列表] 根据角色Id查询模块元素

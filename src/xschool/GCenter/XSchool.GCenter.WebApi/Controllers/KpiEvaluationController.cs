@@ -29,11 +29,11 @@ namespace XSchool.GCenter.WebApi.Controllers
         private readonly KpiManageDetailBusiness _magDetailBusiness;
         private readonly KpiManageAuditRecordBusiness _magAuditRecordBusiness;
 
-        private readonly KpiEvaluationWrappers _wrappers;
+        private readonly KpiEvaluationWrapper _wrappers;
         public KpiEvaluationController(
             KpiTemplateBusiness tplBusiness, KpiTemplateRecordBusiness tplRecordBusiness,
             KpiManageTotalBusiness magTotalBusiness, KpiManageRecordBusiness magRecordBusiness, KpiManageDetailBusiness magDetailBusiness, KpiManageAuditRecordBusiness magAuditRecordBusiness,
-            KpiEvaluationWrappers wrappers
+            KpiEvaluationWrapper wrappers
             )
         {
             _tplBusiness = tplBusiness;

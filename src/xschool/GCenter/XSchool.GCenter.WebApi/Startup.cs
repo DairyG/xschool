@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
@@ -59,6 +60,12 @@ namespace XSchool.GCenter.WebApi
                     .AllowAnyMethod()
                     .AllowAnyHeader();
                 });
+            });
+
+            services.Configure<FormOptions>(options =>
+            {
+                options.ValueCountLimit = 5000; // 5000 items max
+                options.ValueLengthLimit = 1024 * 1024 * 100; // 100MB max len form data
             });
 
             services.AddDbContextPool<GCenterDbContext>(options => options.UseSqlServer(connectonString), poolSize: 64);

@@ -14,13 +14,13 @@ namespace XSchool.GCenter.Businesses.Wrappers
     /// <summary>
     /// 权限
     /// </summary>
-    public class PowerWrappers : BusinessWrapper
+    public class PowerWrapper : BusinessWrapper
     {
         private readonly PowerModuleBusiness _moduleBusiness;
         private readonly PowerElementBusiness _elementBusiness;
         private readonly PowerRoleBusiness _roleBusiness;
         private readonly PowerRelevanceBusiness _relevanceBusiness;
-        public PowerWrappers(PowerModuleBusiness moduleBusiness, PowerElementBusiness elementBusiness, PowerRoleBusiness roleBusiness, PowerRelevanceBusiness relevanceBusiness)
+        public PowerWrapper(PowerModuleBusiness moduleBusiness, PowerElementBusiness elementBusiness, PowerRoleBusiness roleBusiness, PowerRelevanceBusiness relevanceBusiness)
         {
             _moduleBusiness = moduleBusiness;
             _elementBusiness = elementBusiness;
@@ -102,6 +102,9 @@ namespace XSchool.GCenter.Businesses.Wrappers
 
                         model.LevelMap = modelParent.LevelMap + model.Id + ",";
                         model.Level = modelParent.Level + 1;
+
+                        //删除父节点 模块元素中的 显示
+                        _elementBusiness.Delete(p => p.ModuleId == modelParent.Id);
                     }
 
                     var showElemCount = _elementBusiness.Count(p => p.ModuleId == model.Id && p.DomId == "btnShow");
@@ -280,7 +283,7 @@ namespace XSchool.GCenter.Businesses.Wrappers
                     }
 
                     //拿到所有模块 去重
-                    List<int> distinctModule = model.Elements.Select(t => t.ModuleId).Distinct().ToList();
+                    List<int> distinctModule = lsModule.Select(t => t.Id).Distinct().ToList();
                     foreach (var item in distinctModule)
                     {
                         lsRelevance.Add(new PowerRelevance()
@@ -372,11 +375,11 @@ namespace XSchool.GCenter.Businesses.Wrappers
             }
         }
 
+
         /// <summary>
         /// [列表] 迭代
         /// </summary>
-        /// <returns></returns>
-        public List<PowerModuleDto> QueryNav()
+        public List<PowerModuleDto> QueryNav(int roleId)
         {
             List<KeyValuePair<string, OrderBy>> order = new List<KeyValuePair<string, OrderBy>>() {
                     new KeyValuePair<string, OrderBy>("Level", OrderBy.Asc),
@@ -384,7 +387,27 @@ namespace XSchool.GCenter.Businesses.Wrappers
                 };
 
             var oldList = _moduleBusiness.Query(p => p.Code != "050001" & p.Status == NomalStatus.Valid, p => p, order).MapToList<PowerModuleDto>();
-            var lsElement = _elementBusiness.Query(p => p.Status == NomalStatus.Valid).ToList();
+
+            //获取角色对应的模块元素
+            var lsCheckElement = new List<PowerRelevance>();
+            if (roleId > 0)
+            {
+                lsCheckElement = _relevanceBusiness.Query(p => p.FirstId == roleId & p.Identifiers == PowerIdentifiers.RoleByElement).ToList();
+            }
+            //获取 模块元素
+            var lsElement = _elementBusiness.Query(p => p.Status == NomalStatus.Valid, p => new PowerElement()
+            {
+                Id = p.Id,
+                ModuleId = p.ModuleId,
+                Name = p.Name,
+                DomId = p.DomId,
+                DisplayOrder = p.DisplayOrder,
+                IsSystem = p.IsSystem,
+                Class = p.Class,
+                Position = p.Position,
+                IconName = p.IconName,
+                Checkeds = roleId == 0 ? 0 : lsCheckElement.Count(p2 => p2.SecondId == p.Id)
+            }).ToList();
 
             var newList = new List<PowerModuleDto>();
             //调用迭代组合成List

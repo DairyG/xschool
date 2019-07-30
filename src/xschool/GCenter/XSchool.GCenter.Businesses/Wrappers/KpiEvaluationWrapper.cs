@@ -48,7 +48,7 @@ namespace XSchool.GCenter.Businesses.Wrappers
     /// <summary>
     /// 绩效考核
     /// </summary>
-    public class KpiEvaluationWrappers : BusinessWrapper
+    public class KpiEvaluationWrapper : BusinessWrapper
     {
         private readonly KpiTemplateBusiness _tplBusiness;
         private readonly KpiTemplateRecordBusiness _tplRecordBusiness;
@@ -57,7 +57,7 @@ namespace XSchool.GCenter.Businesses.Wrappers
         private readonly KpiManageRecordBusiness _magRecordBusiness;
         private readonly KpiManageDetailBusiness _magDetailBusiness;
         private readonly KpiManageAuditRecordBusiness _magAuditRecordBusiness;
-        public KpiEvaluationWrappers(
+        public KpiEvaluationWrapper(
             KpiTemplateBusiness tplBusiness,
             KpiTemplateRecordBusiness tplRecordBusiness,
             KpiManageTotalBusiness magTotalBusiness,

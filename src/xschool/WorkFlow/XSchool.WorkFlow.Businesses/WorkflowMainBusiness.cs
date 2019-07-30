@@ -155,7 +155,7 @@ namespace XSchool.WorkFlow.Businesses
                     item.workflowApprovalRecordList = list;
                 }
 
-
+                stepEmpList.Where(s => s.PassNo == 1).ToList().ForEach(s => s.AuditNo = true);
                 using (System.Transactions.TransactionScope ts = new System.Transactions.TransactionScope())
                 {
                     stepEmpList.ForEach(s => s.Id = 0);

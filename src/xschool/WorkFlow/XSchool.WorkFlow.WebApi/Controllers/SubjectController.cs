@@ -57,6 +57,12 @@ namespace XSchool.WorkFlow.WebApi.Controllers
             model.CreateTime = DateTime.Now;
             model.CompanyId = Emplolyee.CompanyId;
             model.CreateUserId = this.UToken.Id;
+            //找寻最后一个审核节点并赋值为IsEnd
+           var lastObj= model.SubjectStepFlowList.Where(s => s.PassType !=PassType.Copy).OrderBy(s => s.PassNo).Last();
+            model.SubjectStepFlowList.Where(s => s.PassNo == lastObj.PassNo).ToList().ForEach(s => s.IsEnd = true);
+
+             //最后节点若是复盘节点
+             model.SubjectStepFlowList.Where(s => s.PassType == PassType.Summary&&s.IsEnd).ToList().ForEach(s=>s.IsCountersign=true);
             var dataResult=subjectBusiness.Add(model);
             return dataResult;
         }

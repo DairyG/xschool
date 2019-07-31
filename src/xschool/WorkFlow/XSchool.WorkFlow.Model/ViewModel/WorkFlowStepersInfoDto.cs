@@ -37,9 +37,9 @@ namespace XSchool.WorkFlow.Model.ViewModel
     public class WorkflowApprovalStepRecordsDto
     {
         /// <summary>
-        ///  -1 拒绝，1等待审批，2同意，3未接收审批
+        ///  事务流程人员审批状态：-2 驳回，-1 拒绝，1等待审批，2同意，3未接收审批
         /// </summary>		
-        public int Status { get; set; }
+        public AudioStatus AudioStatus { get; set; }
         /// <summary>
         /// 读取状态：1未读 2已读（侧重用于抄送节点）
         /// </summary>		

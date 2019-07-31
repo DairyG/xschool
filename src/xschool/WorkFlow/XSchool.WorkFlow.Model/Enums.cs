@@ -130,29 +130,29 @@ namespace XSchool.WorkFlow.Model
             /// 驳回 
             /// </summary>
             [Description("驳回")]
-            驳回 = -2,
+            Reject = -2,
 
             /// <summary>
             /// 拒绝
             /// </summary>
             [Description("拒绝")]
-            拒绝 = -1,
+            DisAgree = -1,
             /// <summary>
             /// 等待审批
             /// </summary>
             [Description("等待审批")]
-            等待审批 = 1,
+            WaitAgree = 1,
 
             /// <summary>
             /// 同意
             /// </summary>
             [Description("同意")]
-            同意 = 2,
+            Agree = 2,
             /// <summary>
             /// 未接收审批
             /// </summary>
             [Description("未接收审批")]
-            未接收审批 = 3
+            UnApprovalInfo = 3
         }
         
 

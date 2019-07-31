@@ -31,7 +31,7 @@ namespace XSchool.WorkFlow.Repositories
             string query = $@" SELECT ROW_NUMBER() OVER (order by a.Id desc )AS Row,a.Id,a.PassStatus,a.BusinessCode,a.Createtime,a.EndTime,a.SubjectName,a.CreateUserId,a.CreateUserName,a.DepId,t.AuditidUserId,t.AuditidUserName FROM                   [WorkflowMain] a
                          CROSS APPLY( 
                          SELECT TOP 1 c.AuditidUserId,c.AuditidUserName FROM [WorkflowApprovalStep]  b,[WorkflowApprovalRecords] c
-                         WHERE  c.WorkflowApprovalStepId=b.Id AND a.Id=b.WorkflowBusinessId  and c.Status=1 and c.AuditidUserId ={model.CreateUserId} ORDER BY c.Id  ) AS T where  a.PassStatus={(int)PassStatus.InApproval} ";
+                         WHERE  c.WorkflowApprovalStepId=b.Id AND a.Id=b.WorkflowBusinessId  and c.AudioStatus={(int)AudioStatus.WaitAgree}  and c.AuditidUserId ={model.CreateUserId} ORDER BY c.Id  ) AS T where  a.PassStatus={(int)PassStatus.InApproval} ";
             if (model.Createtime != DateTime.Parse("0001/1/1 0:00:00"))
             {
                 query += $" and (a.Createtime>'{model.Createtime}'and a.Createtime<'{model.Createtime.ToShortDateString()+" 23:59:59"}') ";
@@ -96,7 +96,7 @@ namespace XSchool.WorkFlow.Repositories
             string query = $@" SELECT ROW_NUMBER() OVER (order by a.Id desc )AS Row,a.Id,a.PassStatus,a.BusinessCode,a.Createtime,a.EndTime,a.SubjectName,a.CreateUserId,a.CreateUserName,a.DepId,t.AuditidUserId,t.AuditidUserName FROM                   [WorkflowMain] a
                          CROSS APPLY( 
                          SELECT TOP 1 c.AuditidUserId,c.AuditidUserName FROM [WorkflowApprovalStep]  b,[WorkflowApprovalRecords] c
-                         WHERE c.WorkflowApprovalStepId=b.Id AND a.Id=b.WorkflowBusinessId and (c.Status=-1 or c.Status=2)  ORDER BY c.Id  ) AS T where 1 = 1 and T.AuditidUserId ={model.CreateUserId} ";
+                         WHERE c.WorkflowApprovalStepId=b.Id AND a.Id=b.WorkflowBusinessId and (c.AudioStatus={(int)AudioStatus.DisAgree} or c.AudioStatus={(int)AudioStatus.Agree})  ORDER BY c.Id  ) AS T where 1 = 1 and T.AuditidUserId ={model.CreateUserId} ";
 
             if (model.Createtime != DateTime.Parse("0001/1/1 0:00:00"))
             {

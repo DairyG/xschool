@@ -156,7 +156,7 @@ namespace XSchool.WorkFlow.WebApi.Controllers
         /// <param name="Memo">审核意见</param>
         /// <returns></returns>
         [HttpPost]
-        public Result ApprovaIsAgree(int Id,AudioStatus AudioStatus,string Memo)
+        public Result ApprovaIsAgree([FromForm]int Id, [FromForm]AudioStatus AudioStatus, [FromForm]string Memo)
         {
             string msg = string.Empty;
             int userId = UToken.Id;
@@ -168,9 +168,6 @@ namespace XSchool.WorkFlow.WebApi.Controllers
             {
                 msg = "流程参数丢失";
             }
-            //审批状态 -2 驳回，-1 拒绝，2 同意
-            int[] arry = { -2,-1,2 };
-
            
             if (!string.IsNullOrEmpty(msg))
                 return new Result() { Succeed=false,Message=msg };

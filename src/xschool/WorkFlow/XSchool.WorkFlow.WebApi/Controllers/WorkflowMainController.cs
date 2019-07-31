@@ -146,53 +146,37 @@ namespace XSchool.WorkFlow.WebApi.Controllers
             return data;
         }
 
-       
+
 
         /// <summary>
-        /// 同意
+        /// 同意/不同意/驳回
         /// </summary>
+        /// <param name="Id">业务流程主键Id</param>
+        /// <param name="AudioStatus">审批状态 -2 驳回，-1 拒绝，2 同意</param>
+        /// <param name="Memo">审核意见</param>
         /// <returns></returns>
         [HttpPost]
-        public WorkflowMainTestDto Agree(int Id)
+        public Result ApprovaIsAgree(int Id,AudioStatus AudioStatus,string Memo)
         {
-            var obj = workflowMainBusiness.GetSingle(Id);
-            var model = Mapper.Map<WorkflowMainTestDto>(obj);
-            var objqwe = XSchool.WorkFlow.WebApi.Helper.RemoteRequestHelper.GetEmployeeByUserId(obj.CreateUserId).Result;
-            model.DepName = objqwe.DptName;
-            model.JobName = objqwe.JobName;
-            model.CompanyName = objqwe.CompanyName;
-            return model;
-        }
+            string msg = string.Empty;
+            int userId = UToken.Id;
+            if (userId <= 0)
+            {
+                msg = "登录信息丢失";
+            }
+            if (Id <= 0 )
+            {
+                msg = "流程参数丢失";
+            }
+            //审批状态 -2 驳回，-1 拒绝，2 同意
+            int[] arry = { -2,-1,2 };
 
-        /// <summary>
-        /// 不同意
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public WorkflowMainTestDto Disagree(int Id)
-        {
-            var obj = workflowMainBusiness.GetSingle(Id);
-            var model = Mapper.Map<WorkflowMainTestDto>(obj);
-            var objqwe = XSchool.WorkFlow.WebApi.Helper.RemoteRequestHelper.GetEmployeeByUserId(obj.CreateUserId).Result;
-            model.DepName = objqwe.DptName;
-            model.JobName = objqwe.JobName;
-            model.CompanyName = objqwe.CompanyName;
-            return model;
-        }
-        /// <summary>
-        /// 驳回
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public WorkflowMainTestDto Reject(int Id)
-        {
-            var obj = workflowMainBusiness.GetSingle(Id);
-            var model = Mapper.Map<WorkflowMainTestDto>(obj);
-            var objqwe = XSchool.WorkFlow.WebApi.Helper.RemoteRequestHelper.GetEmployeeByUserId(obj.CreateUserId).Result;
-            model.DepName = objqwe.DptName;
-            model.JobName = objqwe.JobName;
-            model.CompanyName = objqwe.CompanyName;
-            return model;
+           
+            if (!string.IsNullOrEmpty(msg))
+                return new Result() { Succeed=false,Message=msg };
+
+            var resultData = workflowMainBusiness.ApprovaIsAgree(Id, AudioStatus, Memo,userId,ref msg);
+            return new Result() { Succeed=resultData,Message=msg };
         }
 
         /// <summary>

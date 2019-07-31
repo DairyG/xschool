@@ -111,19 +111,19 @@ namespace XSchool.WorkFlow.Businesses
                                 AuditidUserId = itemChild.userId,
                                 AuditidUserName = itemChild.EmployeeName,
                                 DataType = 1,
-                                Status = 3
+                                AudioStatus = AudioStatus.未接收审批
                             };
                             if (i == 1 && item.PassType == PassType.Audit)
                             {
-                                approvalRecord.Status = 1;
+                                approvalRecord.AudioStatus = AudioStatus.等待审批;
                             }
                             else if (i == 1 && item.PassType == PassType.Copy)
                             {
-                                approvalRecord.Status = 2;//抄送人员默认是审核成功（不卡流程）
+                                approvalRecord.AudioStatus = AudioStatus.同意;//抄送人员默认是审核成功（不卡流程）
                             }
                             else if (i > 1 && i < stepEmpList.Count && item.PassType == PassType.Copy)
                             {
-                                approvalRecord.Status = 2;//抄送人员默认是审核成功（不卡流程）
+                                approvalRecord.AudioStatus = AudioStatus.同意;//抄送人员默认是审核成功（不卡流程）
                             }
                             approvalRecord.ReadStatus = 1;
                             list.Add(approvalRecord);
@@ -135,7 +135,7 @@ namespace XSchool.WorkFlow.Businesses
                         var approvalRecordFP = new WorkflowApprovalRecords
                         {
                             DataType = 1,
-                            Status = 3
+                            AudioStatus = AudioStatus.未接收审批
                         };
                         if (objStep.UserId > 0)
                         {//创建人
@@ -282,24 +282,150 @@ namespace XSchool.WorkFlow.Businesses
         {
             var data = from a in _workflowApprovalStepRepository.Entites
                        join b in _workflowApprovalRecordsRepository.Entites
-                       on a.Id equals b.WorkflowApprovalStepId 
-                       where a.WorkflowBusinessId == Id && b.DataType == 1 
+                       on a.Id equals b.WorkflowApprovalStepId
+                       where a.WorkflowBusinessId == Id && b.DataType == 1
                        select new WorkFlowStepersInfoDto
                        {
-                            AuditNo=a.AuditNo,
-                             PassName=a.PassName,
-                              PassNo=a.PassNo,
-                               PassType= a.PassType,
-                               SubjectRulePassList =a.workflowApprovalRecordList.Select(s=>new WorkflowApprovalStepRecordsDto() {
-                                    AuditidUserId=s.AuditidUserId,
-                                    AuditidUserName=s.AuditidUserName,
-                                     Status=s.Status,
-                                      ReadStatus=s.ReadStatus
-                               }).ToList()
+                           AuditNo = a.AuditNo,
+                           PassName = a.PassName,
+                           PassNo = a.PassNo,
+                           PassType = a.PassType,
+                           SubjectRulePassList = a.workflowApprovalRecordList.Select(s => new WorkflowApprovalStepRecordsDto()
+                           {
+                               AuditidUserId = s.AuditidUserId,
+                               AuditidUserName = s.AuditidUserName,
+                               //Status = s.AudioStatus,
+                               ReadStatus = s.ReadStatus
+                           }).ToList()
                        };
             var dataResult = data.ToList();
-            return new Result <List<WorkFlowStepersInfoDto>>() { Succeed = true, Data= dataResult };
+            return new Result<List<WorkFlowStepersInfoDto>>() { Succeed = true, Data = dataResult };
         }
+
+        /// <summary>
+        /// 同意/不同意/驳回
+        /// </summary>
+        /// <param name="Id">业务流程主键Id</param>
+        /// <param name="AudioStatus">审批状态 -2 驳回，-1 拒绝，2 同意</param>
+        /// <param name="Memo">审核意见</param>
+        ///  <param name="userId">当前操作人</param>
+        ///   <param name="msg">异常信息</param>
+        /// <returns></returns>
+        public bool ApprovaIsAgree(int Id, AudioStatus AudioStatus, string Memo, int userId, ref string msg)
+        {
+            bool status = false;
+            var rel = new Result();
+            //查询当前审核节点及审核人信息
+            var stepApprovaObj = (from a in _workflowApprovalStepRepository.Entites
+                                  join b in _workflowApprovalRecordsRepository.Entites
+                                  on a.Id equals b.WorkflowApprovalStepId
+                                  where a.WorkflowBusinessId == Id && a.AuditNo == true && b.DataType == 1
+                                  select new WorkflowApprovalStep
+                                  {  Id=Id,
+                                      AuditNo = a.AuditNo,
+                                      PassName = a.PassName,
+                                      PassNo = a.PassNo,
+                                      PassType = a.PassType,
+                                      IsCountersign = a.IsCountersign,
+                                      IsEnd = a.IsEnd,
+                                      workflowApprovalRecordList = a.workflowApprovalRecordList.Select(s => new WorkflowApprovalRecords()
+                                      {
+                                          Id = s.Id,
+                                          AuditidUserId = s.AuditidUserId,
+                                          AuditidUserName = s.AuditidUserName
+                                      }).ToList()
+                                  }).FirstOrDefault();
+            //验证当前审核人信息
+            var obj = stepApprovaObj.workflowApprovalRecordList.Where(s => s.AudioStatus == AudioStatus.等待审批 && s.AuditidUserId == userId).FirstOrDefault();
+            if (obj == null)
+            {
+                msg = "审核信息验证未通过，请联系管理员";
+                return status;
+            }
+            //根据条件查询，此节点类型只可能为Audit（审核节点）或 Summary（复盘节点）
+            if (AudioStatus == AudioStatus.驳回)
+            {
+                //驳回
+                status = Reject(stepApprovaObj, obj, ref msg);
+                return status;
+            }
+            //修改审核人的审核状态(修改缓存和数据库)
+            stepApprovaObj.workflowApprovalRecordList.Where(s => s.AudioStatus == AudioStatus.等待审批 && s.AuditidUserId == userId).ToList().ForEach(s => s.AudioStatus = AudioStatus);
+            try
+            {
+                status = _workflowApprovalRecordsRepository.Update(s => s.Id == obj.Id, s => new WorkflowApprovalRecords { AudioStatus = AudioStatus, AuditidTime = DateTime.Now, Memo = Memo });
+                //最后一个节点
+                if (stepApprovaObj.IsEnd)
+                {
+                    //判断当前节点是否还有人未审核
+                    var hasApprovalerCount = stepApprovaObj.workflowApprovalRecordList.Where(s => s.AudioStatus == AudioStatus.等待审批).Count();
+                    if (hasApprovalerCount == 0)
+                    {
+                        status = _repository.Update(s => s.Id == Id, s => new WorkflowMain { PassStatus = AudioStatus == AudioStatus.同意 ? PassStatus.Agree : PassStatus.DisAgree, EndTime = DateTime.Now });
+                    }
+                }
+                else
+                {
+                    bool GoNextNo = false;//true 是否跳转至下个节点
+                    if (stepApprovaObj.IsCountersign)
+                    { //会签
+                      //判断当前节点是否还有人未审核
+                        var hasApprovalerCount = stepApprovaObj.workflowApprovalRecordList.Where(s => s.AudioStatus == AudioStatus.等待审批).Count();
+                        if (hasApprovalerCount == 0)
+                        {
+                            GoNextNo = true;
+                        }
+                    }
+                    else
+                    { //或签
+                        GoNextNo = true;
+                    }
+                    if (GoNextNo)
+                    {
+                        //更改下个节点为待审核状态
+                        var nextStepNoObj = _workflowApprovalStepRepository.Entites.Where(s => s.Id == Id && s.PassNo > stepApprovaObj.PassNo && s.PassType != PassType.Copy).OrderBy(s => s.PassNo).FirstOrDefault();
+                        status = _workflowApprovalStepRepository.Update(s => s.Id == stepApprovaObj.Id, s => new WorkflowApprovalStep { AuditNo = false });
+                        status = _workflowApprovalStepRepository.Update(s => s.Id == nextStepNoObj.Id, s => new WorkflowApprovalStep { AuditNo = true });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+               msg =ex.Message.ToString();
+            }
+            return status;
+        }
+        /// <summary>
+        /// 驳回
+        /// </summary>
+        /// <param name="stepApprovaObj">当前节点信息</param>
+        /// <param name="recordsobj">当前审核人信息</param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public bool Reject(WorkflowApprovalStep stepApprovaObj, WorkflowApprovalRecords recordsobj, ref string msg)
+        {
+            bool status = false;
+            //添加当前节点审核的操作记录
+            WorkflowApprovalRecords objRecords = new WorkflowApprovalRecords {
+                DataType = 2,
+                AuditidTime=DateTime.Now,
+                Memo ="审批人 "+recordsobj.AuditidUserName+" 驳回了申请",
+                WorkflowApprovalStepId= stepApprovaObj.Id
+            };
+            status=_workflowApprovalRecordsRepository.Add(objRecords)>0?true:false;
+
+            //修改当前节点的节点状态和人员审核状态
+            status= _workflowApprovalStepRepository.Update(s => s.Id == stepApprovaObj.Id, s => new WorkflowApprovalStep { AuditNo = false });
+            _workflowApprovalRecordsRepository.Update(s => s.WorkflowApprovalStepId == stepApprovaObj.Id && s.DataType == 1, s => new WorkflowApprovalRecords { AudioStatus = AudioStatus.未接收审批,AuditidTime=null });
+            //修改上个节点的节点状态和人员审核状态
+            var prevPassNo= _workflowApprovalStepRepository.Entites.Where(s => s.PassType != PassType.Copy && s.WorkflowBusinessId == stepApprovaObj.WorkflowBusinessId && s.PassNo < stepApprovaObj.PassNo).OrderByDescending(s => s.PassNo).FirstOrDefault();
+
+            status = _workflowApprovalStepRepository.Update(s => s.Id == prevPassNo.Id, s => new WorkflowApprovalStep { AuditNo = true });
+
+            status= _workflowApprovalRecordsRepository.Update(s => s.WorkflowApprovalStepId == prevPassNo.Id && s.DataType == 1, s => new WorkflowApprovalRecords { AudioStatus = AudioStatus.等待审批, AuditidTime = null });
+            return status;
+        }
+
 
     }
 }

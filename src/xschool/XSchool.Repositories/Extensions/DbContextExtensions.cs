@@ -35,7 +35,14 @@ namespace XSchool.Repositories.Extensions
             }
 
         }
-
+        /// <summary>
+        /// 执行查询，并返回查询所返回的结果集中第一行的第一列
+        /// </summary>
+        /// <param name="databaseFacade"></param>
+        /// <param name="cmdText"></param>
+        /// <param name="cmdType"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         public static object ExecuteScalar(this DatabaseFacade databaseFacade, string cmdText, CommandType cmdType=CommandType.Text, params DbParameter[] parameters)
         {
             var concurrencyDetector = databaseFacade.GetService<IConcurrencyDetector>();

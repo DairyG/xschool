@@ -93,7 +93,7 @@ namespace XSchool.WorkFlow.Model
 
 
         /// <summary>
-        ///  事务流程
+        ///  事务流程单据状态
         /// </summary>
         public enum PassStatus
         {
@@ -121,7 +121,40 @@ namespace XSchool.WorkFlow.Model
             InApproval = 4,
         }
 
+        /// <summary>
+        ///  事务流程人员审批状态：-2 驳回，-1 拒绝，1等待审批，2同意，3未接收审批
+        /// </summary>
+        public enum AudioStatus
+        {
+            /// <summary>
+            /// 驳回 
+            /// </summary>
+            [Description("驳回")]
+            驳回 = -2,
 
+            /// <summary>
+            /// 拒绝
+            /// </summary>
+            [Description("拒绝")]
+            拒绝 = -1,
+            /// <summary>
+            /// 等待审批
+            /// </summary>
+            [Description("等待审批")]
+            等待审批 = 1,
+
+            /// <summary>
+            /// 同意
+            /// </summary>
+            [Description("同意")]
+            同意 = 2,
+            /// <summary>
+            /// 未接收审批
+            /// </summary>
+            [Description("未接收审批")]
+            未接收审批 = 3
+        }
         
+
     }
 }
